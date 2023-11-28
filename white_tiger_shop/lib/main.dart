@@ -40,7 +40,10 @@ class CategoryGridPage extends StatelessWidget {
                 .map((cat) => CategoryItemView(cat))
                 .toList();
             return GridView.count(
-              crossAxisCount: 4,
+              crossAxisCount: 5,
+              crossAxisSpacing: 25,
+              mainAxisSpacing: 25,
+              padding: const EdgeInsets.all(25),
               children: gridElems,
             );
           } else if (snapshot.hasError) {
@@ -56,17 +59,45 @@ class CategoryItemView extends StatelessWidget {
   const CategoryItemView(this.category, {super.key});
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          Text(category.title),
-          Image.network(
-            category.imageUrl,
-            errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) =>
-                const Text('Could not find the image'),
-          ),
-        ],
+    return Material(
+      color: Colors.amber,
+      elevation: 4,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        splashColor: Colors.black26,
+        onTap: () {},
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          child: Column(children: [
+            Expanded(
+              child: Center(
+                child: Image.network(
+                  fit: BoxFit.cover,
+                  category.imageUrl,
+                  errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) =>
+                      const Expanded(
+                    child: Center(
+                      child: Text(
+                        'Could not find the image',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white70,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Padding(padding: EdgeInsets.all(5)),
+            Text(category.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                )),
+          ]),
+        ),
       ),
     );
   }
