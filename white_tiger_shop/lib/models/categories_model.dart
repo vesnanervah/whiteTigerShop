@@ -1,16 +1,9 @@
 import 'dart:convert';
-import 'package:white_tiger_shop/controllers/categories_api.dart';
-import 'dart:developer';
 
 class CategoriesModel {
-  List<Category>? categories;
-  CategoriesApi api = CategoriesApi();
-
-  fetchCategories() async {
-    final resp = await api.getCategories();
-    log('fetching ebenya');
+  List<Category> parseCategories(dynamic resp) {
     final rawCats = (jsonDecode(resp.body)['data']['categories'] as List);
-    categories = rawCats
+    final categories = rawCats
         .map((cat) => Category(
             cat['categoryId'],
             (cat['title'] as String).trim(),
@@ -20,10 +13,7 @@ class CategoriesModel {
             cat['categoryDescription']))
         .toSet()
         .toList(); //хыыы хотел сделать фильтер на повторяющиеся названия категорий, а встроенных методов фильтрации нет в дарте
-    for (var cat in categories!) {
-      var msg = 'The id is ${cat.categoryId}, the title is ${cat.title};\n';
-      log(msg);
-    }
+    return categories;
   }
 }
 
