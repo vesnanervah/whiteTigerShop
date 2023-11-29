@@ -20,7 +20,8 @@ class App extends StatelessWidget {
           title: const Text('WT Shop'),
           leading: const BackButton(),
         ),
-        body: CategoryGridPage(categoriesModel, categoriesController));
+        body: Container(
+            child: CategoryGridPage(categoriesModel, categoriesController)));
   }
 }
 
@@ -49,7 +50,7 @@ class CategoryGridPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Text('Error while fetching data');
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         });
   }
 }
@@ -70,22 +71,18 @@ class CategoryItemView extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Column(children: [
             Expanded(
-              child: Center(
-                child: Image.network(
-                  fit: BoxFit.cover,
-                  category.imageUrl,
-                  errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) =>
-                      const Expanded(
-                    child: Center(
-                      child: Text(
-                        'Could not find the image',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            color: Colors.white70,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ),
+              child: Image.network(
+                fit: BoxFit.cover,
+                category.imageUrl,
+                errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) =>
+                    const Center(
+                  child: Text(
+                    'Could not find the image',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white70,
+                        fontStyle: FontStyle.italic),
                   ),
                 ),
               ),
