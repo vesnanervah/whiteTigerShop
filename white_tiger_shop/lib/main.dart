@@ -146,6 +146,10 @@ class ProductsItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailedProductPage(product.productId))),
       leading: SizedBox(
         height: 200,
         width: 200,
@@ -162,6 +166,21 @@ class ProductsItemView extends StatelessWidget {
       ),
       title: Text(product.title),
       subtitle: Text('Цена: ${product.price}'),
+    );
+  }
+}
+
+class DetailedProductPage extends StatelessWidget {
+  final int productId;
+  const DetailedProductPage(this.productId, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Product'),
+        leading: const BackButton(),
+      ),
+      body: const Center(child: Text('Product')),
     );
   }
 }
