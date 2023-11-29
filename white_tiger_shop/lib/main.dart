@@ -72,17 +72,14 @@ class ProductsGridPage extends StatelessWidget {
         future: productsResp,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final gridElems = model
+            final listElems = model
                 .parseProducts(snapshot.data)
                 .map((prod) => ProductsItemView(prod))
                 .toList();
-            return GridView.count(
-              crossAxisCount: 5,
-              crossAxisSpacing: 25,
-              mainAxisSpacing: 25,
-              padding: const EdgeInsets.all(25),
-              children: gridElems,
-            );
+            return ListView.separated(
+                itemBuilder: (context, index) => listElems[index],
+                separatorBuilder: (context, index) => const Divider(height: 10),
+                itemCount: listElems.length - 1);
           } else if (snapshot.hasError) {
             return const Text('Could not load products');
           }
@@ -148,47 +145,23 @@ class ProductsItemView extends StatelessWidget {
   const ProductsItemView(this.product, {super.key});
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.amber,
-      elevation: 4,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        splashColor: Colors.black26,
-        onTap: () {
-          /*Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProductsGridPage(category)),
-          );*/
-        },
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          child: Column(children: [
-            Expanded(
-              child: Image.network(
-                fit: BoxFit.cover,
-                product.imageUrl,
-                errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) =>
-                    const Center(
-                  child: Text(
-                    'Could not find the image',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white70,
-                        fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.all(5)),
-            Text(product.title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                )),
-          ]),
+    return ListTile(
+      leading: SizedBox(
+        height: 200,
+        width: 200,
+        child: Image.network(
+          fit: BoxFit.cover,
+          product.imageUrl,
+          errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) =>
+              const Icon(
+            Icons.error,
+            size: 40,
+          ),
         ),
       ),
+      title: Text(product.title),
+      subtitle: Text('Цена: ${product.price}'),
     );
   }
 }
