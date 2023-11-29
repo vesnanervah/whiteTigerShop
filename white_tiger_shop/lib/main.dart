@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:white_tiger_shop/controllers/categories_api.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
 import 'package:white_tiger_shop/controllers/products_api.dart';
@@ -146,23 +147,28 @@ class ProductsItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DetailedProductPage(product.productId))),
+      onTap: () =>
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+        log('${product.productId}');
+        return DetailedProductPage(product);
+      })),
       leading: SizedBox(
         height: 200,
         width: 200,
-        child: Image.network(
-          fit: BoxFit.cover,
-          product.imageUrl,
-          errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) =>
-              const Icon(
-            Icons.error,
-            size: 40,
-          ),
-        ),
+        child: product.imageUrl != null
+            ? Image.network(
+                fit: BoxFit.cover,
+                product.imageUrl!,
+                errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) =>
+                    const Icon(
+                  Icons.error,
+                  size: 40,
+                ),
+              )
+            : const Center(
+                child: Text('Image wasn\'t provided'),
+              ),
       ),
       title: Text(product.title),
       subtitle: Text('Цена: ${product.price}'),
@@ -171,16 +177,68 @@ class ProductsItemView extends StatelessWidget {
 }
 
 class DetailedProductPage extends StatelessWidget {
-  final int productId;
-  const DetailedProductPage(this.productId, {super.key});
+  final Product product;
+  final ProductsApi controller = ProductsApi();
+  final ProductsModel model = ProductsModel();
+  DetailedProductPage(this.product, {super.key});
   @override
   Widget build(BuildContext context) {
+    final productResp = controller.getDetailedProduct(product.productId);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product'),
+        title: Text(product.title),
         leading: const BackButton(),
       ),
-      body: const Center(child: Text('Product')),
+      body: FutureBuilder(
+          future: productResp,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final resolvedProduct = model.parseProduct(snapshot.data);
+              return DetailedProductView(resolvedProduct);
+            } else if (snapshot.hasError) {
+              return const Text('Could not load detailed product');
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
+    );
+  }
+}
+
+class DetailedProductView extends StatelessWidget {
+  final Product product;
+  const DetailedProductView(this.product, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        child: Row(children: [
+          SizedBox(
+            height: 320,
+            width: 320,
+            child: product.imageUrl != null
+                ? Image.network(
+                    fit: BoxFit.cover,
+                    product
+                        .imageUrl!, // дарт, завали ебало, двумя строчками выше проверка на нал, ебаный ты дебил
+                    errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) =>
+                        const Center(
+                      child: Text(
+                        'Could not find the image',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white70,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  )
+                : const Center(child: Text('Image was not uploaded')),
+          ),
+          Text(product.title)
+        ]),
+      ),
     );
   }
 }

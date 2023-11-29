@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:white_tiger_shop/types/types.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,8 +13,10 @@ class BaseApi {
         scheme: 'http',
         host: adress,
         path: apiPath,
-        query:
-            queryArgs == null ? 'appKey=$key' : createQueryString(queryArgs));
+        queryParameters: queryArgs != null
+            ? {...queryArgs, 'appKey': key}
+            : {'appKey': key});
+    log(uri.toString());
     return http.Client().get(uri);
   }
 
