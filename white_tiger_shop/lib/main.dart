@@ -80,7 +80,7 @@ class ProductsGridPage extends StatelessWidget {
             return ListView.separated(
                 itemBuilder: (context, index) => listElems[index],
                 separatorBuilder: (context, index) => const Divider(height: 10),
-                itemCount: listElems.length - 1);
+                itemCount: listElems.length);
           } else if (snapshot.hasError) {
             return const Text('Could not load products');
           }
