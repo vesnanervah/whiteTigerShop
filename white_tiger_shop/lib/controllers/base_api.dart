@@ -16,16 +16,6 @@ class BaseApi {
         queryParameters: queryArgs != null
             ? {...queryArgs, 'appKey': key}
             : {'appKey': key});
-    log(uri.toString());
     return http.Client().get(uri);
-  }
-
-  String createQueryString(ApiArgs queryArgs) {
-    final queryKeys = queryArgs.keys.toList();
-    final queryParams = queryKeys.reduce((value, element) =>
-        queryKeys.indexOf(element) == queryKeys.length - 1
-            ? '$value$element=${queryArgs[element]}'
-            : '$value&$element=${queryArgs[element]}');
-    return queryParams.isNotEmpty ? '$queryParams&appKey=$key' : 'appKey=$key';
   }
 }

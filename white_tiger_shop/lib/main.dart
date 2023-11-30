@@ -6,25 +6,23 @@ import 'package:white_tiger_shop/controllers/products_api.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: App(),
   ));
 }
 
 class App extends StatelessWidget {
-  final categoriesModel = CategoriesModel();
-  final categoriesController = CategoriesApi();
-  App({super.key});
+  const App({super.key});
   @override
   Widget build(BuildContext context) {
-    return CategoryGridPage(categoriesModel, categoriesController);
+    return CategoryGridPage();
   }
 }
 
 class CategoryGridPage extends StatelessWidget {
-  final CategoriesModel model;
-  final CategoriesApi controller;
-  const CategoryGridPage(this.model, this.controller, {super.key});
+  final CategoriesModel model = CategoriesModel();
+  final CategoriesApi controller = CategoriesApi();
+  CategoryGridPage({super.key});
   @override
   Widget build(BuildContext context) {
     final getResp = controller.getCategories();
@@ -233,8 +231,7 @@ class DetailedProductView extends StatelessWidget {
                       child: product.imageUrl != null
                           ? Image.network(
                               fit: BoxFit.cover,
-                              product
-                                  .imageUrl!, // дарт, завали ебало, двумя строчками выше проверка на нал, ебаный ты дебил
+                              product.imageUrl!,
                               errorBuilder: (BuildContext context,
                                       Object exception,
                                       StackTrace? stackTrace) =>
