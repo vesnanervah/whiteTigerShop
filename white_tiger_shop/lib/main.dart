@@ -75,7 +75,7 @@ class ProductsGridPage extends StatelessWidget {
           if (snapshot.hasData) {
             final listElems = model
                 .parseProducts(snapshot.data)
-                .map((prod) => ProductsItemView(prod))
+                .map((prod) => ProductsItemView(prod, category))
                 .toList();
             return ListView.separated(
                 itemBuilder: (context, index) => listElems[index],
@@ -143,14 +143,15 @@ class CategoryItemView extends StatelessWidget {
 
 class ProductsItemView extends StatelessWidget {
   final Product product;
-  const ProductsItemView(this.product, {super.key});
+  final Category category;
+  const ProductsItemView(this.product, this.category, {super.key});
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () =>
           Navigator.push(context, MaterialPageRoute(builder: (context) {
         log('${product.productId}');
-        return DetailedProductPage(product);
+        return DetailedProductPage(product, category);
       })),
       leading: SizedBox(
         height: 200,
@@ -178,9 +179,10 @@ class ProductsItemView extends StatelessWidget {
 
 class DetailedProductPage extends StatelessWidget {
   final Product product;
+  final Category category;
   final ProductsApi controller = ProductsApi();
   final ProductsModel model = ProductsModel();
-  DetailedProductPage(this.product, {super.key});
+  DetailedProductPage(this.product, this.category, {super.key});
   @override
   Widget build(BuildContext context) {
     final productResp = controller.getDetailedProduct(product.productId);
@@ -194,7 +196,7 @@ class DetailedProductPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final resolvedProduct = model.parseProduct(snapshot.data);
-              return DetailedProductView(resolvedProduct);
+              return DetailedProductView(resolvedProduct, category);
             } else if (snapshot.hasError) {
               return const Text('Could not load detailed product');
             }
@@ -208,36 +210,85 @@ class DetailedProductPage extends StatelessWidget {
 
 class DetailedProductView extends StatelessWidget {
   final Product product;
-  const DetailedProductView(this.product, {super.key});
+  final Category
+      category; // В респонсе с сервера нет поля категории, приходится пробрасывать в конструктор
+  const DetailedProductView(this.product, this.category, {super.key});
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        child: Row(children: [
-          SizedBox(
-            height: 320,
-            width: 320,
-            child: product.imageUrl != null
-                ? Image.network(
-                    fit: BoxFit.cover,
-                    product
-                        .imageUrl!, // дарт, завали ебало, двумя строчками выше проверка на нал, ебаный ты дебил
-                    errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) =>
-                        const Center(
-                      child: Text(
-                        'Could not find the image',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            color: Colors.white70,
-                            fontStyle: FontStyle.italic),
-                      ),
+        child: Container(
+          width: 360,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 140,
+                      width: 140,
+                      child: product.imageUrl != null
+                          ? Image.network(
+                              fit: BoxFit.cover,
+                              product
+                                  .imageUrl!, // дарт, завали ебало, двумя строчками выше проверка на нал, ебаный ты дебил
+                              errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) =>
+                                  Container(
+                                color: Colors.grey,
+                                child: const Center(
+                                  child: Text(
+                                    'Could not find the image',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white70,
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: Text('Image was not uploaded',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic))),
                     ),
-                  )
-                : const Center(child: Text('Image was not uploaded')),
-          ),
-          Text(product.title)
-        ]),
+                  ],
+                ),
+                const Padding(padding: EdgeInsets.all(10)),
+                Text(product.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 19,
+                      height: 1,
+                    )),
+                const Padding(padding: EdgeInsets.all(4)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Цена: ${product.price}',
+                      style: const TextStyle(fontSize: 16, height: 1.4),
+                    ),
+                    Text('Категория: ${category.title.trim()}',
+                        style: const TextStyle(fontSize: 16, height: 1.4)),
+                    Text(
+                        'Описание: ${product.productDescription ?? 'Не предоставлено'}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          height: 1.4,
+                        )),
+                  ],
+                )
+              ]),
+        ),
       ),
     );
   }
