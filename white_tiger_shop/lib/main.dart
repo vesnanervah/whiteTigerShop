@@ -42,7 +42,8 @@ class CategoryGridPage extends StatelessWidget {
                     .map((cat) => CategoryItemView(cat))
                     .toList();
                 return GridView.count(
-                  crossAxisCount: 5,
+                  crossAxisCount:
+                      (MediaQuery.of(context).size.width ~/ 300).toInt(),
                   crossAxisSpacing: 25,
                   mainAxisSpacing: 25,
                   padding: const EdgeInsets.all(25),
