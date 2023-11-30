@@ -28,28 +28,32 @@ class CategoryGridPage extends StatelessWidget {
     final getResp = controller.getCategories();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black12,
         title: const Text('WT Shop'),
       ),
-      body: FutureBuilder(
-          future: getResp,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final gridElems = model
-                  .parseCategories(snapshot.data)
-                  .map((cat) => CategoryItemView(cat))
-                  .toList();
-              return GridView.count(
-                crossAxisCount: 5,
-                crossAxisSpacing: 25,
-                mainAxisSpacing: 25,
-                padding: const EdgeInsets.all(25),
-                children: gridElems,
-              );
-            } else if (snapshot.hasError) {
-              return const Text('Error while fetching data');
-            }
-            return const Center(child: CircularProgressIndicator());
-          }),
+      body: Container(
+        color: Colors.black12,
+        child: FutureBuilder(
+            future: getResp,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final gridElems = model
+                    .parseCategories(snapshot.data)
+                    .map((cat) => CategoryItemView(cat))
+                    .toList();
+                return GridView.count(
+                  crossAxisCount: 5,
+                  crossAxisSpacing: 25,
+                  mainAxisSpacing: 25,
+                  padding: const EdgeInsets.all(25),
+                  children: gridElems,
+                );
+              } else if (snapshot.hasError) {
+                return const Text('Error while fetching data');
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
+      ),
     );
   }
 }
@@ -66,24 +70,29 @@ class ProductsGridPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(category.title),
         leading: const BackButton(),
+        backgroundColor: Colors.black12,
       ),
-      body: FutureBuilder(
-        future: productsResp,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final listElems = model
-                .parseProducts(snapshot.data)
-                .map((prod) => ProductsItemView(prod, category))
-                .toList();
-            return ListView.separated(
-                itemBuilder: (context, index) => listElems[index],
-                separatorBuilder: (context, index) => const Divider(height: 10),
-                itemCount: listElems.length);
-          } else if (snapshot.hasError) {
-            return const Text('Could not load products');
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+      body: Container(
+        color: Colors.black12,
+        child: FutureBuilder(
+          future: productsResp,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final listElems = model
+                  .parseProducts(snapshot.data)
+                  .map((prod) => ProductsItemView(prod, category))
+                  .toList();
+              return ListView.separated(
+                  itemBuilder: (context, index) => listElems[index],
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 10),
+                  itemCount: listElems.length);
+            } else if (snapshot.hasError) {
+              return const Text('Could not load products');
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }
@@ -95,7 +104,7 @@ class CategoryItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.amber,
+      color: Colors.deepPurple,
       elevation: 4,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
@@ -146,14 +155,13 @@ class ProductsItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () =>
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-        log('${product.productId}');
-        return DetailedProductPage(product, category);
-      })),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailedProductPage(product, category)),
+      ),
       leading: SizedBox(
-        height: 200,
-        width: 200,
+        width: 100,
         child: product.imageUrl != null
             ? Image.network(
                 fit: BoxFit.cover,
@@ -188,20 +196,24 @@ class DetailedProductPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(product.title),
         leading: const BackButton(),
+        backgroundColor: Colors.black12,
       ),
-      body: FutureBuilder(
-          future: productResp,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final resolvedProduct = model.parseProduct(snapshot.data);
-              return DetailedProductView(resolvedProduct, category);
-            } else if (snapshot.hasError) {
-              return const Text('Could not load detailed product');
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
+      body: Container(
+        color: Colors.black12,
+        child: FutureBuilder(
+            future: productResp,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final resolvedProduct = model.parseProduct(snapshot.data);
+                return DetailedProductView(resolvedProduct, category);
+              } else if (snapshot.hasError) {
+                return const Text('Could not load detailed product');
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+      ),
     );
   }
 }
@@ -226,8 +238,8 @@ class DetailedProductView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 140,
-                      width: 140,
+                      height: 180,
+                      width: 180,
                       child: product.imageUrl != null
                           ? Image.network(
                               fit: BoxFit.cover,
@@ -276,12 +288,15 @@ class DetailedProductView extends StatelessWidget {
                     ),
                     Text('Категория: ${category.title.trim()}',
                         style: const TextStyle(fontSize: 16, height: 1.4)),
-                    Text(
-                        'Описание: ${product.productDescription ?? 'Не предоставлено'}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          height: 1.4,
-                        )),
+                    Container(
+                      constraints: const BoxConstraints(maxHeight: 200),
+                      child: Text(
+                          'Описание: ${product.productDescription != null && product.productDescription!.isNotEmpty ? product.productDescription! : 'Не предоставлено'}',
+                          style: const TextStyle(
+                              fontSize: 16,
+                              height: 1.4,
+                              overflow: TextOverflow.fade)),
+                    ),
                   ],
                 )
               ]),
