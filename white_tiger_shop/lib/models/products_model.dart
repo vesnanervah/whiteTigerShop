@@ -21,17 +21,10 @@ class Product {
   String? imageUrl;
   String? productDescription;
   Product(this.productId, this.title, this.price,
-      {String? descr, String? img}) {
-    if (descr != null) {
-      //  TODO: ref
-      productDescription = descr;
-    }
-    if (img != null) {
-      imageUrl = img;
-    }
-  }
+      {this.imageUrl, this.productDescription});
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(json['productId'], json['title'], json['price'],
-        descr: json['productDescription'], img: json['imageUrl']);
+        productDescription: json['productDescription'],
+        imageUrl: json['imageUrl']);
   }
 }
