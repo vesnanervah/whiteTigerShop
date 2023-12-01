@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 class ProductsModel {
+  List<Product>? products;
+  Product? selectedProduct;
+
   List<Product> parseProducts(dynamic resp) {
     final rawProds = (jsonDecode(resp.body)['data'] as List);
     final products =

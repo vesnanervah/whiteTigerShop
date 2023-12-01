@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 class CategoriesModel {
+  List<Category>? categories;
+  Category? selectedCategory;
+
   List<Category> parseCategories(dynamic resp) {
     final rawCats = (jsonDecode(resp.body)['data']['categories'] as List);
     final categories =

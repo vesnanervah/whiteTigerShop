@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:developer';
 import 'package:white_tiger_shop/controllers/categories_api.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
@@ -6,25 +7,40 @@ import 'package:white_tiger_shop/controllers/products_api.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: App(),
-  ));
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
   const App({super.key});
   @override
   Widget build(BuildContext context) {
-    return CategoryGridPage();
+    return ChangeNotifierProvider(
+      create: (context) => AppState(),
+      child: const MaterialApp(
+        title: 'WT Shop',
+        home: CategoryGridPage(),
+      ),
+    );
   }
 }
 
+class AppState extends ChangeNotifier {
+  final CategoriesModel categoriesModel = CategoriesModel();
+  final CategoriesApi categoriesController = CategoriesApi();
+  var categoriesView = const CategoryGridPage();
+  final ProductsModel productsModel = ProductsModel();
+  final ProductsApi productsController = ProductsApi();
+  var productsView = const ProductsGridPage();
+  var detailedProductView = const DetailedProductPage();
+}
+
 class CategoryGridPage extends StatelessWidget {
-  final CategoriesModel model = CategoriesModel();
-  final CategoriesApi controller = CategoriesApi();
-  CategoryGridPage({super.key});
+  const CategoryGridPage({super.key});
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<AppState>();
+    final CategoriesModel model = state.categoriesModel;
+    final CategoriesApi controller = state.categoriesController;
     final getResp = controller.getCategories();
     return Scaffold(
       appBar: AppBar(
@@ -60,12 +76,13 @@ class CategoryGridPage extends StatelessWidget {
 }
 
 class ProductsGridPage extends StatelessWidget {
-  final Category category;
-  final controller = ProductsApi();
-  final model = ProductsModel();
-  ProductsGridPage(this.category, {super.key});
+  const ProductsGridPage({super.key});
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<AppState>();
+    final controller = state.productsController;
+    final model = state.productsModel;
+    final Category category = state.categoriesModel.selectedCategory!;
     final productsResp = controller.getProducts(category.categoryId);
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +98,7 @@ class ProductsGridPage extends StatelessWidget {
             if (snapshot.hasData) {
               final listElems = model
                   .parseProducts(snapshot.data)
-                  .map((prod) => ProductsItemView(prod, category))
+                  .map((prod) => ProductsItemView(prod))
                   .toList();
               return ListView.separated(
                   itemBuilder: (context, index) => listElems[index],
@@ -104,6 +121,7 @@ class CategoryItemView extends StatelessWidget {
   const CategoryItemView(this.category, {super.key});
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<AppState>();
     return Material(
       color: Colors.deepPurple,
       elevation: 4,
@@ -113,7 +131,10 @@ class CategoryItemView extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProductsGridPage(category)),
+            MaterialPageRoute(builder: (context) {
+              state.categoriesModel.selectedCategory = category;
+              return state.productsView;
+            }),
           );
         },
         child: Container(
@@ -151,15 +172,17 @@ class CategoryItemView extends StatelessWidget {
 
 class ProductsItemView extends StatelessWidget {
   final Product product;
-  final Category category;
-  const ProductsItemView(this.product, this.category, {super.key});
+  const ProductsItemView(this.product, {super.key});
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<AppState>();
     return ListTile(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => DetailedProductPage(product, category)),
+        MaterialPageRoute(builder: (context) {
+          state.productsModel.selectedProduct = product;
+          return state.detailedProductView;
+        }),
       ),
       leading: SizedBox(
         width: 100,
@@ -185,13 +208,14 @@ class ProductsItemView extends StatelessWidget {
 }
 
 class DetailedProductPage extends StatelessWidget {
-  final Product product;
-  final Category category;
-  final ProductsApi controller = ProductsApi();
-  final ProductsModel model = ProductsModel();
-  DetailedProductPage(this.product, this.category, {super.key});
+  const DetailedProductPage({super.key});
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<AppState>();
+    final ProductsApi controller = state.productsController;
+    final ProductsModel model = state.productsModel;
+    final Product product = model.selectedProduct!;
+    final Category category = state.categoriesModel.selectedCategory!;
     final productResp = controller.getDetailedProduct(product.productId);
     return Scaffold(
       appBar: AppBar(
@@ -220,10 +244,9 @@ class DetailedProductPage extends StatelessWidget {
 }
 
 class DetailedProductView extends StatelessWidget {
-  final Product product;
-  final Category
-      category; // В респонсе с сервера нет поля категории, приходится пробрасывать в конструктор
-  const DetailedProductView(this.product, this.category, {super.key});
+  Product product;
+  Category category;
+  DetailedProductView(this.product, this.category, {super.key});
   @override
   Widget build(BuildContext context) {
     return Center(
