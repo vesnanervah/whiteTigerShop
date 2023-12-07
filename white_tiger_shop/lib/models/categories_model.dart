@@ -5,7 +5,6 @@ import 'dart:developer';
 
 class CategoriesModel extends ChangeNotifier {
   List<Category>? _categories;
-  Category? selectedCategory;
   final api = CategoriesApi();
 
   Future<void> fetchCategories() async {

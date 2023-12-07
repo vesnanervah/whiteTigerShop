@@ -1,9 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:white_tiger_shop/controllers/products_api.dart';
 
-class ProductsModel {
-  List<Product>? products;
-  Product? selectedProduct;
+class ProductsModel extends ChangeNotifier {
+  final api = ProductsApi();
+  List<Product>? _products;
+  List<Product>? get products => _products;
+
+  Future<void> fetchProducts(int categoryId) async {
+    _products = parseProducts(await api.getProducts(categoryId));
+    notifyListeners();
+  }
 
   List<Product> parseProducts(dynamic resp) {
     final rawProds = (jsonDecode(resp.body)['data'] as List);
