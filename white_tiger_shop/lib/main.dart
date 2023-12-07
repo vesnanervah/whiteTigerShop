@@ -5,6 +5,7 @@ import 'package:white_tiger_shop/controllers/categories_api.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
 import 'package:white_tiger_shop/controllers/products_api.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
+import 'package:white_tiger_shop/widgets/networked_image.dart';
 
 void main() {
   runApp(const App());
@@ -184,23 +185,7 @@ class ProductsItemView extends StatelessWidget {
           return state.detailedProductView;
         }),
       ),
-      leading: SizedBox(
-        width: 100,
-        child: product.imageUrl != null
-            ? Image.network(
-                fit: BoxFit.cover,
-                product.imageUrl!,
-                errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) =>
-                    const Icon(
-                  Icons.error,
-                  size: 40,
-                ),
-              )
-            : const Center(
-                child: Text('Image wasn\'t provided'),
-              ),
-      ),
+      leading: NetworkedImage(100, 100, product.imageUrl),
       title: Text(product.title),
       subtitle: Text('Цена: ${product.price}'),
     );
@@ -260,40 +245,7 @@ class DetailedProductView extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 180,
-                      width: 180,
-                      child: product.imageUrl != null
-                          ? Image.network(
-                              fit: BoxFit.cover,
-                              product.imageUrl!,
-                              errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) =>
-                                  Container(
-                                color: Colors.grey,
-                                child: const Center(
-                                  child: Text(
-                                    'Could not find the image',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.white70,
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : const Center(
-                              child: Text('Image was not uploaded',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.white70,
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic))),
-                    ),
-                  ],
+                  children: [NetworkedImage(180, 180, product.imageUrl)],
                 ),
                 const Padding(padding: EdgeInsets.all(10)),
                 Text(product.title,
