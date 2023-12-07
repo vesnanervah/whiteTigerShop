@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   const App({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return Provider(
       create: (context) => AppState(),
       child: const MaterialApp(
         title: 'WT Shop',
@@ -25,9 +25,8 @@ class App extends StatelessWidget {
   }
 }
 
-class AppState extends ChangeNotifier {
+class AppState {
   final CategoriesModel categoriesModel = CategoriesModel();
-  final CategoriesApi categoriesController = CategoriesApi();
   var categoriesView = const CategoryGridPage();
   final ProductsModel productsModel = ProductsModel();
   final ProductsApi productsController = ProductsApi();
@@ -35,22 +34,45 @@ class AppState extends ChangeNotifier {
   var detailedProductView = const DetailedProductPage();
 }
 
-class CategoryGridPage extends StatelessWidget {
+class CategoryGridPage extends StatefulWidget {
   const CategoryGridPage({super.key});
+
+  @override
+  State<CategoryGridPage> createState() => _CategoryGridPageState();
+}
+
+class _CategoryGridPageState extends State<CategoryGridPage> {
+  final model = CategoriesModel();
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<AppState>();
-    final CategoriesModel model = state.categoriesModel;
-    final CategoriesApi controller = state.categoriesController;
-    final getResp = controller.getCategories();
+    model.fetchCategories();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black12,
         title: const Text('WT Shop'),
       ),
       body: Container(
-        color: Colors.black12,
-        child: FutureBuilder(
+          padding: const EdgeInsets.only(left: 25, right: 25),
+          color: Colors.black12,
+          child: ListenableBuilder(
+            listenable: model,
+            builder: (BuildContext context, Widget? child) {
+              return model.categories == null
+                  ? const Center(child: CircularProgressIndicator())
+                  : GridView.builder(
+                      itemCount: model.categories!.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                              mainAxisSpacing: 25,
+                              crossAxisSpacing: 25,
+                              maxCrossAxisExtent: 250),
+                      itemBuilder: (BuildContext context, int count) =>
+                          CategoryItemView(model.categories![count]),
+                    );
+            },
+          )
+
+          /*FutureBuilder(
             future: getResp,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -70,8 +92,9 @@ class CategoryGridPage extends StatelessWidget {
                 return const Text('Error while fetching data');
               }
               return const Center(child: CircularProgressIndicator());
-            }),
-      ),
+            }),*/
+
+          ),
     );
   }
 }
@@ -88,7 +111,6 @@ class ProductsGridPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(category.title),
-        leading: const BackButton(),
         backgroundColor: Colors.black12,
       ),
       body: Container(
@@ -205,7 +227,6 @@ class DetailedProductPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(product.title),
-        leading: const BackButton(),
         backgroundColor: Colors.black12,
       ),
       body: Container(
