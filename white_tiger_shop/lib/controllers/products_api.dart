@@ -1,14 +1,16 @@
-import 'dart:developer';
 import 'package:white_tiger_shop/controllers/base_api.dart';
+import 'package:white_tiger_shop/types/types.dart';
 
 class ProductsApi extends BaseApi {
-  getProducts(int categoryId) {
-    return makeApiCall(
-        'api/common/product/list', {'categoryId': '$categoryId'});
+  Future<ProductsInnerRespData> getProducts(int categoryId) async {
+    return (await makeApiCall(
+            'api/common/product/list', {'categoryId': '$categoryId'}))
+        .data;
   }
 
-  getDetailedProduct(int productId) {
-    return makeApiCall(
-        'api/common/product/details', {'productId': '$productId'});
+  Future<DetailedProductInnerRespData> getDetailedProduct(int productId) async {
+    return (await makeApiCall(
+            'api/common/product/details', {'productId': '$productId'}))
+        .data;
   }
 }

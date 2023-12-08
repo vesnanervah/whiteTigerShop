@@ -34,7 +34,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                             mainAxisSpacing: 25,
                             crossAxisSpacing: 25,
-                            maxCrossAxisExtent: 250),
+                            maxCrossAxisExtent: 300),
                     itemBuilder: (BuildContext context, int count) =>
                         CategoryItemView(
                       model.categories![count],
