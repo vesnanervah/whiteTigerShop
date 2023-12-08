@@ -35,8 +35,8 @@ class DetailedProductView extends StatelessWidget {
                     'Цена: ${product.price}',
                     style: const TextStyle(fontSize: 16, height: 1.4),
                   ),
-                  const Text('Категория: не имплементировано в api',
-                      style: TextStyle(fontSize: 16, height: 1.4)),
+                  Text('Категория: ${product.category ?? 'Не предоставлено'}',
+                      style: const TextStyle(fontSize: 16, height: 1.4)),
                   Container(
                     constraints: const BoxConstraints(maxHeight: 200),
                     child: Text(

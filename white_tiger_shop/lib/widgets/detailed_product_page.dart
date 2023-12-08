@@ -7,10 +7,10 @@ class DetailedProductPage extends StatefulWidget {
   const DetailedProductPage(this.product, {super.key});
 
   @override
-  State<DetailedProductPage> createState() => _DetaieldProductPageState();
+  State<DetailedProductPage> createState() => _DetailedProductPageState();
 }
 
-class _DetaieldProductPageState extends State<DetailedProductPage> {
+class _DetailedProductPageState extends State<DetailedProductPage> {
   final model = ProductsModel();
   @override
   Widget build(BuildContext context) {

@@ -17,17 +17,19 @@ class CategoryItemView extends StatelessWidget {
         onTap: () => onClick(),
         child: Container(
           padding: const EdgeInsets.all(15),
-          child: Column(children: [
-            Expanded(child: NetworkedImage(180, 180, category.imageUrl)),
-            const Padding(padding: EdgeInsets.all(5)),
-            Text(
-              category.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
+          child: Column(
+            children: [
+              Expanded(child: NetworkedImage(180, 180, category.imageUrl)),
+              const Padding(padding: EdgeInsets.all(5)),
+              Text(
+                category.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ),
       ),
     );
