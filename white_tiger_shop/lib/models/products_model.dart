@@ -6,11 +6,18 @@ import 'package:white_tiger_shop/controllers/products_api.dart';
 class ProductsModel extends ChangeNotifier {
   final api = ProductsApi();
   List<Product>? _products;
+  Product? _detailedProduct;
   List<Product>? get products => _products;
+  Product? get detailedProduct => _detailedProduct;
 
   Future<void> fetchProducts(int categoryId) async {
     _products = parseProducts(await api.getProducts(categoryId));
     notifyListeners();
+  }
+
+  Future<void> fetchDetailedProduct(int productId) async {
+    _detailedProduct = parseProduct(await api.getDetailedProduct(productId));
+    notifyListeners(); // тут задумался о вынесении в ещё одну модель
   }
 
   List<Product> parseProducts(dynamic resp) {

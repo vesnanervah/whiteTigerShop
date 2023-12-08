@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:white_tiger_shop/controllers/base_api.dart';
 
 class ProductsApi extends BaseApi {
@@ -9,7 +8,6 @@ class ProductsApi extends BaseApi {
   }
 
   getDetailedProduct(int productId) {
-    log('Searchin product by id: $productId');
     return makeApiCall(
         'api/common/product/details', {'productId': '$productId'});
   }

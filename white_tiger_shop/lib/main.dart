@@ -172,35 +172,34 @@ class ProductsItemView extends StatelessWidget {
   }
 }
 
-class DetailedProductPage extends StatelessWidget {
+class DetailedProductPage extends StatefulWidget {
   final Product product;
   const DetailedProductPage(this.product, {super.key});
+
+  @override
+  State<DetailedProductPage> createState() => _DetaieldProductPageState();
+}
+
+class _DetaieldProductPageState extends State<DetailedProductPage> {
+  final model = ProductsModel();
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<AppState>();
-    final ProductsApi controller = state.productsController;
-    final ProductsModel model = state.productsModel;
-    final productResp = controller.getDetailedProduct(product.productId);
+    model.fetchDetailedProduct(widget.product.productId);
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        title: Text(widget.product.title),
         backgroundColor: Colors.black12,
       ),
       body: Container(
         color: Colors.black12,
-        child: FutureBuilder(
-            future: productResp,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final resolvedProduct = model.parseProduct(snapshot.data);
-                return DetailedProductView(resolvedProduct);
-              } else if (snapshot.hasError) {
-                return const Text('Could not load detailed product');
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
+        child: ListenableBuilder(
+          listenable: model,
+          builder: (context, widget) {
+            return model.detailedProduct == null
+                ? const Center(child: CircularProgressIndicator())
+                : DetailedProductView(model.detailedProduct!);
+          },
+        ),
       ),
     );
   }
@@ -244,11 +243,12 @@ class DetailedProductView extends StatelessWidget {
                   Container(
                     constraints: const BoxConstraints(maxHeight: 200),
                     child: Text(
-                        'Описание: ${product.productDescription != null && product.productDescription!.isNotEmpty ? product.productDescription! : 'Не предоставлено'}',
-                        style: const TextStyle(
-                            fontSize: 16,
-                            height: 1.4,
-                            overflow: TextOverflow.fade)),
+                      'Описание: ${product.productDescription != null && product.productDescription!.isNotEmpty ? product.productDescription! : 'Не предоставлено'}',
+                      style: const TextStyle(
+                          fontSize: 16,
+                          height: 1.4,
+                          overflow: TextOverflow.fade),
+                    ),
                   ),
                 ],
               ),
