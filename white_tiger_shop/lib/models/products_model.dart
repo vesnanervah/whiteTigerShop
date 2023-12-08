@@ -1,19 +1,32 @@
-import 'dart:convert';
-import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:white_tiger_shop/controllers/products_api.dart';
+import 'package:white_tiger_shop/types/types.dart';
 
-class ProductsModel {
-  List<Product>? products;
-  Product? selectedProduct;
+class ProductsModel extends ChangeNotifier {
+  final api = ProductsApi();
+  List<Product>? _products;
+  Product? _detailedProduct;
+  List<Product>? get products => _products;
+  Product? get detailedProduct => _detailedProduct;
 
-  List<Product> parseProducts(dynamic resp) {
-    final rawProds = (jsonDecode(resp.body)['data'] as List);
+  Future<void> fetchProducts(int categoryId) async {
+    _products = parseProducts(await api.getProducts(categoryId));
+    notifyListeners();
+  }
+
+  Future<void> fetchDetailedProduct(int productId) async {
+    _detailedProduct = parseProduct(await api.getDetailedProduct(productId));
+    notifyListeners(); // тут задумался о вынесении в ещё одну модель
+  }
+
+  List<Product> parseProducts(ProductsInnerRespData resp) {
     final products =
-        rawProds.map((prod) => Product.fromJson(prod)).toSet().toList();
+        resp.map((prod) => Product.fromJson(prod)).toSet().toList();
     return products;
   }
 
-  Product parseProduct(dynamic resp) {
-    return Product.fromJson(jsonDecode(resp.body)['data']);
+  Product parseProduct(DetailedProductInnerRespData resp) {
+    return Product.fromJson(resp);
   }
 }
 
@@ -23,11 +36,13 @@ class Product {
   int price;
   String? imageUrl;
   String? productDescription;
+  String? category;
   Product(this.productId, this.title, this.price,
-      {this.imageUrl, this.productDescription});
+      {this.imageUrl, this.productDescription, this.category});
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(json['productId'], json['title'], json['price'],
         productDescription: json['productDescription'],
-        imageUrl: json['imageUrl']);
+        imageUrl: json['imageUrl'],
+        category: json['category']);
   }
 }

@@ -1,11 +1,20 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:white_tiger_shop/controllers/categories_api.dart';
+import 'package:white_tiger_shop/types/types.dart';
 
-class CategoriesModel {
-  List<Category>? categories;
-  Category? selectedCategory;
+class CategoriesModel extends ChangeNotifier {
+  List<Category>? _categories;
+  final api = CategoriesApi();
 
-  List<Category> parseCategories(dynamic resp) {
-    final rawCats = (jsonDecode(resp.body)['data']['categories'] as List);
+  Future<void> fetchCategories() async {
+    _categories = parseCategories(await api.getCategories());
+    notifyListeners();
+  }
+
+  List<Category>? get categories => _categories;
+
+  List<Category> parseCategories(CategoriesInnerRespData resp) {
+    final rawCats = (resp['categories'] as List);
     final categories =
         rawCats.map((cat) => Category.fromJson(cat)).toSet().toList();
     return categories;
