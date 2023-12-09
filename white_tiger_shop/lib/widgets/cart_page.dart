@@ -23,9 +23,19 @@ class CartPage extends StatelessWidget {
                       // widget with delete from cart button
                       itemBuilder: (_, index) {
                         return ProductsItemView(
-                            state.cart.products[productsIds[index]]!, () {
-                          // TODO: navigate to detailed page
-                        });
+                          state.cart.products[productsIds[index]]!,
+                          () {
+                            // TODO: navigate to detailed page
+                          },
+                          trailing: IconButton(
+                            icon: const Icon(Icons.close),
+                            tooltip: 'Убрать из корзины',
+                            onPressed: () {
+                              state.cart.removeFromCart(
+                                  state.cart.products[productsIds[index]]!);
+                            },
+                          ),
+                        );
                       },
                       separatorBuilder: (_, index) => const Divider(height: 10),
                       itemCount: state.cart.getLen(),

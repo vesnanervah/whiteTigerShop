@@ -22,10 +22,11 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
   List<bool> sortOptions = [false, false];
   @override
   Widget build(BuildContext context) {
+    //ToggleButtons оперирует индексом элемента из листа sortOptions, поэтому прокидываю его сразу в лист методов сортировок
     List<Function> sortMethods = [
       model.getSortedByName,
       model.getSortedByPrice,
-    ]; //ToggleButtons оперирует индексом элемента из листа sortOptions, поэтому прокидываю его сразу в лист сортировок
+    ];
     if (model.products == null) model.fetchProducts(widget.category.categoryId);
     return Scaffold(
       appBar: WtShopAppBar(widget.category.title),
