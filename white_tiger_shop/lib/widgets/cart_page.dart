@@ -11,23 +11,30 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     return Scaffold(
-      appBar: const WtShopAppBar('Корзина'),
-      body: ListenableBuilder(
-        listenable: state.cart,
-        builder: (_, widget) {
-          final productsIds = state.cart.products.keys.toList();
-          return ListView.separated(
-              // widget with delete from cart button
-              itemBuilder: (_, index) {
-                return ProductsItemView(
-                    state.cart.products[productsIds[index]]!, () {
-                  // TODO: navigate to detailed page
-                });
-              },
-              separatorBuilder: (_, index) => const Divider(height: 10),
-              itemCount: state.cart.getLen());
-        },
-      ),
-    );
+        appBar: const WtShopAppBar('Корзина'),
+        body: Container(
+          color: Colors.black12,
+          child: ListenableBuilder(
+            listenable: state.cart,
+            builder: (_, widget) {
+              final productsIds = state.cart.products.keys.toList();
+              return productsIds.isNotEmpty
+                  ? ListView.separated(
+                      // widget with delete from cart button
+                      itemBuilder: (_, index) {
+                        return ProductsItemView(
+                            state.cart.products[productsIds[index]]!, () {
+                          // TODO: navigate to detailed page
+                        });
+                      },
+                      separatorBuilder: (_, index) => const Divider(height: 10),
+                      itemCount: state.cart.getLen(),
+                    )
+                  : const Center(
+                      child: Text('В корзине ничего нет'),
+                    );
+            },
+          ),
+        ));
   }
 }
