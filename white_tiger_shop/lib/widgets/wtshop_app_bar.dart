@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:white_tiger_shop/main.dart';
 
 class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String header;
   const WtShopAppBar(this.header, {super.key});
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
     return AppBar(
       title: Text(header),
       backgroundColor: Colors.black12,
       actions: [
-        IconButton(
-            // Stack with icon and number with elements count in cart at the top
-            onPressed: () {
-              // Navigate to cart
-            },
-            icon: const Icon(Icons.shopping_cart)),
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            IconButton(
+              onPressed: () {
+                // Navigate to cart
+              },
+              icon: const Icon(Icons.shopping_cart),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.deepPurple,
+                shape: BoxShape.circle,
+              ),
+              width: 16,
+              height: 16,
+              child: Center(
+                child: Text(
+                  '${state.cart.getLen()}',
+                  style: const TextStyle(
+                      fontSize: 11,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(
           width: 20,
         ),
