@@ -1,11 +1,11 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
 import 'package:white_tiger_shop/types/types.dart';
 import 'package:white_tiger_shop/widgets/detailed_product_page.dart';
 import 'package:white_tiger_shop/widgets/products_list_item.dart';
+import 'package:white_tiger_shop/widgets/sort_toggle_btn.dart';
 
 class ProductsGridPage extends StatefulWidget {
   final Category category;
@@ -18,10 +18,10 @@ class ProductsGridPage extends StatefulWidget {
 class _ProductsGridPageState extends State<ProductsGridPage> {
   final model = ProductsModel();
   List<Product>? products;
-  List<bool> selectedBtns = [false, false];
+  List<bool> sortOptions = [false, false];
   @override
   Widget build(BuildContext context) {
-    List<Function> events = [
+    List<Function> sortMethods = [
       model.getSortedByName,
       model.getSortedByPrice,
     ]; //сомнительное решение
@@ -37,7 +37,8 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
           listenable: model,
           builder: (BuildContext context, Widget? child) {
             if (model.products != null && products == null) {
-              products = model.products!.toList();
+              products = model.products!
+                  .toList(); // значения копируются для имутабельности, чтобы всегда можно было откатиться к оригиналу
             }
             return products == null
                 ? const Center(child: CircularProgressIndicator())
@@ -47,45 +48,26 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
                         padding: const EdgeInsets.only(
                             left: 15, bottom: 10, top: 15),
                         child: ToggleButtons(
-                          isSelected: selectedBtns,
+                          isSelected: sortOptions,
                           onPressed: (index) {
                             setState(() {
-                              if (!selectedBtns[index]) {
-                                products = events[index]();
-                                products!.forEach((element) {
-                                  log('${element.price}');
-                                });
+                              if (!sortOptions[index]) {
+                                products = sortMethods[index]();
                               } else {
                                 products = model.products!.toList();
                               }
-                              for (var i = 0; i < selectedBtns.length; i++) {
+                              for (var i = 0; i < sortOptions.length; i++) {
                                 if (i == index) {
-                                  selectedBtns[i] = !selectedBtns[i];
+                                  sortOptions[i] = !sortOptions[i];
                                 } else {
-                                  selectedBtns[i] = false;
+                                  sortOptions[i] = false;
                                 }
                               }
                             });
                           },
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 5),
-                              width: 140,
-                              child: const Row(children: [
-                                Icon(Icons.sort_by_alpha),
-                                Padding(padding: EdgeInsets.only(right: 5)),
-                                Text('По названию')
-                              ]),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(left: 5),
-                              width: 140,
-                              child: const Row(children: [
-                                Icon(Icons.price_change),
-                                Padding(padding: EdgeInsets.only(right: 5)),
-                                Text('По цене')
-                              ]),
-                            ),
+                          children: const [
+                            SortToggleBtn('По названию', Icons.title),
+                            SortToggleBtn('По цене', Icons.price_change),
                           ],
                         ),
                       ),
