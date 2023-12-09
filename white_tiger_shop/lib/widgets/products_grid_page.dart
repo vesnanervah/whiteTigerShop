@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
-import 'package:white_tiger_shop/types/types.dart';
 import 'package:white_tiger_shop/widgets/detailed_product_page.dart';
 import 'package:white_tiger_shop/widgets/products_list_item.dart';
 import 'package:white_tiger_shop/widgets/sort_toggle_btn.dart';

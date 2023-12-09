@@ -21,7 +21,6 @@ class CartPage extends StatelessWidget {
             final productsIds = state.cart.products.keys.toList();
             return productsIds.isNotEmpty
                 ? ListView.separated(
-                    // widget with delete from cart button
                     itemBuilder: (_, index) {
                       return ProductsItemView(
                         state.cart.products[productsIds[index]]!,
@@ -47,9 +46,7 @@ class CartPage extends StatelessWidget {
                     separatorBuilder: (_, index) => const Divider(height: 10),
                     itemCount: state.cart.getLen(),
                   )
-                : const Center(
-                    child: Text('В корзине ничего нет'),
-                  );
+                : const Center(child: Text('В корзине ничего нет'));
           },
         ),
       ),
