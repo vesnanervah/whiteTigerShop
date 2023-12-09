@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
 import 'package:white_tiger_shop/widgets/category_grid_item.dart';
 import 'package:white_tiger_shop/widgets/products_grid_page.dart';
+import 'package:white_tiger_shop/widgets/wtshop_app_bar.dart';
 
 class CategoryGridPage extends StatefulWidget {
   const CategoryGridPage({super.key});
@@ -16,10 +17,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
   Widget build(BuildContext context) {
     model.fetchCategories();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black12,
-        title: const Text('WT Shop'),
-      ),
+      appBar: const WtShopAppBar('WT Shop'),
       body: Container(
         padding: const EdgeInsets.only(left: 25, right: 25),
         color: Colors.black12,

@@ -6,6 +6,7 @@ import 'package:white_tiger_shop/types/types.dart';
 import 'package:white_tiger_shop/widgets/detailed_product_page.dart';
 import 'package:white_tiger_shop/widgets/products_list_item.dart';
 import 'package:white_tiger_shop/widgets/sort_toggle_btn.dart';
+import 'package:white_tiger_shop/widgets/wtshop_app_bar.dart';
 
 class ProductsGridPage extends StatefulWidget {
   final Category category;
@@ -24,13 +25,10 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
     List<Function> sortMethods = [
       model.getSortedByName,
       model.getSortedByPrice,
-    ]; //сомнительное решение
+    ]; //ToggleButtons оперирует индексом элемента из листа sortOptions, поэтому прокидываю его сразу в лист сортировок
     if (model.products == null) model.fetchProducts(widget.category.categoryId);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.category.title),
-        backgroundColor: Colors.black12,
-      ),
+      appBar: WtShopAppBar(widget.category.title),
       body: Container(
         color: Colors.black12,
         child: ListenableBuilder(
