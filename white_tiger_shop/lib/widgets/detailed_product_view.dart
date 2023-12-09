@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:white_tiger_shop/main.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
 import 'package:white_tiger_shop/widgets/networked_image.dart';
 
@@ -7,6 +9,7 @@ class DetailedProductView extends StatelessWidget {
   const DetailedProductView(this.product, {super.key});
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
     return Center(
       child: Card(
         child: Container(
@@ -49,6 +52,29 @@ class DetailedProductView extends StatelessWidget {
                   ),
                 ],
               ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ListenableBuilder(
+                      listenable: state.cart,
+                      builder: (_, widget) {
+                        return ElevatedButton(
+                          // add styles according to cart changes
+                          onPressed: () {
+                            if (state.cart.inCart(product)) {
+                              state.cart.removeFromCart(product);
+                            } else {
+                              state.cart.addToCart(product);
+                            }
+                          },
+                          child: state.cart.inCart(product)
+                              ? const Text('В корзине')
+                              : const Text('В корзину'),
+                        );
+                      }),
+                ],
+              )
             ],
           ),
         ),

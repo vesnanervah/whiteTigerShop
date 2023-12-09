@@ -5,7 +5,9 @@ import 'package:white_tiger_shop/widgets/networked_image.dart';
 class ProductsItemView extends StatelessWidget {
   final Product product;
   final VoidCallback onClick;
-  const ProductsItemView(this.product, this.onClick, {super.key});
+  final Widget? trailing;
+  const ProductsItemView(this.product, this.onClick,
+      {this.trailing, super.key});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -13,6 +15,7 @@ class ProductsItemView extends StatelessWidget {
       leading: NetworkedImage(100, 100, product.imageUrl),
       title: Text(product.title),
       subtitle: Text('Цена: ${product.price}'),
+      trailing: trailing,
     );
   }
 }

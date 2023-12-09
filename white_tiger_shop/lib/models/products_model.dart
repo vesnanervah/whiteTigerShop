@@ -28,6 +28,18 @@ class ProductsModel extends ChangeNotifier {
   Product parseProduct(DetailedProductInnerRespData resp) {
     return Product.fromJson(resp);
   }
+
+  List<Product> getSortedByName() {
+    List<Product> newProducts = products!.toList();
+    newProducts.sort((f, s) => f.title.compareTo(s.title));
+    return newProducts;
+  }
+
+  List<Product> getSortedByPrice() {
+    List<Product> newProducts = products!.toList();
+    newProducts.sort((f, s) => f.price.compareTo(s.price));
+    return newProducts;
+  }
 }
 
 class Product {
