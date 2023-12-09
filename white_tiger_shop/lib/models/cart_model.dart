@@ -4,7 +4,7 @@ import 'package:white_tiger_shop/models/products_model.dart';
 class CartModel extends ChangeNotifier {
   final Map<int, Product> _products =
       {}; //не юзается сет, потому что одинаковые продукты, но загруженные по разным фьючерам все ещё считаются разными объектами в дарте
-  get products => _products;
+  Map<int, Product> get products => _products;
 
   Map<int, Product> addToCart(Product newProd) {
     if (!_products.keys.contains(newProd.productId)) {

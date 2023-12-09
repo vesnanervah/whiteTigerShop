@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/main.dart';
+import 'package:white_tiger_shop/widgets/cart_page.dart';
 
 class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String header;
@@ -17,7 +18,8 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             IconButton(
               onPressed: () {
-                // Navigate to cart
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const CartPage()));
               },
               icon: const Icon(Icons.shopping_cart),
             ),
