@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/models/products_model.dart';
-import 'package:white_tiger_shop/widgets/detailed_product_view.dart';
-import 'package:white_tiger_shop/widgets/wtshop_app_bar.dart';
+import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
+import 'package:white_tiger_shop/product/model/detailed_product_model.dart';
+import 'package:white_tiger_shop/product/model/entity/product.dart';
+import 'package:white_tiger_shop/product/view/detailed_product_view.dart';
 
 class DetailedProductPage extends StatefulWidget {
   final Product product;
+
   const DetailedProductPage(this.product, {super.key});
 
   @override
@@ -12,10 +14,16 @@ class DetailedProductPage extends StatefulWidget {
 }
 
 class _DetailedProductPageState extends State<DetailedProductPage> {
-  final model = ProductsModel();
+  final model = DetailedProductModel();
+
+  @override
+  void initState() {
+    super.initState();
+    model.fetchDetailedProduct(widget.product.productId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    model.fetchDetailedProduct(widget.product.productId);
     return Scaffold(
       appBar: WtShopAppBar(widget.product.title),
       body: Container(
@@ -23,9 +31,9 @@ class _DetailedProductPageState extends State<DetailedProductPage> {
         child: ListenableBuilder(
           listenable: model,
           builder: (context, widget) {
-            return model.detailedProduct == null
+            return model.product == null
                 ? const Center(child: CircularProgressIndicator())
-                : DetailedProductView(model.detailedProduct!);
+                : DetailedProductView(model.product!);
           },
         ),
       ),

@@ -4,8 +4,10 @@ class NetworkedImage extends StatelessWidget {
   final double boxHeight;
   final double boxWidth;
   final String? imageUrl;
+
   const NetworkedImage(this.boxHeight, this.boxWidth, this.imageUrl,
       {super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,10 +37,11 @@ class NetworkedImage extends StatelessWidget {
               child: Text(
                 'Image wasn\'t uploaded',
                 style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    color: Colors.white70,
-                    fontSize: 12,
-                    fontStyle: FontStyle.italic),
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white70,
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
     );

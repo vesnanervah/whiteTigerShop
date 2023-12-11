@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/models/categories_model.dart';
-import 'package:white_tiger_shop/widgets/networked_image.dart';
+import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/common/view/networked_image.dart';
 
 class CategoryItemView extends StatelessWidget {
   final Category category;
   final VoidCallback onClick;
   const CategoryItemView(this.category, this.onClick, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return Material(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/models/products_model.dart';
+import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class CartModel extends ChangeNotifier {
   final Map<int, Product> _products = {};
