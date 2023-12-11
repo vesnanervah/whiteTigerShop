@@ -1,6 +1,5 @@
 import 'package:white_tiger_shop/category/model/entity/category.dart';
 import 'package:white_tiger_shop/common/controller/base_api.dart';
-import 'package:white_tiger_shop/types/types.dart';
 
 class CategoriesApi extends BaseApi {
   Future<List<Category>> getCategories() async {
@@ -8,7 +7,7 @@ class CategoriesApi extends BaseApi {
     return parseCategories(resp);
   }
 
-  List<Category> parseCategories(CategoriesInnerRespData resp) {
+  List<Category> parseCategories(Map<String, dynamic> resp) {
     final rawCats = (resp['categories'] as List);
     final categories =
         rawCats.map((cat) => Category.fromJson(cat)).toSet().toList();

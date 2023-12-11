@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:white_tiger_shop/cart/view/cart_page.dart';
+import 'package:white_tiger_shop/cart/cart_page.dart';
 import 'package:white_tiger_shop/main.dart';
 
 class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String header;
+
   const WtShopAppBar(this.header, {super.key});
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
@@ -18,8 +20,12 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const CartPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CartPage(),
+                  ),
+                );
               },
               icon: const Icon(Icons.shopping_cart),
             ),

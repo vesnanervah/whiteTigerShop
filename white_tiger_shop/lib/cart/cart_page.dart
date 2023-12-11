@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 import 'package:white_tiger_shop/main.dart';
-import 'package:white_tiger_shop/product/view/detailed_product_page.dart';
+import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
 class CartPage extends StatelessWidget {

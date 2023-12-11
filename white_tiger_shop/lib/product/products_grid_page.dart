@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
-import 'package:white_tiger_shop/product/view/sort_toggle_btn.dart';
+import 'package:white_tiger_shop/product/view/sort_toggle_button.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
-import 'package:white_tiger_shop/product/view/detailed_product_page.dart';
+import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
 class ProductsGridPage extends StatefulWidget {
   final Category category;
+
   const ProductsGridPage(this.category, {super.key});
 
   @override
@@ -17,6 +18,7 @@ class ProductsGridPage extends StatefulWidget {
 class _ProductsGridPageState extends State<ProductsGridPage> {
   final model = ProductsModel();
   List<bool> sortOptions = [false, false];
+
   @override
   void initState() {
     super.initState();
@@ -29,15 +31,17 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
     } else {
       model.fetchProducts(widget.category.categoryId);
     }
-    setState(() {
-      for (var i = 0; i < sortOptions.length; i++) {
-        if (i == index) {
-          sortOptions[i] = !sortOptions[i];
-        } else {
-          sortOptions[i] = false;
+    setState(
+      () {
+        for (var i = 0; i < sortOptions.length; i++) {
+          if (i == index) {
+            sortOptions[i] = !sortOptions[i];
+          } else {
+            sortOptions[i] = false;
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   @override
@@ -64,6 +68,7 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
                           //TODO: make dropdown where u can chose sort option and arrows of sort order
                           isSelected: sortOptions,
                           onPressed: (index) {
+                            //TODO: some loading indicator after click
                             handleSortClick(index);
                           },
                           children: const [
@@ -88,7 +93,8 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => DetailedProductPage(
-                                      model.products![index]),
+                                    model.products![index],
+                                  ),
                                 ),
                               ),
                             );

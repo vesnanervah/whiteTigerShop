@@ -6,6 +6,7 @@ import 'package:white_tiger_shop/product/view/detailed_product_view.dart';
 
 class DetailedProductPage extends StatefulWidget {
   final Product product;
+
   const DetailedProductPage(this.product, {super.key});
 
   @override
@@ -14,6 +15,7 @@ class DetailedProductPage extends StatefulWidget {
 
 class _DetailedProductPageState extends State<DetailedProductPage> {
   final model = DetailedProductModel();
+
   @override
   void initState() {
     super.initState();

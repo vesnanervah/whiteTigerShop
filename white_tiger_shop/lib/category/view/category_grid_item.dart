@@ -6,6 +6,7 @@ class CategoryItemView extends StatelessWidget {
   final Category category;
   final VoidCallback onClick;
   const CategoryItemView(this.category, this.onClick, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return Material(
