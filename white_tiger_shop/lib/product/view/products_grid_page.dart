@@ -17,15 +17,32 @@ class ProductsGridPage extends StatefulWidget {
 
 class _ProductsGridPageState extends State<ProductsGridPage> {
   final model = ProductsModel();
-  List<Product>? products;
   List<bool> sortOptions = [false, false];
   @override
+  void initState() {
+    super.initState();
+    model.fetchProducts(widget.category.categoryId);
+  }
+
+  void handleSortClick(int index) {
+    if (!sortOptions[index]) {
+      model.fetchProducts(widget.category.categoryId, sortType: index + 1);
+    } else {
+      model.fetchProducts(widget.category.categoryId);
+    }
+    setState(() {
+      for (var i = 0; i < sortOptions.length; i++) {
+        if (i == index) {
+          sortOptions[i] = !sortOptions[i];
+        } else {
+          sortOptions[i] = false;
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //ToggleButtons оперирует индексом элемента из листа sortOptions, поэтому прокидываю его сразу в лист методов сортировок
-    List<Function> sortMethods = [
-      model.getSortedByName,
-      model.getSortedByPrice,
-    ];
     if (model.products == null) model.fetchProducts(widget.category.categoryId);
     return Scaffold(
       appBar: WtShopAppBar(widget.category.title),
@@ -34,11 +51,7 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
         child: ListenableBuilder(
           listenable: model,
           builder: (BuildContext context, Widget? child) {
-            if (model.products != null && products == null) {
-              products = model.products!
-                  .toList(); // значения копируются для имутабельности, чтобы всегда можно было откатиться к оригиналу
-            }
-            return products == null
+            return model.products == null
                 ? const Center(child: CircularProgressIndicator())
                 : Column(
                     children: [
@@ -48,36 +61,23 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
                         child: ToggleButtons(
                           isSelected: sortOptions,
                           onPressed: (index) {
-                            setState(() {
-                              if (!sortOptions[index]) {
-                                products = sortMethods[index]();
-                              } else {
-                                products = model.products!.toList();
-                              }
-                              for (var i = 0; i < sortOptions.length; i++) {
-                                if (i == index) {
-                                  sortOptions[i] = !sortOptions[i];
-                                } else {
-                                  sortOptions[i] = false;
-                                }
-                              }
-                            });
+                            handleSortClick(index);
                           },
                           children: const [
-                            SortToggleBtn('По названию', Icons.title),
-                            SortToggleBtn('По цене', Icons.price_change),
+                            SortToggleBtn('По убыванию', Icons.title),
+                            SortToggleBtn('По возрастанию', Icons.price_change),
                           ],
                         ),
                       ),
                       Expanded(
                         child: ListView.separated(
                             itemBuilder: (context, index) => ProductsItemView(
-                                  products![index],
+                                  model.products![index],
                                   () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) =>
-                                          DetailedProductPage(products![index]),
+                                      builder: (_) => DetailedProductPage(
+                                          model.products![index]),
                                     ),
                                   ),
                                 ),

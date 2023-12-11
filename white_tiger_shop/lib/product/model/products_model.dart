@@ -7,20 +7,8 @@ class ProductsModel extends ChangeNotifier {
   List<Product>? _products;
   List<Product>? get products => _products;
 
-  Future<void> fetchProducts(int categoryId) async {
-    _products = await api.getProducts(categoryId);
+  Future<void> fetchProducts(int categoryId, {int? sortType}) async {
+    _products = await api.getProducts(categoryId, sortType: sortType);
     notifyListeners();
-  }
-
-  List<Product> getSortedByName() {
-    List<Product> newProducts = products!.toList();
-    newProducts.sort((f, s) => f.title.compareTo(s.title));
-    return newProducts;
-  }
-
-  List<Product> getSortedByPrice() {
-    List<Product> newProducts = products!.toList();
-    newProducts.sort((f, s) => f.price.compareTo(s.price));
-    return newProducts;
   }
 }

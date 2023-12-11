@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:white_tiger_shop/types/types.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,6 +9,7 @@ class BaseApi {
   final adress = 'ostest.whitetigersoft.ru';
 
   Future<BaseResp> makeApiCall(String apiPath, ApiArgs? queryArgs) async {
+    if (queryArgs != null) filterQuery(queryArgs);
     final uri = Uri(
         scheme: 'http',
         host: adress,
@@ -20,6 +22,10 @@ class BaseApi {
         MetaOfResp(respBody['meta']['success'], respBody['meta']['error']);
     final BaseResp parsedResp = BaseResp(meta, respBody['data']);
     return parsedResp;
+  }
+
+  void filterQuery(ApiArgs query) {
+    query.removeWhere((key, value) => value == null);
   }
 }
 
