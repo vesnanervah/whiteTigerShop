@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:white_tiger_shop/common/view/networked_image.dart';
 import 'package:white_tiger_shop/main.dart';
-import 'package:white_tiger_shop/models/products_model.dart';
-import 'package:white_tiger_shop/types/product.dart';
-import 'package:white_tiger_shop/widgets/networked_image.dart';
+import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class DetailedProductView extends StatelessWidget {
   final Product product;

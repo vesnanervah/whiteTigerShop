@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/models/categories_model.dart';
-import 'package:white_tiger_shop/models/products_model.dart';
-import 'package:white_tiger_shop/types/category.dart';
-import 'package:white_tiger_shop/types/product.dart';
-import 'package:white_tiger_shop/widgets/detailed_product_page.dart';
-import 'package:white_tiger_shop/widgets/products_list_item.dart';
-import 'package:white_tiger_shop/widgets/sort_toggle_btn.dart';
-import 'package:white_tiger_shop/widgets/wtshop_app_bar.dart';
+import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/common/view/sort_toggle_btn.dart';
+import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
+import 'package:white_tiger_shop/product/model/entity/product.dart';
+import 'package:white_tiger_shop/product/model/products_model.dart';
+import 'package:white_tiger_shop/product/view/detailed_product_page.dart';
+import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
 class ProductsGridPage extends StatefulWidget {
   final Category category;

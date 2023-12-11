@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:white_tiger_shop/models/cart_model.dart';
-import 'package:white_tiger_shop/widgets/category_grid_page.dart';
+import 'package:white_tiger_shop/cart/model/cart_model.dart';
+import 'package:white_tiger_shop/category/view/category_grid_page.dart';
 
 void main() {
   runApp(const App());
