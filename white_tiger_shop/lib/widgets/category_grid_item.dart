@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/models/categories_model.dart';
+import 'package:white_tiger_shop/types/category.dart';
 import 'package:white_tiger_shop/widgets/networked_image.dart';
 
 class CategoryItemView extends StatelessWidget {

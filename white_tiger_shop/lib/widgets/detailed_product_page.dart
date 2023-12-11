@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/models/products_model.dart';
+import 'package:white_tiger_shop/types/product.dart';
 import 'package:white_tiger_shop/widgets/detailed_product_view.dart';
 import 'package:white_tiger_shop/widgets/wtshop_app_bar.dart';
 

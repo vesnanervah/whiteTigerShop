@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/controllers/products_api.dart';
+import 'package:white_tiger_shop/types/product.dart';
 import 'package:white_tiger_shop/types/types.dart';
 
 class ProductsModel extends ChangeNotifier {
@@ -39,22 +40,5 @@ class ProductsModel extends ChangeNotifier {
     List<Product> newProducts = products!.toList();
     newProducts.sort((f, s) => f.price.compareTo(s.price));
     return newProducts;
-  }
-}
-
-class Product {
-  int productId;
-  String title;
-  int price;
-  String? imageUrl;
-  String? productDescription;
-  String? category;
-  Product(this.productId, this.title, this.price,
-      {this.imageUrl, this.productDescription, this.category});
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(json['productId'], json['title'], json['price'],
-        productDescription: json['productDescription'],
-        imageUrl: json['imageUrl'],
-        category: json['category']);
   }
 }
