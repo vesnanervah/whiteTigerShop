@@ -15,8 +15,13 @@ class DetailedProductPage extends StatefulWidget {
 class _DetailedProductPageState extends State<DetailedProductPage> {
   final model = DetailedProductModel();
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     model.fetchDetailedProduct(widget.product.productId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: WtShopAppBar(widget.product.title),
       body: Container(

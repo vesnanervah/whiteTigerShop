@@ -14,8 +14,13 @@ class CategoryGridPage extends StatefulWidget {
 class _CategoryGridPageState extends State<CategoryGridPage> {
   final model = CategoriesModel();
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     model.fetchCategories();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const WtShopAppBar('WT Shop'),
       body: Container(

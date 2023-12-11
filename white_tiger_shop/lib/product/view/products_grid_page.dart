@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
-import 'package:white_tiger_shop/common/view/sort_toggle_btn.dart';
+import 'package:white_tiger_shop/product/view/sort_toggle_btn.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
-import 'package:white_tiger_shop/product/model/entity/product.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/view/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
@@ -57,15 +56,25 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                            left: 15, bottom: 10, top: 15),
+                          left: 15,
+                          bottom: 10,
+                          top: 15,
+                        ),
                         child: ToggleButtons(
+                          //TODO: make dropdown where u can chose sort option and arrows of sort order
                           isSelected: sortOptions,
                           onPressed: (index) {
                             handleSortClick(index);
                           },
                           children: const [
-                            SortToggleBtn('По убыванию', Icons.title),
-                            SortToggleBtn('По возрастанию', Icons.price_change),
+                            SortToggleButon(
+                              'Сначала дешевле',
+                              130,
+                            ),
+                            SortToggleButon(
+                              'Сначала дороже',
+                              130,
+                            ),
                           ],
                         ),
                       ),
