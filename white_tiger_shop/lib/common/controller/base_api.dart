@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:white_tiger_shop/common/controller/entity/base_response.dart';
+import 'package:white_tiger_shop/common/controller/entity/meta_of_resp.dart';
 import 'package:white_tiger_shop/types/types.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,16 +29,4 @@ class BaseApi {
   void filterQuery(ApiArgs query) {
     query.removeWhere((key, value) => value == null);
   }
-}
-
-class BaseResp {
-  MetaOfResp meta;
-  dynamic data;
-  BaseResp(this.meta, this.data);
-}
-
-class MetaOfResp {
-  bool success;
-  String error;
-  MetaOfResp(this.success, this.error);
 }
