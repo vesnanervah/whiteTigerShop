@@ -79,20 +79,21 @@ class _ProductsGridPageState extends State<ProductsGridPage> {
                         ),
                       ),
                       Expanded(
-                        child: ListView.separated(
-                            itemBuilder: (context, index) => ProductsItemView(
-                                  model.products![index],
-                                  () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => DetailedProductPage(
-                                          model.products![index]),
-                                    ),
-                                  ),
+                        child: ListView.builder(
+                          itemCount: model.products!.length,
+                          itemBuilder: (_, index) {
+                            return ProductsItemView(
+                              model.products![index],
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailedProductPage(
+                                      model.products![index]),
                                 ),
-                            separatorBuilder: (context, index) =>
-                                const Divider(height: 10),
-                            itemCount: model.products!.length),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   );
