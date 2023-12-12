@@ -20,11 +20,6 @@ class BaseApi {
             ? {...queryArgs, 'appKey': key}
             : {'appKey': key});
     final respBody = jsonDecode((await http.Client().get(uri)).body);
-
-    /*
-    final MetaOfResp meta =
-        MetaOfResp(respBody['meta']['success'], respBody['meta']['error']);
-    final BaseResp parsedResp = BaseResp(meta, respBody['data']);*/
     return BaseResp.fromJson(respBody);
   }
 
