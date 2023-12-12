@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
 import 'package:white_tiger_shop/product/view/sort_toggle_button.dart';
@@ -26,6 +28,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
   }
 
   void handleSortClick(int index) {
+    model.resetOffset();
     if (!sortOptions[index]) {
       model.fetchProducts(widget.category.categoryId, sortType: index + 1);
     } else {
@@ -46,7 +49,6 @@ class _ProductsGridPageState extends State<ProductsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (model.products == null) model.fetchProducts(widget.category.categoryId);
     return Scaffold(
       appBar: WtShopAppBar(widget.category.title),
       body: Container(
@@ -85,8 +87,31 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                       ),
                       Expanded(
                         child: ListView.builder(
-                          itemCount: model.products!.length,
+                          itemCount: model.products!.length + 1,
                           itemBuilder: (_, index) {
+                            log('building list with index $index');
+                            if (index == model.products!.length &&
+                                !model.isReachedEnd) {
+                              model.fetchProducts(widget.category.categoryId);
+                              return Container(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                            if (index == model.products!.length &&
+                                model.isReachedEnd) {
+                              return Container(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
+                                child: const Center(
+                                  child: Text(
+                                      'Поздравляем! Вы достигли конца списка!'),
+                                ),
+                              );
+                            }
                             return ProductsItemView(
                               model.products![index],
                               () => Navigator.push(
