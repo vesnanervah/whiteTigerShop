@@ -6,16 +6,16 @@ import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
-class ProductsGridPage extends StatefulWidget {
+class ProductsListPage extends StatefulWidget {
   final Category category;
 
-  const ProductsGridPage(this.category, {super.key});
+  const ProductsListPage(this.category, {super.key});
 
   @override
-  State<ProductsGridPage> createState() => _ProductsGridPageState();
+  State<ProductsListPage> createState() => _ProductsGridPageState();
 }
 
-class _ProductsGridPageState extends State<ProductsGridPage> {
+class _ProductsGridPageState extends State<ProductsListPage> {
   final model = ProductsModel();
   List<bool> sortOptions = [false, false];
 
