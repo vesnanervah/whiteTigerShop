@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/categories_model.dart';
 import 'package:white_tiger_shop/category/view/category_grid_item.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
-import 'package:white_tiger_shop/product/products_grid_page.dart';
+import 'package:white_tiger_shop/product/products_list_page.dart';
 
 class CategoryGridPage extends StatefulWidget {
   const CategoryGridPage({super.key});
@@ -46,7 +46,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              ProductsGridPage(model.categories![count]),
+                              ProductsListPage(model.categories![count]),
                         ),
                       ),
                     ),
