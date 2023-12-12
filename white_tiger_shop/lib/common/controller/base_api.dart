@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:white_tiger_shop/common/controller/entity/base_response.dart';
-import 'package:white_tiger_shop/common/controller/entity/meta_of_resp.dart';
 import 'package:http/http.dart' as http;
 
 class BaseApi {
@@ -21,10 +20,12 @@ class BaseApi {
             ? {...queryArgs, 'appKey': key}
             : {'appKey': key});
     final respBody = jsonDecode((await http.Client().get(uri)).body);
+
+    /*
     final MetaOfResp meta =
         MetaOfResp(respBody['meta']['success'], respBody['meta']['error']);
-    final BaseResp parsedResp = BaseResp(meta, respBody['data']);
-    return parsedResp;
+    final BaseResp parsedResp = BaseResp(meta, respBody['data']);*/
+    return BaseResp.fromJson(respBody);
   }
 
   void filterQuery(Map<String, String?> query) {
