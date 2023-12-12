@@ -4,11 +4,12 @@ import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class DetailedProductModel extends ChangeNotifier {
   final api = DetailedProductApi();
+  int? productId;
   Product? _product;
   Product? get product => _product;
 
-  Future<void> fetchDetailedProduct(int productId) async {
-    _product = await api.getDetailedProduct(productId);
+  Future<void> fetchDetailedProduct() async {
+    _product = await api.getDetailedProduct(productId!);
     notifyListeners();
   }
 }

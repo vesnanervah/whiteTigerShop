@@ -19,7 +19,8 @@ class _DetailedProductPageState extends State<DetailedProductPage> {
   @override
   void initState() {
     super.initState();
-    model.fetchDetailedProduct(widget.product.productId);
+    model.productId = widget.product.productId;
+    model.fetchDetailedProduct();
   }
 
   @override
