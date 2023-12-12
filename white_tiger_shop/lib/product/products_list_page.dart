@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
@@ -17,12 +16,12 @@ class ProductsListPage extends StatefulWidget {
 
 class _ProductsGridPageState extends State<ProductsListPage> {
   final model = ProductsModel();
-  final TextEditingController sortSelectionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    model.fetchProducts(widget.category.categoryId);
+    model.selectedCategory = widget.category.categoryId;
+    model.fetchProducts();
   }
 
   @override
@@ -46,44 +45,43 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                         ),
                         child: DropdownMenu(
                           label: const Text('Сортировать'),
-                          controller: sortSelectionController,
                           initialSelection: model.sortOptions.options[0],
                           onSelected: (option) {
                             model.selectedSortOption = option;
                             model.reset();
-                            model.fetchProducts(widget.category.categoryId);
+                            model.fetchProducts();
                           },
-                          dropdownMenuEntries:
-                              model.sortOptions.options.map((option) {
-                            return DropdownMenuEntry(
-                                value: option, label: option.title);
-                          }).toList(),
+                          dropdownMenuEntries: model.sortOptions.options
+                              .map(
+                                (option) => DropdownMenuEntry(
+                                  value: option,
+                                  label: option.title,
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
                       Expanded(
                         child: ListView.builder(
                           itemCount: model.products!.length + 1,
                           itemBuilder: (_, index) {
-                            log('building list with index $index');
-                            if (index == model.products!.length &&
-                                !model.isReachedEnd) {
-                              model.fetchProducts(widget.category.categoryId);
+                            if (index == model.products!.length) {
+                              if (model.isReachedEnd) {
+                                return Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10),
+                                  child: const Center(
+                                    child: Text(
+                                        'Поздравляем! Вы достигли конца списка!'),
+                                  ),
+                                );
+                              }
+                              model.fetchProducts();
                               return Container(
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 10),
                                 child: const Center(
                                   child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-                            if (index == model.products!.length &&
-                                model.isReachedEnd) {
-                              return Container(
-                                padding:
-                                    const EdgeInsets.only(top: 10, bottom: 10),
-                                child: const Center(
-                                  child: Text(
-                                      'Поздравляем! Вы достигли конца списка!'),
                                 ),
                               );
                             }

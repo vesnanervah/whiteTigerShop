@@ -9,32 +9,29 @@ class ProductsModel extends ChangeNotifier {
   final api = ProductsApi();
   List<Product>? _products;
   List<Product>? get products => _products;
-  int currentOffset = 0;
+  int _currentOffset = 0;
+  int? selectedCategory;
   SortOption? selectedSortOption;
-  bool isReachedEnd = false;
+  bool _isReachedEnd = false;
+  bool get isReachedEnd => _isReachedEnd;
   final SortOptions sortOptions = SortOptions();
 
-  Future<void> fetchProducts(int categoryId) async {
-    log('fetching the prods with offset $currentOffset');
-    if (selectedSortOption != null) {
-      log('selected sort option is ${selectedSortOption!.apiIndex}');
-    }
-    if (isReachedEnd) return;
-    final resp = await api.getProducts(categoryId, currentOffset,
+  Future<void> fetchProducts() async {
+    if (_isReachedEnd) return;
+    final resp = await api.getProducts(selectedCategory!, _currentOffset,
         sortType: selectedSortOption?.apiIndex);
-    if (currentOffset > 0 && _products != null) {
+    if (_currentOffset > 0 && _products != null) {
       _products!.addAll(resp);
     } else {
       _products = resp;
     }
-    isReachedEnd = resp.isEmpty || resp.length < 15 ? true : false;
-    // вопреки документации, офсет возвращает слайс массива продуктов длинной 15 или менее элементов начиная от переданного индекса
-    currentOffset = _products!.length;
+    _isReachedEnd = resp.isEmpty ? true : false;
+    _currentOffset = _products!.length;
     notifyListeners();
   }
 
   void reset() {
-    currentOffset = 0;
-    isReachedEnd = false;
+    _currentOffset = 0;
+    _isReachedEnd = false;
   }
 }
