@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
-import 'package:white_tiger_shop/product/view/sort_toggle_button.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
@@ -19,32 +17,12 @@ class ProductsListPage extends StatefulWidget {
 
 class _ProductsGridPageState extends State<ProductsListPage> {
   final model = ProductsModel();
-  List<bool> sortOptions = [false, false];
+  final TextEditingController sortSelectionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     model.fetchProducts(widget.category.categoryId);
-  }
-
-  void handleSortClick(int index) {
-    model.resetOffset();
-    if (!sortOptions[index]) {
-      model.fetchProducts(widget.category.categoryId, sortType: index + 1);
-    } else {
-      model.fetchProducts(widget.category.categoryId);
-    }
-    setState(
-      () {
-        for (var i = 0; i < sortOptions.length; i++) {
-          if (i == index) {
-            sortOptions[i] = !sortOptions[i];
-          } else {
-            sortOptions[i] = false;
-          }
-        }
-      },
-    );
   }
 
   @override
@@ -66,23 +44,20 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                           bottom: 10,
                           top: 15,
                         ),
-                        child: ToggleButtons(
-                          //TODO: make dropdown where u can chose sort option and arrows of sort order
-                          isSelected: sortOptions,
-                          onPressed: (index) {
-                            //TODO: some loading indicator after click
-                            handleSortClick(index);
+                        child: DropdownMenu(
+                          label: const Text('Сортировать'),
+                          controller: sortSelectionController,
+                          initialSelection: model.sortOptions.options[0],
+                          onSelected: (option) {
+                            model.selectedSortOption = option;
+                            model.reset();
+                            model.fetchProducts(widget.category.categoryId);
                           },
-                          children: const [
-                            SortToggleButon(
-                              'Сначала дешевле',
-                              130,
-                            ),
-                            SortToggleButon(
-                              'Сначала дороже',
-                              130,
-                            ),
-                          ],
+                          dropdownMenuEntries:
+                              model.sortOptions.options.map((option) {
+                            return DropdownMenuEntry(
+                                value: option, label: option.title);
+                          }).toList(),
                         ),
                       ),
                       Expanded(
