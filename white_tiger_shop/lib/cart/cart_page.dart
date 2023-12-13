@@ -29,7 +29,8 @@ class CartPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) => DetailedProductPage(
-                                  state.cart.products[productsIds[index]]!),
+                                state.cart.products[productsIds[index]]!,
+                              ),
                             ),
                           );
                         },

@@ -48,7 +48,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                           initialSelection: model.sortOptions.options[0],
                           onSelected: (option) {
                             model.selectedSortOption = option;
-                            model.reset();
+                            model.resetOffset();
                             model.fetchProducts();
                           },
                           dropdownMenuEntries: model.sortOptions.options
@@ -66,6 +66,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                           itemCount: model.products!.length + 1,
                           itemBuilder: (_, index) {
                             if (index == model.products!.length) {
+                              // достигли конца списка и крайнего офсета
                               if (model.isReachedEnd) {
                                 return Container(
                                   padding: const EdgeInsets.only(
@@ -76,6 +77,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                                   ),
                                 );
                               }
+                              // достигли конца списка, но запас офсета с сервера ещё есть
                               model.fetchProducts();
                               return Container(
                                 padding:
@@ -85,6 +87,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                                 ),
                               );
                             }
+                            //конец списка не достигнут, рендерим продукты
                             return ProductsItemView(
                               model.products![index],
                               () => Navigator.push(

@@ -39,7 +39,10 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
                             mainAxisSpacing: 25,
                             crossAxisSpacing: 25,
                             maxCrossAxisExtent: 300),
-                    itemBuilder: (BuildContext context, int count) =>
+                    itemBuilder: (
+                      BuildContext context,
+                      int count,
+                    ) =>
                         CategoryItemView(
                       model.categories![count],
                       () => Navigator.push(

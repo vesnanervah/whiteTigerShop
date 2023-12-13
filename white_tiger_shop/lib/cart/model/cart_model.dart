@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
@@ -13,11 +12,11 @@ class CartModel extends ChangeNotifier {
   }
 
   Future<void> initLocalCart() async {
-    // в дебаге при хотрелоаде может спонтанно ругануться на уже используемый айди типа адаптера
+    // в дебаге при хотрелоаде может спонтанно(очень редко) ругануться на уже используемый айди типа адаптера
     // возможно ошибка внутри самого пакета, лечится рестартом
     Hive.registerAdapter(ProductAdapter());
     cartBox = await Hive.openBox('cartBox');
-    final saved = cartBox!.get('cart') as Map<dynamic, dynamic>?;
+    final saved = cartBox!.get('cart');
     if (saved != null) {
       _products = {
         ...saved
@@ -28,10 +27,6 @@ class CartModel extends ChangeNotifier {
 
   void updateLocalCart() async {
     await cartBox!.put('cart', _products);
-    final stored = cartBox!.get('cart') as Map<int, Product>;
-    stored.forEach((key, value) {
-      log(value.title);
-    });
   }
 
   Map<int, Product> addToCart(Product newProd) {

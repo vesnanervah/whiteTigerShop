@@ -14,8 +14,6 @@ class ProductsApi extends BaseApi {
   }
 
   List<Product> parseProducts(List<dynamic> resp) {
-    final products =
-        resp.map((prod) => Product.fromJson(prod)).toSet().toList();
-    return products;
+    return resp.map((prod) => Product.fromJson(prod)).toSet().toList();
   }
 }

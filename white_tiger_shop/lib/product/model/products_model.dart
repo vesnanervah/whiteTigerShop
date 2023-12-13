@@ -16,7 +16,6 @@ class ProductsModel extends ChangeNotifier {
   final SortOptions sortOptions = SortOptions();
 
   Future<void> fetchProducts() async {
-    if (_isReachedEnd) return;
     final resp = await api.getProducts(selectedCategory!, _currentOffset,
         sortType: selectedSortOption?.apiIndex);
     if (_currentOffset > 0 && _products != null) {
@@ -29,7 +28,7 @@ class ProductsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void reset() {
+  void resetOffset() {
     _currentOffset = 0;
     _isReachedEnd = false;
   }
