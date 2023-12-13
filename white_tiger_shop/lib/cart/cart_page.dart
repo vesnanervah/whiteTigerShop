@@ -20,32 +20,45 @@ class CartPage extends StatelessWidget {
           builder: (_, widget) {
             final productsIds = state.cart.products.keys.toList();
             return productsIds.isNotEmpty
-                ? ListView.separated(
-                    itemBuilder: (_, index) {
-                      return ProductsItemView(
-                        state.cart.products[productsIds[index]]!,
-                        () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => DetailedProductPage(
-                                state.cart.products[productsIds[index]]!,
+                ? Column(
+                    children: [
+                      const Padding(padding: EdgeInsets.all(5)),
+                      ElevatedButton(
+                        onPressed: () => state.cart.clearCart(),
+                        child: const Text('Очистить корзину'),
+                      ),
+                      const Padding(padding: EdgeInsets.all(5)),
+                      Expanded(
+                        child: ListView.separated(
+                          itemBuilder: (_, index) {
+                            return ProductsItemView(
+                              state.cart.products[productsIds[index]]!,
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => DetailedProductPage(
+                                      state.cart.products[productsIds[index]]!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              trailing: IconButton(
+                                icon: const Icon(Icons.close),
+                                tooltip: 'Убрать из корзины',
+                                onPressed: () {
+                                  state.cart.removeFromCart(
+                                      state.cart.products[productsIds[index]]!);
+                                },
                               ),
-                            ),
-                          );
-                        },
-                        trailing: IconButton(
-                          icon: const Icon(Icons.close),
-                          tooltip: 'Убрать из корзины',
-                          onPressed: () {
-                            state.cart.removeFromCart(
-                                state.cart.products[productsIds[index]]!);
+                            );
                           },
+                          separatorBuilder: (_, index) =>
+                              const Divider(height: 10),
+                          itemCount: state.cart.getLen(),
                         ),
-                      );
-                    },
-                    separatorBuilder: (_, index) => const Divider(height: 10),
-                    itemCount: state.cart.getLen(),
+                      )
+                    ],
                   )
                 : const Center(child: Text('В корзине ничего нет'));
           },

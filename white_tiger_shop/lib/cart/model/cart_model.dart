@@ -46,6 +46,12 @@ class CartModel extends ChangeNotifier {
     return _products.length;
   }
 
+  void clearCart() {
+    _products = {};
+    updateLocalCart();
+    notifyListeners();
+  }
+
   Map<int, Product> removeFromCart(Product prod) {
     if (_products.keys.contains(prod.productId)) {
       _products.removeWhere((key, value) => key == prod.productId);
