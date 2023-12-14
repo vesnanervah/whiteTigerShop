@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
+import 'package:white_tiger_shop/common/view/base_page.dart';
 import 'package:white_tiger_shop/product/model/detailed_product_model.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 import 'package:white_tiger_shop/product/view/detailed_product_view.dart';
@@ -20,24 +20,14 @@ class _DetailedProductPageState extends State<DetailedProductPage> {
   void initState() {
     super.initState();
     model.productId = widget.product.productId;
-    model.fetchDetailedProduct();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: WtShopAppBar(widget.product.title),
-      body: Container(
-        color: Colors.black12,
-        child: ListenableBuilder(
-          listenable: model,
-          builder: (context, widget) {
-            return model.product == null
-                ? const Center(child: CircularProgressIndicator())
-                : DetailedProductView(model.product!);
-          },
-        ),
-      ),
+    return BasePage(
+      model,
+      widget.product.title,
+      () => DetailedProductView(model.data!),
     );
   }
 }

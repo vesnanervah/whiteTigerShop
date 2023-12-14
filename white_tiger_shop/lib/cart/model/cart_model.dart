@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:white_tiger_shop/common/model/base_model.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
-class CartModel extends ChangeNotifier {
+class CartModel extends BaseModel<Map<int, Product>> {
   Map<int, Product> _products = {};
-  Map<int, Product> get products => _products;
+  @override
+  Map<int, Product> get data => _products;
   Box? cartBox;
 
   CartModel() {
@@ -59,5 +60,11 @@ class CartModel extends ChangeNotifier {
       notifyListeners();
     }
     return _products;
+  }
+
+  @override
+  Future<void> fetch() {
+    // TODO: implement fetch
+    throw UnimplementedError();
   }
 }
