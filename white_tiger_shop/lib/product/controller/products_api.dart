@@ -9,11 +9,11 @@ class ProductsApi extends BaseApi {
       'offset': offset.toString(),
       if (sortType != null) 'sortType': '$sortType',
     };
-    final resp = (await makeApiCall('api/common/product/list', query)).data;
-    return parseProducts(resp);
-  }
-
-  List<Product> parseProducts(List<dynamic> resp) {
-    return resp.map((prod) => Product.fromJson(prod)).toSet().toList();
+    final resp = await makeApiCall('api/common/product/list', query);
+    final products = (resp.data as List)
+        .map((prod) => Product.fromJson(prod))
+        .toSet()
+        .toList();
+    return products;
   }
 }
