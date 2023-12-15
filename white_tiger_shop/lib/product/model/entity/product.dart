@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'product.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class Product {
   @HiveField(0)
   int productId;

@@ -19,6 +19,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
     return BasePage(
       model,
       'WT Shop',
+      () => model.update(),
       () => model.data == null
           ? const Center(child: CircularProgressIndicator())
           : model.data!.isNotEmpty

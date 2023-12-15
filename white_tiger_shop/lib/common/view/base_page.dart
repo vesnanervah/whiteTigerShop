@@ -5,8 +5,10 @@ import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 class BasePage extends StatefulWidget {
   final BaseModel model;
   final Widget Function() builderCb;
+  final VoidCallback onInitCb;
   final String header;
-  const BasePage(this.model, this.header, this.builderCb, {super.key});
+  const BasePage(this.model, this.header, this.onInitCb, this.builderCb,
+      {super.key});
 
   @override
   State<BasePage> createState() => _BasePageState();
@@ -16,7 +18,7 @@ class _BasePageState extends State<BasePage> {
   @override
   void initState() {
     super.initState();
-    widget.model.update();
+    widget.onInitCb();
   }
 
   @override
@@ -31,8 +33,7 @@ class _BasePageState extends State<BasePage> {
           builder: (BuildContext context, Widget? child) {
             return widget.model.data == null
                 ? const Center(child: CircularProgressIndicator())
-                : widget
-                    .builderCb(); // колбек, иначе виджет собирается при передаче параметра
+                : widget.builderCb();
           },
         ),
       ),

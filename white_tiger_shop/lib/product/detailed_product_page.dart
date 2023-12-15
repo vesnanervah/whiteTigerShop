@@ -17,16 +17,14 @@ class _DetailedProductPageState extends State<DetailedProductPage> {
   final model = DetailedProductModel();
 
   @override
-  void initState() {
-    super.initState();
-    model.productId = widget.product.productId;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BasePage(
       model,
       widget.product.title,
+      () {
+        model.productId = widget.product.productId;
+        model.update();
+      },
       () => DetailedProductView(model.data!),
     );
   }

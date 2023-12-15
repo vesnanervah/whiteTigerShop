@@ -11,7 +11,7 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
-    return BasePage(state.cart, 'Корзина', () {
+    return BasePage(state.cart, 'Корзина', () {}, () {
       final productsIds = state.cart.data.keys.toList();
       return productsIds.isNotEmpty
           ? Column(

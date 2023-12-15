@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/common/model/base_model.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
@@ -9,21 +10,7 @@ class CartModel extends BaseModel<Map<int, Product>> {
   Box? cartBox;
 
   CartModel() {
-    initLocalCart();
-  }
-
-  Future<void> initLocalCart() async {
-    // в дебаге при хотрелоаде может спонтанно(очень редко) ругануться на уже используемый айди типа адаптера
-    // возможно ошибка внутри самого пакета, лечится рестартом
-    Hive.registerAdapter(ProductAdapter());
-    cartBox = await Hive.openBox('cartBox');
-    final saved = cartBox!.get('cart');
-    if (saved != null) {
-      _products = {
-        ...saved
-      }; // деструктуризация - костыль без которого кидает тайп ерор в ран тайм. Пробовал каст, дженерик и тд, никак не переваривает.
-    }
-    notifyListeners();
+    update();
   }
 
   void updateLocalCart() async {
@@ -63,8 +50,12 @@ class CartModel extends BaseModel<Map<int, Product>> {
   }
 
   @override
-  Future<void> fetch() {
-    // TODO: implement fetch
-    throw UnimplementedError();
+  Future<void> fetch() async {
+    Hive.registerAdapter<Product>(ProductAdapter());
+    cartBox = await Hive.openBox('cartBox');
+    final saved = cartBox!.get('cart');
+    if (saved != null) {
+      _products = Map<int, Product>.from(saved);
+    }
   }
 }

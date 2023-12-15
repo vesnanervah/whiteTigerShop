@@ -18,16 +18,14 @@ class _ProductsGridPageState extends State<ProductsListPage> {
   final model = ProductsModel();
 
   @override
-  void initState() {
-    super.initState();
-    model.selectedCategory = widget.category.categoryId;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BasePage(
       model,
       widget.category.title,
+      () {
+        model.selectedCategory = widget.category.categoryId;
+        model.update();
+      },
       () => Column(
         children: [
           Container(
