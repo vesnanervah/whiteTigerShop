@@ -66,7 +66,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                     );
                   }
                   // достигли конца списка, но запас офсета с сервера ещё есть
-                  model.update();
+                  if (!model.isLoading) model.update();
                   return Container(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: const Center(
