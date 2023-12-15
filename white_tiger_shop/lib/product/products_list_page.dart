@@ -39,7 +39,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
               initialSelection: model.sortOptions.options[0],
               onSelected: (option) {
                 model.selectedSortOption = option;
-                model.resetOffset();
+                model.reloadData();
               },
               dropdownMenuEntries: model.sortOptions.options
                   .map(

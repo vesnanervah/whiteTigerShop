@@ -33,7 +33,7 @@ class ProductsModel extends BaseModel<List<Product>> {
     isLoading = false;
   }
 
-  void resetOffset() {
+  void reloadData() {
     _currentOffset = 0;
     _isReachedEnd = false;
     update();
