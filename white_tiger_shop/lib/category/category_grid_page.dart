@@ -21,26 +21,28 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
       'WT Shop',
       () => model.data == null
           ? const Center(child: CircularProgressIndicator())
-          : GridView.builder(
-              itemCount: model.data!.length,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  mainAxisSpacing: 25,
-                  crossAxisSpacing: 25,
-                  maxCrossAxisExtent: 300),
-              itemBuilder: (
-                BuildContext context,
-                int count,
-              ) =>
-                  CategoryItemView(
-                model.data![count],
-                () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ProductsListPage(model.data![count]),
+          : model.data!.isNotEmpty
+              ? GridView.builder(
+                  itemCount: model.data!.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      mainAxisSpacing: 25,
+                      crossAxisSpacing: 25,
+                      maxCrossAxisExtent: 300),
+                  itemBuilder: (
+                    BuildContext context,
+                    int count,
+                  ) =>
+                      CategoryItemView(
+                    model.data![count],
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductsListPage(model.data![count]),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                )
+              : const Center(child: Text('Список категорий пуст.')),
     );
   }
 }
