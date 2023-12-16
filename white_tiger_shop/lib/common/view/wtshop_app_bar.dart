@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/cart_page.dart';
 import 'package:white_tiger_shop/main.dart';
+import 'package:white_tiger_shop/profile/profile_page.dart';
 
 class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String header;
@@ -15,6 +16,13 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(header),
       backgroundColor: Colors.black12,
       actions: [
+        IconButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ProfilePage()),
+          ),
+          icon: const Icon(Icons.person),
+        ),
         Stack(
           alignment: Alignment.bottomRight,
           children: [
