@@ -32,7 +32,12 @@ class _BasePageState extends State<BasePage> {
           listenable: widget.model,
           builder: (BuildContext context, Widget? child) {
             return widget.model.data == null
-                ? const Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: widget.model.lastFetchErrorMsg == null &&
+                            !widget.model.isInitiallyUpdated
+                        ? const CircularProgressIndicator()
+                        : Text(widget.model.lastFetchErrorMsg!),
+                  )
                 : widget.builderCb();
           },
         ),
