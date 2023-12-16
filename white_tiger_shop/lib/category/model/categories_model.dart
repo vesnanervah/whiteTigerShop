@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/controller/categories_api.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/common/model/base_model.dart';
 
-class CategoriesModel extends ChangeNotifier {
+class CategoriesModel extends BaseModel<List<Category>?> {
   List<Category>? _categories;
   final api = CategoriesApi();
 
-  Future<void> fetchCategories() async {
+  @override
+  Future<void> fetch() async {
     _categories = await api.getCategories();
-    notifyListeners();
   }
 
-  List<Category>? get categories => _categories;
+  @override
+  List<Category>? get data => _categories;
 }
