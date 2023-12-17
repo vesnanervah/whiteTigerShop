@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/common/model/base_model.dart';
 
 class ProfileModel extends BaseModel {
   bool? isLogedIn;
   String? token;
+  bool smsSend = false;
+  String? smsCode;
   Box? profileBox;
 
   @override
@@ -18,15 +21,30 @@ class ProfileModel extends BaseModel {
     String? savedToken = profileBox!.get('token');
     if (savedToken != null) {
       token = savedToken;
-      // Todo: token request to check if token is active
+      // получение токена не имплементировано на сервере
     } else {
       isLogedIn = false;
     }
+  }
+
+  Future<void> requestSms() async {
+    // получение смс не имплементировано на сервере, поэтому эмулирую
+    smsSend = true;
+    smsCode = await Future.delayed(Durations.short3, () => '1234');
+    notifyListeners();
   }
 
   @override
   Future<void> fetch() {
     // TODO: read access token from local and post to server
     throw UnimplementedError();
+  }
+
+  void sumbitAuth(String code) {
+    if (smsSend && code == smsCode) {
+      isLogedIn = true;
+      smsSend = false;
+      notifyListeners();
+    }
   }
 }
