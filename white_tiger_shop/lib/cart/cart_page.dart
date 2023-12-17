@@ -42,7 +42,8 @@ class CartPage extends StatelessWidget {
                           tooltip: 'Убрать из корзины',
                           onPressed: () {
                             state.cart.removeFromCart(
-                                state.cart.data[productsIds[index]]!);
+                              state.cart.data[productsIds[index]]!,
+                            );
                           },
                         ),
                       );

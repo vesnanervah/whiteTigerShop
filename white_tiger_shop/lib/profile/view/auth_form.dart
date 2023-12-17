@@ -16,20 +16,21 @@ class AuthForm extends StatelessWidget {
     return Form(
       key: formKey,
       child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(header),
-            const SizedBox(height: 20),
-            field,
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => formKey.currentState!.validate()
-                  ? onValialidSubmitClick()
-                  : onInvalidSubmitClick(),
-              child: Text(submitBtnText),
-            )
-          ]),
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(header),
+          const SizedBox(height: 20),
+          field,
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () => formKey.currentState!.validate()
+                ? onValialidSubmitClick()
+                : onInvalidSubmitClick(),
+            child: Text(submitBtnText),
+          ),
+        ],
+      ),
     );
   }
 }

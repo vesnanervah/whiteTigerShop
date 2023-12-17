@@ -16,19 +16,20 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final dbLoad = Hive.initFlutter();
     return FutureBuilder(
-        future: dbLoad,
-        builder: (_, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Provider(
-              create: (context) => AppState(),
-              child: const MaterialApp(
-                title: 'WT Shop',
-                home: CategoryGridPage(),
-              ),
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        });
+      future: dbLoad,
+      builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Provider(
+            create: (context) => AppState(),
+            child: const MaterialApp(
+              title: 'WT Shop',
+              home: CategoryGridPage(),
+            ),
+          );
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }
 

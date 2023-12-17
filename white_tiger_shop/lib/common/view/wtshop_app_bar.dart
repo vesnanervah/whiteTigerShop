@@ -19,7 +19,7 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => ProfilePage()),
+            MaterialPageRoute(builder: (_) => const ProfilePage()),
           ),
           icon: const Icon(Icons.person),
         ),
