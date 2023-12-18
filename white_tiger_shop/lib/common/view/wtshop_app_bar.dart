@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/cart_page.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/main.dart';
 import 'package:white_tiger_shop/profile/profile_page.dart';
 
@@ -14,7 +15,13 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
     final state = context.watch<AppState>();
     return AppBar(
       title: Text(header),
-      backgroundColor: Colors.black12,
+      titleTextStyle: const TextStyle(
+        color: Colors.white70,
+        fontSize: 19,
+        fontWeight: FontWeight.w500,
+      ),
+      iconTheme: const IconThemeData(color: Colors.white70),
+      backgroundColor: MyColors.secondaryColor,
       actions: [
         IconButton(
           onPressed: () => Navigator.push(
@@ -43,7 +50,7 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
               builder: (_, widget) {
                 return Container(
                   decoration: const BoxDecoration(
-                    color: Colors.deepPurple,
+                    color: MyColors.accentColor,
                     shape: BoxShape.circle,
                   ),
                   width: 16,

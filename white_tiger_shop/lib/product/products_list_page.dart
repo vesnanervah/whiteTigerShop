@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/view/base_page.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
@@ -35,6 +36,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
               top: 15,
             ),
             child: DropdownMenu(
+              textStyle: const TextStyle(color: Colors.white70),
               label: const Text('Сортировать'),
               initialSelection: model.sortOptions.options[0],
               onSelected: (option) {
@@ -61,7 +63,10 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                     return Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: const Center(
-                        child: Text('Поздравляем! Вы достигли конца списка!'),
+                        child: Text(
+                          'Поздравляем! Вы достигли конца списка!',
+                          style: TextStyle(color: Colors.white60),
+                        ),
                       ),
                     );
                   }

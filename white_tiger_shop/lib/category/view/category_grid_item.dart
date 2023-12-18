@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/view/networked_image.dart';
 
 class CategoryItemView extends StatelessWidget {
@@ -10,11 +11,11 @@ class CategoryItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.deepPurple,
+      color: const Color.fromRGBO(29, 38, 125, 1),
       elevation: 4,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        splashColor: Colors.black26,
+        splashColor: MyColors.accentColor,
         onTap: () => onClick(),
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -25,7 +26,7 @@ class CategoryItemView extends StatelessWidget {
               Text(
                 category.title,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.white70,
                   fontSize: 13,
                 ),
               ),

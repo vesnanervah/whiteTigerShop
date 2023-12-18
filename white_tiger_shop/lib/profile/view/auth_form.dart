@@ -19,7 +19,10 @@ class AuthForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(header),
+          Text(
+            header,
+            style: const TextStyle(fontSize: 17, color: Colors.white70),
+          ),
           const SizedBox(height: 20),
           field,
           const SizedBox(height: 20),
@@ -27,7 +30,10 @@ class AuthForm extends StatelessWidget {
             onPressed: () => formKey.currentState!.validate()
                 ? onValialidSubmitClick()
                 : onInvalidSubmitClick(),
-            child: Text(submitBtnText),
+            child: Text(
+              submitBtnText,
+              style: const TextStyle(color: Colors.white70),
+            ),
           ),
         ],
       ),

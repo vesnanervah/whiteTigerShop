@@ -19,7 +19,10 @@ class CartPage extends StatelessWidget {
                 const Padding(padding: EdgeInsets.all(5)),
                 ElevatedButton(
                   onPressed: () => state.cart.clearCart(),
-                  child: const Text('Очистить корзину'),
+                  child: const Text(
+                    'Очистить корзину',
+                    style: TextStyle(color: Colors.white70),
+                  ),
                 ),
                 const Padding(padding: EdgeInsets.all(5)),
                 Expanded(
@@ -39,6 +42,7 @@ class CartPage extends StatelessWidget {
                         },
                         trailing: IconButton(
                           icon: const Icon(Icons.close),
+                          color: Colors.white60,
                           tooltip: 'Убрать из корзины',
                           onPressed: () {
                             state.cart.removeFromCart(

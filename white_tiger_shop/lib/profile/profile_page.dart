@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/view/base_page.dart';
 import 'package:white_tiger_shop/main.dart';
 import 'package:white_tiger_shop/profile/model/data/profile_reg_exps.dart';
@@ -31,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
               )
             : Center(
                 child: Card(
+                  color: MyColors.secondaryColor,
                   child: Container(
                     padding: const EdgeInsets.only(
                       top: 20,
@@ -48,7 +50,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               controller: smsInputController,
                               decoration: const InputDecoration(
                                 labelText: 'Код',
+                                labelStyle: TextStyle(color: Colors.white60),
                                 icon: Icon(Icons.numbers),
+                                iconColor: Colors.white60,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -84,12 +88,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           )
                         : AuthForm(
                             _formKey,
-                            'Введите номер телефона',
+                            'Введите номер телефона для входа',
                             'Получить смс',
                             TextFormField(
                               decoration: const InputDecoration(
                                 labelText: 'Номер телефона',
+                                labelStyle: TextStyle(color: Colors.white60),
                                 icon: Icon(Icons.phone),
+                                iconColor: Colors.white60,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {

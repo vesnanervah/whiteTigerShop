@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/model/base_model.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 
@@ -27,7 +28,7 @@ class _BasePageState extends State<BasePage> {
       appBar: WtShopAppBar(widget.header),
       body: Container(
         padding: const EdgeInsets.only(left: 25, right: 25),
-        color: Colors.black12,
+        color: MyColors.primaryColor,
         child: ListenableBuilder(
           listenable: widget.model,
           builder: (BuildContext context, Widget? child) {
@@ -35,7 +36,9 @@ class _BasePageState extends State<BasePage> {
                 ? Center(
                     child: widget.model.lastFetchErrorMsg == null &&
                             !widget.model.isInitiallyUpdated
-                        ? const CircularProgressIndicator()
+                        ? const CircularProgressIndicator(
+                            color: MyColors.accentColor,
+                          )
                         : Text(widget.model.lastFetchErrorMsg!),
                   )
                 : widget.builderCb();

@@ -18,12 +18,13 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
   Widget build(BuildContext context) {
     return BasePage(
       model,
-      'WT Shop',
+      'Категории',
       () => model.update(),
       () => model.data == null
           ? const Center(child: CircularProgressIndicator())
           : model.data!.isNotEmpty
               ? GridView.builder(
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
                   itemCount: model.data!.length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     mainAxisSpacing: 25,

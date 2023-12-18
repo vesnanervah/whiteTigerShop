@@ -20,7 +20,7 @@ class NetworkedImage extends StatelessWidget {
               errorBuilder: (BuildContext context, Object exception,
                       StackTrace? stackTrace) =>
                   Container(
-                color: Colors.grey,
+                color: Colors.white10,
                 child: const Center(
                   child: Text(
                     'Couldn\'t find the image',

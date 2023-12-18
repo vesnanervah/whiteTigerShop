@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/view/networked_image.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
@@ -15,8 +16,14 @@ class ProductsItemView extends StatelessWidget {
     return ListTile(
       onTap: () => onClick(),
       leading: NetworkedImage(100, 100, product.imageUrl),
-      title: Text(product.title),
-      subtitle: Text('Цена: ${product.price}'),
+      title: Text(
+        product.title,
+        style: const TextStyle(color: Colors.white70),
+      ),
+      subtitle: Text(
+        'Цена: ${product.price}',
+        style: const TextStyle(color: Colors.white60),
+      ),
       trailing: trailing,
     );
   }

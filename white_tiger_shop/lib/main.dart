@@ -3,6 +3,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/category/category_grid_page.dart';
+import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/profile/model/profile_model.dart';
 
 void main() {
@@ -21,9 +22,32 @@ class App extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return Provider(
             create: (context) => AppState(),
-            child: const MaterialApp(
+            child: MaterialApp(
+              theme: ThemeData(
+                primaryColor: MyColors.accentColor,
+                textTheme: const TextTheme(
+                  labelLarge: TextStyle(color: Colors.white70),
+                  labelMedium: TextStyle(color: Colors.white70),
+                  labelSmall: TextStyle(color: Colors.white70),
+                  bodySmall: TextStyle(color: Colors.white70),
+                  bodyMedium: TextStyle(color: Colors.white70),
+                  bodyLarge: TextStyle(color: Colors.white70),
+                  titleSmall: TextStyle(color: Colors.white60),
+                  titleMedium: TextStyle(color: Colors.white60),
+                  titleLarge: TextStyle(color: Colors.white70),
+                  headlineSmall: TextStyle(color: Colors.white60),
+                  headlineMedium: TextStyle(color: Colors.white70),
+                  headlineLarge: TextStyle(color: Colors.white70),
+                ),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => MyColors.accentColor),
+                  ),
+                ),
+              ),
               title: 'WT Shop',
-              home: CategoryGridPage(),
+              home: const CategoryGridPage(),
             ),
           );
         }
