@@ -26,9 +26,10 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
               ? GridView.builder(
                   itemCount: model.data!.length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      mainAxisSpacing: 25,
-                      crossAxisSpacing: 25,
-                      maxCrossAxisExtent: 300),
+                    mainAxisSpacing: 25,
+                    crossAxisSpacing: 25,
+                    maxCrossAxisExtent: 300,
+                  ),
                   itemBuilder: (
                     BuildContext context,
                     int count,
