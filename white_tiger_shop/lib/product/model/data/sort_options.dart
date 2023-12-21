@@ -1,6 +1,7 @@
 import "package:white_tiger_shop/product/model/entity/sort_option.dart";
 
 class SortOptions {
+  // TODO: вынести в статическую переменную SortOption.values. Тогда не придется объявлять переменные этого класса
   List<SortOption> options = [
     SortOption('Нет', null),
     SortOption('Сначала дешевле', 1),

@@ -1,7 +1,7 @@
 import 'package:white_tiger_shop/common/controller/entity/base_response.dart';
 
-class MetaWithUnsuccesException implements Exception {
+class MetaWithUnsuccessException implements Exception {
   String errorMsg;
   BaseResp? resp;
-  MetaWithUnsuccesException(this.errorMsg, {this.resp});
+  MetaWithUnsuccessException(this.errorMsg, {this.resp});
 }

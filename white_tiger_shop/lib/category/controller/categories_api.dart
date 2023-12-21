@@ -5,6 +5,7 @@ class CategoriesApi extends BaseApi {
   Future<List<Category>> getCategories() async {
     final resp = await makeApiCall('api/common/category/list', null);
     final rawCats = resp.data['categories'] as List;
+    // TODO: toSet лишний, достаточно сразу toList
     final categories =
         rawCats.map((cat) => Category.fromJson(cat)).toSet().toList();
     return categories;

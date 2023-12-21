@@ -6,6 +6,7 @@ import 'package:white_tiger_shop/product/model/entity/sort_option.dart';
 
 class ProductsModel extends BaseModel<List<Product>> {
   final api = ProductsApi();
+  // TODO: Нет необходимости переопределять get для data. Можно напрямую с ней работать вместо объявления _products
   List<Product>? _products;
   @override
   List<Product>? get data => _products;
@@ -19,6 +20,8 @@ class ProductsModel extends BaseModel<List<Product>> {
 
   @override
   Future<void> fetch() async {
+    // TODO: Обязательно в базовый и индикацию загрузки данных сделать на его основе и пустоте данных.
+    // Т.е. isLoading - гружу. Этот флаг достаточно важный, т.к. позволит проигнорировать повторные вызовы методов загрузки (тут пока именно игнорируем, http не позволяет отменять запросы, а своя логика "отмены" может оказаться довольно сложной)
     isLoading =
         true; //думал вынести в базовый класс, но в остальные модели вписывается не очень
     final resp = await api.getProducts(selectedCategory!, _currentOffset,

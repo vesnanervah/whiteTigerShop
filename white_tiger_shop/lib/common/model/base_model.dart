@@ -1,8 +1,10 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:white_tiger_shop/common/controller/entity/meta_with_unsuccess_exception.dart';
 
+// TODO: Не хватает отсутов между методами и переменными
 abstract class BaseModel<T> extends ChangeNotifier {
   T? data;
   bool isInitiallyUpdated = false;
@@ -12,7 +14,7 @@ abstract class BaseModel<T> extends ChangeNotifier {
     try {
       lastFetchErrorMsg = null;
       await fetch();
-    } on MetaWithUnsuccesException catch (e) {
+    } on MetaWithUnsuccessException catch (e) {
       lastFetchErrorMsg = e.errorMsg;
       log(lastFetchErrorMsg!);
     } on ClientException catch (_) {

@@ -17,6 +17,7 @@ class DetailedProductPage extends StatefulWidget {
 }
 
 class _DetailedProductPageState extends State<DetailedProductPage> {
+  // TODO: productId можно сразу в конструкторе передать. Что бы получить доступ к widget при инициализации переменных нужно делать из late final
   final model = DetailedProductModel();
 
   @override

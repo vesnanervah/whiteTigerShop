@@ -4,9 +4,14 @@ import 'package:white_tiger_shop/common/model/base_model.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 
 class BasePage extends StatefulWidget {
+  // TODO: Объявить в BasePageState, инициализировать в _CategoryGridPageState унаследованном от BasePageState
+  // Использовать generic для объявления типа модели
   final BaseModel model;
+  // TODO: Объявить в BasePageState, переопределить в _CategoryGridPageState унаследованном от BasePageState
   final Widget Function() builderCb;
+  // TODO: Объявить и определить в BasePageState,
   final VoidCallback onInitCb;
+  // TODO: Переименовать в title, т.к. используется для AppBar.title. Header может запутать
   final String header;
   const BasePage(this.model, this.header, this.onInitCb, this.builderCb,
       {super.key});
