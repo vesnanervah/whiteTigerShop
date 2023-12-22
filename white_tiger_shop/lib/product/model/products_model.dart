@@ -14,7 +14,6 @@ class ProductsModel extends BaseModel<List<Product>> {
   SortOption? selectedSortOption;
   bool _isReachedEnd = false;
   bool get isReachedEnd => _isReachedEnd;
-  final SortOptions sortOptions = SortOptions();
 
   @override
   Future<void> fetch() async {

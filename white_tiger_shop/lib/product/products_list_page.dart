@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
-import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/view/base_page.dart';
+import 'package:white_tiger_shop/product/model/data/sort_options.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
@@ -38,12 +38,12 @@ class _ProductsGridPageState extends State<ProductsListPage> {
             child: DropdownMenu(
               textStyle: const TextStyle(color: Colors.white70),
               label: const Text('Сортировать'),
-              initialSelection: model.sortOptions.options[0],
+              initialSelection: SortOptions.options[0],
               onSelected: (option) {
                 model.selectedSortOption = option;
                 model.reloadData();
               },
-              dropdownMenuEntries: model.sortOptions.options
+              dropdownMenuEntries: SortOptions.options
                   .map(
                     (option) => DropdownMenuEntry(
                       value: option,
