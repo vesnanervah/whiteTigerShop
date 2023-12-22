@@ -7,8 +7,13 @@ abstract class BaseModel<T> extends ChangeNotifier {
   T? data;
   bool isInitiallyUpdated = false;
   String? lastFetchErrorMsg;
+  bool isLoading = false;
+
   Future<void> fetch();
+
   Future<void> update() async {
+    if (isLoading) return;
+    isLoading = true;
     try {
       lastFetchErrorMsg = null;
       await fetch();
@@ -22,6 +27,7 @@ abstract class BaseModel<T> extends ChangeNotifier {
       lastFetchErrorMsg = 'I am a teapot';
     } finally {
       if (!isInitiallyUpdated) isInitiallyUpdated = true;
+      isLoading = false;
       notifyListeners();
     }
   }
