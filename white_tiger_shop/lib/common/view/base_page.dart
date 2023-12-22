@@ -7,8 +7,8 @@ class BasePage extends StatefulWidget {
   final BaseModel model;
   final Widget Function() builderCb;
   final VoidCallback onInitCb;
-  final String header;
-  const BasePage(this.model, this.header, this.onInitCb, this.builderCb,
+  final String title;
+  const BasePage(this.model, this.title, this.onInitCb, this.builderCb,
       {super.key});
 
   @override
@@ -25,7 +25,7 @@ class _BasePageState extends State<BasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WtShopAppBar(widget.header),
+      appBar: WtShopAppBar(widget.title),
       body: Container(
         padding: const EdgeInsets.only(left: 25, right: 25),
         color: MyColors.primaryColor,

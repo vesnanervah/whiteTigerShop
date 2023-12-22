@@ -14,4 +14,13 @@ class ProductsApi extends BaseApi {
         (resp.data as List).map((prod) => Product.fromJson(prod)).toList();
     return products;
   }
+
+  Future<Product> getDetailedProduct(int productId) async {
+    final resp = (await makeApiCall(
+      'api/common/product/details',
+      {'productId': '$productId'},
+    ))
+        .data;
+    return Product.fromJson(resp);
+  }
 }

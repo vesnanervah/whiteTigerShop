@@ -1,6 +1,5 @@
 import 'package:white_tiger_shop/common/model/base_model.dart';
 import 'package:white_tiger_shop/product/controller/products_api.dart';
-import 'package:white_tiger_shop/product/model/data/sort_options.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 import 'package:white_tiger_shop/product/model/entity/sort_option.dart';
 
