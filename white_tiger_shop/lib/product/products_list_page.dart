@@ -6,28 +6,20 @@ import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
-class ProductsListPage extends StatefulWidget {
+class ProductsListPage extends BasePage {
   final Category category;
 
-  const ProductsListPage(this.category, {super.key});
+  ProductsListPage(this.category, {super.key}) : super(category.title);
 
   @override
-  State<ProductsListPage> createState() => _ProductsGridPageState();
+  State<BasePage> createState() => _ProductsGridPageState();
 }
 
-class _ProductsGridPageState extends State<ProductsListPage> {
-  final model = ProductsModel();
+class _ProductsGridPageState extends BasePageState {
+  _ProductsGridPageState() : super(ProductsModel());
 
   @override
-  Widget build(BuildContext context) {
-    return BasePage(
-      model,
-      widget.category.title,
-      () {
-        model.selectedCategory = widget.category.categoryId;
-        model.update();
-      },
-      () => Column(
+  Widget builderCb(BuildContext context) => Column(
         children: [
           Container(
             padding: const EdgeInsets.only(
@@ -40,8 +32,8 @@ class _ProductsGridPageState extends State<ProductsListPage> {
               label: const Text('Сортировать'),
               initialSelection: SortOptions.options[0],
               onSelected: (option) {
-                model.selectedSortOption = option;
-                model.reloadData();
+                (model as ProductsModel).selectedSortOption = option;
+                (model as ProductsModel).reloadData();
               },
               dropdownMenuEntries: SortOptions.options
                   .map(
@@ -55,11 +47,11 @@ class _ProductsGridPageState extends State<ProductsListPage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: model.data!.length + 1,
+              itemCount: model!.data!.length + 1,
               itemBuilder: (_, index) {
-                if (index == model.data!.length) {
+                if (index == model!.data!.length) {
                   // достигли конца списка и крайнего офсета
-                  if (model.isReachedEnd) {
+                  if ((model as ProductsModel).isReachedEnd) {
                     return Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: const Center(
@@ -71,7 +63,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                     );
                   }
                   // достигли конца списка, но запас офсета с сервера ещё есть
-                  model.update();
+                  model!.update();
                   return Container(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: const Center(
@@ -81,12 +73,12 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                 }
                 //конец списка не достигнут, рендерим продукты
                 return ProductsItemView(
-                  model.data![index],
+                  model!.data![index],
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => DetailedProductPage(
-                        model.data![index],
+                        model!.data![index],
                       ),
                     ),
                   ),
@@ -95,7 +87,12 @@ class _ProductsGridPageState extends State<ProductsListPage> {
             ),
           ),
         ],
-      ),
-    );
+      );
+
+  @override
+  void onInitCb() {
+    (model as ProductsModel).selectedCategory =
+        (widget as ProductsListPage).category.categoryId;
+    model!.update();
   }
 }

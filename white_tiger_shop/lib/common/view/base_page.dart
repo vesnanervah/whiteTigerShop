@@ -1,25 +1,27 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/model/base_model.dart';
 import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
 
-class BasePage extends StatefulWidget {
-  final BaseModel model;
-  final Widget Function() builderCb;
-  final VoidCallback onInitCb;
+abstract class BasePage extends StatefulWidget {
   final String title;
-  const BasePage(this.model, this.title, this.onInitCb, this.builderCb,
-      {super.key});
 
-  @override
-  State<BasePage> createState() => _BasePageState();
+  const BasePage(this.title, {super.key});
 }
 
-class _BasePageState extends State<BasePage> {
+abstract class BasePageState extends State<BasePage> {
+  BaseModel? model;
+
+  BasePageState(this.model);
+
+  Widget builderCb(BuildContext context);
+  void onInitCb();
+
   @override
   void initState() {
     super.initState();
-    widget.onInitCb();
+    onInitCb();
   }
 
   @override
@@ -30,18 +32,19 @@ class _BasePageState extends State<BasePage> {
         padding: const EdgeInsets.only(left: 25, right: 25),
         color: MyColors.primaryColor,
         child: ListenableBuilder(
-          listenable: widget.model,
+          listenable: model!,
           builder: (BuildContext context, Widget? child) {
-            return widget.model.data == null
+            model != null ? log('model defined') : log('model undefined');
+            return model!.data == null
                 ? Center(
-                    child: widget.model.lastFetchErrorMsg == null &&
-                            !widget.model.isInitiallyUpdated
+                    child: model!.lastFetchErrorMsg == null &&
+                            !model!.isInitiallyUpdated
                         ? const CircularProgressIndicator(
                             color: MyColors.accentColor,
                           )
-                        : Text(widget.model.lastFetchErrorMsg!),
+                        : Text(model!.lastFetchErrorMsg!),
                   )
-                : widget.builderCb();
+                : builderCb(context);
           },
         ),
       ),
