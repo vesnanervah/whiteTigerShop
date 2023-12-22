@@ -10,10 +10,8 @@ class ProductsApi extends BaseApi {
       if (sortType != null) 'sortType': '$sortType',
     };
     final resp = await makeApiCall('api/common/product/list', query);
-    final products = (resp.data as List)
-        .map((prod) => Product.fromJson(prod))
-        .toSet()
-        .toList();
+    final products =
+        (resp.data as List).map((prod) => Product.fromJson(prod)).toList();
     return products;
   }
 }
