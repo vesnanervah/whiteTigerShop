@@ -1,13 +1,13 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:white_tiger_shop/common/model/base_model.dart';
+import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class CartModel extends BaseModel<Map<int, Product>> {
-  Map<int, Product> _products = {};
+  static Map<int, Product> _products = {};
   @override
   Map<int, Product> get data => _products;
-  Box? cartBox;
+  static Box? cartBox;
 
   CartModel() {
     update();
@@ -51,6 +51,7 @@ class CartModel extends BaseModel<Map<int, Product>> {
 
   @override
   Future<void> fetch() async {
+    if (cartBox != null) return;
     Hive.registerAdapter<Product>(ProductAdapter());
     cartBox = await Hive.openBox('cartBox');
     final saved = cartBox!.get('cart');

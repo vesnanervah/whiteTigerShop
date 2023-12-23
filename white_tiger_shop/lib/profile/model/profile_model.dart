@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:white_tiger_shop/common/model/base_model.dart';
+import 'package:white_tiger_shop/core/model/base_model.dart';
 
 class ProfileModel extends BaseModel {
-  bool? isLogedIn;
-  String? token;
-  bool smsSend = false;
-  String? smsCode;
-  Box? profileBox;
+  static bool? isLogedIn;
+  static String? token;
+  static bool smsSend = false;
+  static String? smsCode;
+  static Box? profileBox;
 
   @override
   bool? get data => isLogedIn;
@@ -17,6 +17,7 @@ class ProfileModel extends BaseModel {
   }
 
   Future<void> checkSavedToken() async {
+    if (profileBox != null) return;
     profileBox = await Hive.openBox('profile');
     String? savedToken = profileBox!.get('token');
     if (savedToken != null) {

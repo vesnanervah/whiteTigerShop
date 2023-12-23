@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/entity/category.dart';
-import 'package:white_tiger_shop/common/data/my_colors.dart';
-import 'package:white_tiger_shop/common/view/base_page.dart';
+import 'package:white_tiger_shop/core/page/base_page.dart';
+import 'package:white_tiger_shop/product/model/data/sort_options.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
-class ProductsListPage extends StatefulWidget {
+class ProductsListPage extends BasePage {
   final Category category;
 
-  const ProductsListPage(this.category, {super.key});
+  ProductsListPage(this.category, {super.key}) : super(category.title);
 
   @override
-  State<ProductsListPage> createState() => _ProductsGridPageState();
+  State<BasePage> createState() => _ProductsGridPageState();
 }
 
-class _ProductsGridPageState extends State<ProductsListPage> {
-  final model = ProductsModel();
+class _ProductsGridPageState
+    extends BasePageState<ProductsModel, ProductsListPage> {
+  _ProductsGridPageState() {
+    model = ProductsModel();
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return BasePage(
-      model,
-      widget.category.title,
-      () {
-        model.selectedCategory = widget.category.categoryId;
-        model.update();
-      },
-      () => Column(
+  Widget builderCb(BuildContext context) => Column(
         children: [
           Container(
             padding: const EdgeInsets.only(
@@ -38,12 +33,12 @@ class _ProductsGridPageState extends State<ProductsListPage> {
             child: DropdownMenu(
               textStyle: const TextStyle(color: Colors.white70),
               label: const Text('Сортировать'),
-              initialSelection: model.sortOptions.options[0],
+              initialSelection: SortOptions.options[0],
               onSelected: (option) {
-                model.selectedSortOption = option;
-                model.reloadData();
+                (model).selectedSortOption = option;
+                (model).reloadData();
               },
-              dropdownMenuEntries: model.sortOptions.options
+              dropdownMenuEntries: SortOptions.options
                   .map(
                     (option) => DropdownMenuEntry(
                       value: option,
@@ -59,7 +54,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
               itemBuilder: (_, index) {
                 if (index == model.data!.length) {
                   // достигли конца списка и крайнего офсета
-                  if (model.isReachedEnd) {
+                  if ((model).isReachedEnd) {
                     return Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: const Center(
@@ -71,7 +66,7 @@ class _ProductsGridPageState extends State<ProductsListPage> {
                     );
                   }
                   // достигли конца списка, но запас офсета с сервера ещё есть
-                  if (!model.isLoading) model.update();
+                  model.update();
                   return Container(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: const Center(
@@ -95,7 +90,11 @@ class _ProductsGridPageState extends State<ProductsListPage> {
             ),
           ),
         ],
-      ),
-    );
+      );
+
+  @override
+  void onInitCb() {
+    model.selectedCategory = widget.category.categoryId;
+    model.update();
   }
 }
