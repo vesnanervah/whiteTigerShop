@@ -18,14 +18,13 @@ class _CartPageState extends BasePageState {
 
   @override
   Widget builderCb(BuildContext context) {
-    final state = context.watch<AppState>();
-    final productsIds = state.cart.data.keys.toList();
+    final productsIds = (model as CartModel).data.keys.toList();
     return productsIds.isNotEmpty
         ? Column(
             children: [
               const Padding(padding: EdgeInsets.all(5)),
               ElevatedButton(
-                onPressed: () => state.cart.clearCart(),
+                onPressed: () => (model as CartModel).clearCart(),
                 child: const Text(
                   'Очистить корзину',
                   style: TextStyle(color: Colors.white70),
@@ -36,13 +35,13 @@ class _CartPageState extends BasePageState {
                 child: ListView.separated(
                   itemBuilder: (_, index) {
                     return ProductsItemView(
-                      state.cart.data[productsIds[index]]!,
+                      (model as CartModel).data[productsIds[index]]!,
                       () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => DetailedProductPage(
-                              state.cart.data[productsIds[index]]!,
+                              (model as CartModel).data[productsIds[index]]!,
                             ),
                           ),
                         );
@@ -52,15 +51,15 @@ class _CartPageState extends BasePageState {
                         color: Colors.white60,
                         tooltip: 'Убрать из корзины',
                         onPressed: () {
-                          state.cart.removeFromCart(
-                            state.cart.data[productsIds[index]]!,
+                          (model as CartModel).removeFromCart(
+                            (model as CartModel).data[productsIds[index]]!,
                           );
                         },
                       ),
                     );
                   },
                   separatorBuilder: (_, index) => const Divider(height: 10),
-                  itemCount: state.cart.getLen(),
+                  itemCount: (model as CartModel).getLen(),
                 ),
               )
             ],
