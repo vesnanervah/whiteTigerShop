@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/category/model/categories_model.dart';
 import 'package:white_tiger_shop/category/view/category_grid_item.dart';
-import 'package:white_tiger_shop/common/view/base_page.dart';
+import 'package:white_tiger_shop/core/page/base_page.dart';
 import 'package:white_tiger_shop/product/products_list_page.dart';
 
 class CategoryGridPage extends BasePage {

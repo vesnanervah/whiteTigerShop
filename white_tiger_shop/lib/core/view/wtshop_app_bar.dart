@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/cart_page.dart';
-import 'package:white_tiger_shop/common/data/my_colors.dart';
-import 'package:white_tiger_shop/main.dart';
+import 'package:white_tiger_shop/core/application.dart';
+import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/profile/profile_page.dart';
 
 class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {

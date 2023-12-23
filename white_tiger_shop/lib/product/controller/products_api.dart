@@ -1,4 +1,4 @@
-import 'package:white_tiger_shop/common/controller/base_api.dart';
+import 'package:white_tiger_shop/core/controller/base_api.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class ProductsApi extends BaseApi {

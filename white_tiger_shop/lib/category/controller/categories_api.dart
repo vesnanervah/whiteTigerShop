@@ -1,5 +1,5 @@
 import 'package:white_tiger_shop/category/model/entity/category.dart';
-import 'package:white_tiger_shop/common/controller/base_api.dart';
+import 'package:white_tiger_shop/core/controller/base_api.dart';
 
 class CategoriesApi extends BaseApi {
   Future<List<Category>> getCategories() async {

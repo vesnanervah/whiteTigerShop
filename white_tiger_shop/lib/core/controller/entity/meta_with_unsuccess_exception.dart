@@ -1,4 +1,4 @@
-import 'package:white_tiger_shop/common/controller/entity/base_response.dart';
+import 'package:white_tiger_shop/core/controller/entity/base_response.dart';
 
 class MetaWithUnsuccesException implements Exception {
   String errorMsg;

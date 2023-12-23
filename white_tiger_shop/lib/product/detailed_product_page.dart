@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:white_tiger_shop/common/data/my_colors.dart';
-import 'package:white_tiger_shop/common/view/base_page.dart';
-import 'package:white_tiger_shop/common/view/networked_image.dart';
-import 'package:white_tiger_shop/main.dart';
+import 'package:white_tiger_shop/core/application.dart';
+import 'package:white_tiger_shop/core/view/my_colors.dart';
+import 'package:white_tiger_shop/core/page/base_page.dart';
+import 'package:white_tiger_shop/core/view/networked_image.dart';
 import 'package:white_tiger_shop/product/model/detailed_product_model.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
@@ -18,13 +18,6 @@ class DetailedProductPage extends BasePage {
 
 class _DetailedProductPageState
     extends BasePageState<DetailedProductModel, DetailedProductPage> {
-  late final int productId;
-
-  _DetailedProductPageState() {
-    productId = widget.product.productId;
-    model = DetailedProductModel(productId);
-  }
-
   double calculateCardWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     if (width < 575) {
@@ -37,7 +30,7 @@ class _DetailedProductPageState
 
   @override
   void onInitCb() {
-    model.productId = widget.product.productId;
+    model = DetailedProductModel(widget.product.productId);
     model.update();
   }
 

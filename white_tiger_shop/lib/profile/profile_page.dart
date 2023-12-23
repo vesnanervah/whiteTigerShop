@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/common/data/my_colors.dart';
-import 'package:white_tiger_shop/common/view/base_page.dart';
+import 'package:white_tiger_shop/core/view/my_colors.dart';
+import 'package:white_tiger_shop/core/page/base_page.dart';
 import 'package:white_tiger_shop/profile/model/data/profile_reg_exps.dart';
 import 'package:white_tiger_shop/profile/model/profile_model.dart';
 import 'package:white_tiger_shop/profile/view/auth_form.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:white_tiger_shop/common/model/base_model.dart';
+import 'package:white_tiger_shop/core/model/base_model.dart';
 
 class ProfileModel extends BaseModel {
   static bool? isLogedIn;

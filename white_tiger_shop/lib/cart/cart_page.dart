@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/cart/model/cart_model.dart';
-import 'package:white_tiger_shop/common/view/base_page.dart';
+import 'package:white_tiger_shop/core/page/base_page.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
@@ -18,7 +18,7 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
 
   @override
   Widget builderCb(BuildContext context) {
-    final productsIds = (model).data.keys.toList();
+    final productsIds = model.data.keys.toList();
     return productsIds.isNotEmpty
         ? Column(
             children: [
@@ -35,15 +35,15 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
                 child: ListView.separated(
                   itemBuilder: (_, index) {
                     return ProductsItemView(
-                      (model).data[productsIds[index]]!,
+                      model.data[productsIds[index]]!,
                       () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (_) => DetailedProductPage(
-                              (model).data[productsIds[index]]!,
-                            ),
-                          ),
+                          MaterialPageRoute(builder: (_) {
+                            return DetailedProductPage(
+                              model.data[productsIds[index]]!,
+                            );
+                          }),
                         );
                       },
                       trailing: IconButton(

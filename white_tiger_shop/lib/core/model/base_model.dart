@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:white_tiger_shop/common/controller/entity/meta_with_unsuccess_exception.dart';
+import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
 
 abstract class BaseModel<T> extends ChangeNotifier {
   T? data;

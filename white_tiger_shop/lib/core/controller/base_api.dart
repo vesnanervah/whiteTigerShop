@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:white_tiger_shop/common/controller/entity/base_response.dart';
+import 'package:white_tiger_shop/core/controller/entity/base_response.dart';
 import 'package:http/http.dart' as http;
-import 'package:white_tiger_shop/common/controller/entity/meta_with_unsuccess_exception.dart';
+import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
 
 class BaseApi {
   final key =

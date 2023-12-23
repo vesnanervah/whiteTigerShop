@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/common/data/my_colors.dart';
-import 'package:white_tiger_shop/common/model/base_model.dart';
-import 'package:white_tiger_shop/common/view/wtshop_app_bar.dart';
+import 'package:white_tiger_shop/core/view/my_colors.dart';
+import 'package:white_tiger_shop/core/model/base_model.dart';
+import 'package:white_tiger_shop/core/view/wtshop_app_bar.dart';
 
 abstract class BasePage extends StatefulWidget {
   final String title;
