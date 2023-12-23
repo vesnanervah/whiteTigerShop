@@ -11,7 +11,8 @@ class CategoryGridPage extends BasePage {
   State<BasePage> createState() => _CategoryGridPageState();
 }
 
-class _CategoryGridPageState extends BasePageState<CategoriesModel> {
+class _CategoryGridPageState
+    extends BasePageState<CategoriesModel, CategoryGridPage> {
   //tried many constructions, but dart alerts of value used before initialization. This is only one of worked.
   _CategoryGridPageState() : super(CategoriesModel());
 

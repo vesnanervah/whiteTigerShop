@@ -47,9 +47,9 @@ class _ProductsGridPageState extends BasePageState {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: model!.data!.length + 1,
+              itemCount: model.data!.length + 1,
               itemBuilder: (_, index) {
-                if (index == model!.data!.length) {
+                if (index == model.data!.length) {
                   // достигли конца списка и крайнего офсета
                   if ((model as ProductsModel).isReachedEnd) {
                     return Container(
@@ -63,7 +63,7 @@ class _ProductsGridPageState extends BasePageState {
                     );
                   }
                   // достигли конца списка, но запас офсета с сервера ещё есть
-                  model!.update();
+                  model.update();
                   return Container(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: const Center(
@@ -73,12 +73,12 @@ class _ProductsGridPageState extends BasePageState {
                 }
                 //конец списка не достигнут, рендерим продукты
                 return ProductsItemView(
-                  model!.data![index],
+                  model.data![index],
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => DetailedProductPage(
-                        model!.data![index],
+                        model.data![index],
                       ),
                     ),
                   ),
@@ -93,6 +93,6 @@ class _ProductsGridPageState extends BasePageState {
   void onInitCb() {
     (model as ProductsModel).selectedCategory =
         (widget as ProductsListPage).category.categoryId;
-    model!.update();
+    model.update();
   }
 }

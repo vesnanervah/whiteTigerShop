@@ -44,7 +44,6 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
               icon: const Icon(Icons.shopping_cart),
             ),
-            //TODO: profile icon, leading to login in not auth'ed state or in profile in other case
             ListenableBuilder(
               listenable: state.cart,
               builder: (_, widget) {

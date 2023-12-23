@@ -13,10 +13,11 @@ class DetailedProductPage extends BasePage {
   DetailedProductPage(this.product, {super.key}) : super(product.title);
 
   @override
-  State<BasePage> createState() => _DetailedProductPageState();
+  State<DetailedProductPage> createState() => _DetailedProductPageState();
 }
 
-class _DetailedProductPageState extends BasePageState<DetailedProductModel> {
+class _DetailedProductPageState
+    extends BasePageState<DetailedProductModel, DetailedProductPage> {
   _DetailedProductPageState() : super(DetailedProductModel());
 
   double calculateCardWidth(BuildContext context) {
@@ -31,9 +32,7 @@ class _DetailedProductPageState extends BasePageState<DetailedProductModel> {
 
   @override
   void onInitCb() {
-    // ignore: unnecessary_cast
-    (model as DetailedProductModel).productId =
-        (widget as DetailedProductPage).product.productId;
+    model.productId = widget.product.productId;
     model.update();
   }
 

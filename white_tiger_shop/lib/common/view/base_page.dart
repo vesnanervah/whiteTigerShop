@@ -9,13 +9,14 @@ abstract class BasePage extends StatefulWidget {
   const BasePage(this.title, {super.key});
 }
 
-abstract class BasePageState<T extends BaseModel> extends State<BasePage> {
+abstract class BasePageState<M extends BaseModel, S extends BasePage>
+    extends State<S> {
   /* Прокидывание модели через наследников базового стейта оказалось чревато тем, что в случаях,
    когда модели брались из контекста (корзина) и имели только один экземпляр
    теперь получают каждый раз по экземпляру при построении.
    Возможно такие модели надо сделать singleton  
   */
-  T model;
+  M model;
 
   BasePageState(this.model);
 

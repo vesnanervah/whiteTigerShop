@@ -11,7 +11,7 @@ class CartPage extends BasePage {
   State<BasePage> createState() => _CartPageState();
 }
 
-class _CartPageState extends BasePageState<CartModel> {
+class _CartPageState extends BasePageState<CartModel, CartPage> {
   _CartPageState() : super(CartModel());
 
   @override

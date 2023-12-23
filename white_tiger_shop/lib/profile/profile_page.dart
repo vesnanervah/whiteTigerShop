@@ -12,7 +12,7 @@ class ProfilePage extends BasePage {
   State<BasePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends BasePageState<ProfileModel> {
+class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final ProfileRegularExpressions regs = ProfileRegularExpressions();
   final TextEditingController smsInputController = TextEditingController();

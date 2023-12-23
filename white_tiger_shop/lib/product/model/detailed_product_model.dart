@@ -9,6 +9,8 @@ class DetailedProductModel extends BaseModel<Product> {
   @override
   Product? get data => _product;
 
+  DetailedProductModel();
+
   @override
   Future<void> fetch() async {
     _product = await api.getDetailedProduct(productId!);
