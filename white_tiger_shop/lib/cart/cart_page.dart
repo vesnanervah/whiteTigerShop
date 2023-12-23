@@ -12,7 +12,9 @@ class CartPage extends BasePage {
 }
 
 class _CartPageState extends BasePageState<CartModel, CartPage> {
-  _CartPageState() : super(CartModel());
+  _CartPageState() {
+    model = CartModel();
+  }
 
   @override
   Widget builderCb(BuildContext context) {

@@ -18,7 +18,12 @@ class DetailedProductPage extends BasePage {
 
 class _DetailedProductPageState
     extends BasePageState<DetailedProductModel, DetailedProductPage> {
-  _DetailedProductPageState() : super(DetailedProductModel());
+  late final int productId;
+
+  _DetailedProductPageState() {
+    productId = widget.product.productId;
+    model = DetailedProductModel(productId);
+  }
 
   double calculateCardWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;

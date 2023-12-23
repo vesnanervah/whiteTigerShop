@@ -16,9 +16,9 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
    теперь получают каждый раз по экземпляру при построении.
    Возможно такие модели надо сделать singleton  
   */
-  M model;
+  late final M model;
 
-  BasePageState(this.model);
+  BasePageState();
 
   Widget builderCb(BuildContext context);
   void onInitCb();

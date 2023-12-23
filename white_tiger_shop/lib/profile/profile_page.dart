@@ -17,7 +17,9 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   final ProfileRegularExpressions regs = ProfileRegularExpressions();
   final TextEditingController smsInputController = TextEditingController();
 
-  _ProfilePageState() : super(ProfileModel());
+  _ProfilePageState() {
+    model = ProfileModel();
+  }
 
   @override
   void onInitCb() {}

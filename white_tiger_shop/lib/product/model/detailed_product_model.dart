@@ -4,12 +4,12 @@ import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class DetailedProductModel extends BaseModel<Product> {
   final api = ProductsApi();
-  int? productId;
+  int productId;
   Product? _product;
   @override
   Product? get data => _product;
 
-  DetailedProductModel();
+  DetailedProductModel(this.productId);
 
   @override
   Future<void> fetch() async {

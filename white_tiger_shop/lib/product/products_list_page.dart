@@ -15,8 +15,11 @@ class ProductsListPage extends BasePage {
   State<BasePage> createState() => _ProductsGridPageState();
 }
 
-class _ProductsGridPageState extends BasePageState {
-  _ProductsGridPageState() : super(ProductsModel());
+class _ProductsGridPageState
+    extends BasePageState<ProductsModel, ProductsListPage> {
+  _ProductsGridPageState() {
+    model = ProductsModel();
+  }
 
   @override
   Widget builderCb(BuildContext context) => Column(
@@ -32,8 +35,8 @@ class _ProductsGridPageState extends BasePageState {
               label: const Text('Сортировать'),
               initialSelection: SortOptions.options[0],
               onSelected: (option) {
-                (model as ProductsModel).selectedSortOption = option;
-                (model as ProductsModel).reloadData();
+                (model).selectedSortOption = option;
+                (model).reloadData();
               },
               dropdownMenuEntries: SortOptions.options
                   .map(
@@ -51,7 +54,7 @@ class _ProductsGridPageState extends BasePageState {
               itemBuilder: (_, index) {
                 if (index == model.data!.length) {
                   // достигли конца списка и крайнего офсета
-                  if ((model as ProductsModel).isReachedEnd) {
+                  if ((model).isReachedEnd) {
                     return Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: const Center(
@@ -91,8 +94,7 @@ class _ProductsGridPageState extends BasePageState {
 
   @override
   void onInitCb() {
-    (model as ProductsModel).selectedCategory =
-        (widget as ProductsListPage).category.categoryId;
+    model.selectedCategory = widget.category.categoryId;
     model.update();
   }
 }
