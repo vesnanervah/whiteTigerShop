@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/common/view/base_page.dart';
-import 'package:white_tiger_shop/main.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
@@ -13,18 +11,18 @@ class CartPage extends BasePage {
   State<BasePage> createState() => _CartPageState();
 }
 
-class _CartPageState extends BasePageState {
+class _CartPageState extends BasePageState<CartModel> {
   _CartPageState() : super(CartModel());
 
   @override
   Widget builderCb(BuildContext context) {
-    final productsIds = (model as CartModel).data.keys.toList();
+    final productsIds = (model).data.keys.toList();
     return productsIds.isNotEmpty
         ? Column(
             children: [
               const Padding(padding: EdgeInsets.all(5)),
               ElevatedButton(
-                onPressed: () => (model as CartModel).clearCart(),
+                onPressed: () => (model).clearCart(),
                 child: const Text(
                   'Очистить корзину',
                   style: TextStyle(color: Colors.white70),
@@ -35,13 +33,13 @@ class _CartPageState extends BasePageState {
                 child: ListView.separated(
                   itemBuilder: (_, index) {
                     return ProductsItemView(
-                      (model as CartModel).data[productsIds[index]]!,
+                      (model).data[productsIds[index]]!,
                       () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => DetailedProductPage(
-                              (model as CartModel).data[productsIds[index]]!,
+                              (model).data[productsIds[index]]!,
                             ),
                           ),
                         );
@@ -51,15 +49,15 @@ class _CartPageState extends BasePageState {
                         color: Colors.white60,
                         tooltip: 'Убрать из корзины',
                         onPressed: () {
-                          (model as CartModel).removeFromCart(
-                            (model as CartModel).data[productsIds[index]]!,
+                          (model).removeFromCart(
+                            (model).data[productsIds[index]]!,
                           );
                         },
                       ),
                     );
                   },
                   separatorBuilder: (_, index) => const Divider(height: 10),
-                  itemCount: (model as CartModel).getLen(),
+                  itemCount: (model).getLen(),
                 ),
               )
             ],

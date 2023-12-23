@@ -16,7 +16,7 @@ class DetailedProductPage extends BasePage {
   State<BasePage> createState() => _DetailedProductPageState();
 }
 
-class _DetailedProductPageState extends BasePageState {
+class _DetailedProductPageState extends BasePageState<DetailedProductModel> {
   _DetailedProductPageState() : super(DetailedProductModel());
 
   double calculateCardWidth(BuildContext context) {
@@ -31,9 +31,10 @@ class _DetailedProductPageState extends BasePageState {
 
   @override
   void onInitCb() {
+    // ignore: unnecessary_cast
     (model as DetailedProductModel).productId =
         (widget as DetailedProductPage).product.productId;
-    model!.update();
+    model.update();
   }
 
   @override
@@ -58,10 +59,10 @@ class _DetailedProductPageState extends BasePageState {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Center(
-                        child: NetworkedImage(180, 180, model!.data!.imageUrl)),
+                        child: NetworkedImage(180, 180, model.data!.imageUrl)),
                     const SizedBox(height: 15),
                     Text(
-                      model!.data!.title,
+                      model.data!.title,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 19,
@@ -70,15 +71,15 @@ class _DetailedProductPageState extends BasePageState {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Цена: ${model!.data!.price}',
+                      'Цена: ${model.data!.price}',
                       style: const TextStyle(fontSize: 16, height: 1.5),
                     ),
                     Text(
-                      'Категория: ${model!.data!.category ?? 'Не предоставлено'}',
+                      'Категория: ${model.data!.category ?? 'Не предоставлено'}',
                       style: const TextStyle(fontSize: 16, height: 1.5),
                     ),
                     Text(
-                      'Описание: ${model!.data!.productDescription != null && model!.data!.productDescription!.isNotEmpty ? model!.data!.productDescription! : 'Не предоставлено'}',
+                      'Описание: ${model.data!.productDescription != null && model.data!.productDescription!.isNotEmpty ? model.data!.productDescription! : 'Не предоставлено'}',
                       style: const TextStyle(fontSize: 16, height: 1.5),
                     ),
                     const SizedBox(height: 10),
@@ -89,13 +90,13 @@ class _DetailedProductPageState extends BasePageState {
                           return ElevatedButton(
                             // add styles according to cart changes
                             onPressed: () {
-                              if (state.cart.inCart(model!.data!)) {
-                                state.cart.removeFromCart(model!.data!);
+                              if (state.cart.inCart(model.data!)) {
+                                state.cart.removeFromCart(model.data!);
                               } else {
-                                state.cart.addToCart(model!.data!);
+                                state.cart.addToCart(model.data!);
                               }
                             },
-                            child: state.cart.inCart(model!.data!)
+                            child: state.cart.inCart(model.data!)
                                 ? const Text(
                                     'В корзине',
                                     style: TextStyle(color: Colors.white70),

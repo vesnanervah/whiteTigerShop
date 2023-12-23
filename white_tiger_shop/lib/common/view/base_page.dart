@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/model/base_model.dart';
@@ -10,8 +9,13 @@ abstract class BasePage extends StatefulWidget {
   const BasePage(this.title, {super.key});
 }
 
-abstract class BasePageState extends State<BasePage> {
-  BaseModel? model;
+abstract class BasePageState<T extends BaseModel> extends State<BasePage> {
+  /* Прокидывание модели через наследников базового стейта оказалось чревато тем, что в случаях,
+   когда модели брались из контекста (корзина) и имели только один экземпляр
+   теперь получают каждый раз по экземпляру при построении.
+   Возможно такие модели надо сделать singleton  
+  */
+  T model;
 
   BasePageState(this.model);
 
@@ -32,17 +36,16 @@ abstract class BasePageState extends State<BasePage> {
         padding: const EdgeInsets.only(left: 25, right: 25),
         color: MyColors.primaryColor,
         child: ListenableBuilder(
-          listenable: model!,
+          listenable: model,
           builder: (BuildContext context, Widget? child) {
-            model != null ? log('model defined') : log('model undefined');
-            return model!.data == null
+            return model.data == null
                 ? Center(
-                    child: model!.lastFetchErrorMsg == null &&
-                            !model!.isInitiallyUpdated
+                    child: model.lastFetchErrorMsg == null &&
+                            !model.isInitiallyUpdated
                         ? const CircularProgressIndicator(
                             color: MyColors.accentColor,
                           )
-                        : Text(model!.lastFetchErrorMsg!),
+                        : Text(model.lastFetchErrorMsg!),
                   )
                 : builderCb(context);
           },

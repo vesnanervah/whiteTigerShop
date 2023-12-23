@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/common/data/my_colors.dart';
 import 'package:white_tiger_shop/common/view/base_page.dart';
-import 'package:white_tiger_shop/main.dart';
 import 'package:white_tiger_shop/profile/model/data/profile_reg_exps.dart';
 import 'package:white_tiger_shop/profile/model/profile_model.dart';
 import 'package:white_tiger_shop/profile/view/auth_form.dart';
@@ -14,7 +12,7 @@ class ProfilePage extends BasePage {
   State<BasePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends BasePageState {
+class _ProfilePageState extends BasePageState<ProfileModel> {
   final _formKey = GlobalKey<FormState>();
   final ProfileRegularExpressions regs = ProfileRegularExpressions();
   final TextEditingController smsInputController = TextEditingController();
@@ -26,8 +24,7 @@ class _ProfilePageState extends BasePageState {
 
   @override
   Widget builderCb(BuildContext context) {
-    final state = context.watch<AppState>();
-    return state.profile.isLogedIn!
+    return ProfileModel.isLogedIn!
         ? const Center(
             child: Text('profile page'),
           )
@@ -42,7 +39,7 @@ class _ProfilePageState extends BasePageState {
                   left: 15,
                 ),
                 constraints: const BoxConstraints(maxWidth: 340),
-                child: state.profile.smsSend
+                child: ProfileModel.smsSend
                     ? AuthForm(
                         _formKey,
                         'Введите код из смс',
@@ -67,9 +64,8 @@ class _ProfilePageState extends BasePageState {
                         ),
                         () {
                           if (smsInputController.value.text ==
-                              state.profile.smsCode) {
-                            state.profile
-                                .sumbitAuth(smsInputController.value.text);
+                              ProfileModel.smsCode) {
+                            model.sumbitAuth(smsInputController.value.text);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -109,7 +105,7 @@ class _ProfilePageState extends BasePageState {
                           },
                         ),
                         () {
-                          state.profile.requestSms();
+                          model.requestSms();
                         },
                         () {
                           ScaffoldMessenger.of(context).showSnackBar(
