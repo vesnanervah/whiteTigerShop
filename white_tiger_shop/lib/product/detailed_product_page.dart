@@ -85,7 +85,12 @@ class _DetailedProductPageState
                         listenable: state.cart,
                         builder: (_, widget) {
                           return ElevatedButton(
-                            // add styles according to cart changes
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith(
+                                  (_) => state.cart.inCart(model.data!)
+                                      ? MyColors.superAccentColor
+                                      : MyColors.accentColor),
+                            ),
                             onPressed: () {
                               if (state.cart.inCart(model.data!)) {
                                 state.cart.removeFromCart(model.data!);
