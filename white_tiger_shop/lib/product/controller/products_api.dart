@@ -1,7 +1,7 @@
-import 'package:white_tiger_shop/core/controller/base_api.dart';
+import 'package:white_tiger_shop/core/controller/base_wt_api.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
-class ProductsApi extends BaseApi {
+class ProductsApi extends BaseWTApi {
   Future<List<Product>> getProducts(int categoryId, int offset,
       {int? sortType}) async {
     final query = {

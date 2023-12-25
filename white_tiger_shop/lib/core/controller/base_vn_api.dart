@@ -1,0 +1,30 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:white_tiger_shop/core/controller/entity/base_response.dart';
+import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
+
+class BaseVNApi {
+  final String host = 'whitetigershopback.onrender.com';
+
+  Future<BaseResp> makePostRequest(
+      String apiPath, Map<String, String> body) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: host,
+      path: apiPath,
+    );
+    final response = await http.Client().post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(body),
+    );
+    final respBody = jsonDecode((response).body);
+    final BaseResp parsed = BaseResp.fromJson(respBody);
+    if (!parsed.meta.success) {
+      throw MetaWithUnsuccesException(parsed.meta.error);
+    }
+    return parsed;
+  }
+}
