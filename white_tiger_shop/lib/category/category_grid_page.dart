@@ -13,10 +13,8 @@ class CategoryGridPage extends BasePage {
 
 class _CategoryGridPageState
     extends BasePageState<CategoriesModel, CategoryGridPage> {
-  //tried many constructions, but dart alerts of value used before initialization. This is only one of worked.
-  _CategoryGridPageState() {
-    model = CategoriesModel();
-  }
+  @override
+  CategoriesModel createModel() => CategoriesModel();
 
   @override
   Widget builderCb(BuildContext context) => model.data == null

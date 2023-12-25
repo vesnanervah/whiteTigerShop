@@ -3,11 +3,11 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 
 class ProfileModel extends BaseModel {
-  static bool? isLogedIn;
-  static String? token;
-  static bool smsSend = false;
-  static String? smsCode;
-  static Box? profileBox;
+  bool? isLogedIn;
+  String? token;
+  bool smsSend = false;
+  String? smsCode;
+  Box? profileBox;
 
   @override
   bool? get data => isLogedIn;

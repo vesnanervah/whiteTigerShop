@@ -17,9 +17,8 @@ class ProductsListPage extends BasePage {
 
 class _ProductsGridPageState
     extends BasePageState<ProductsModel, ProductsListPage> {
-  _ProductsGridPageState() {
-    model = ProductsModel();
-  }
+  @override
+  ProductsModel createModel() => ProductsModel();
 
   @override
   Widget builderCb(BuildContext context) => Column(

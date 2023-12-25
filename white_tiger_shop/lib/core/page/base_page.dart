@@ -11,14 +11,9 @@ abstract class BasePage extends StatefulWidget {
 
 abstract class BasePageState<M extends BaseModel, S extends BasePage>
     extends State<S> {
-  /* Прокидывание модели через наследников базового стейта оказалось чревато тем, что в случаях,
-   когда модели брались из контекста (корзина) и имели только один экземпляр
-   теперь получают каждый раз по экземпляру при построении.
-   Возможно такие модели надо сделать singleton  
-  */
-  late final M model;
+  late final M model = createModel();
 
-  BasePageState();
+  M createModel();
 
   Widget builderCb(BuildContext context);
   void onInitCb();

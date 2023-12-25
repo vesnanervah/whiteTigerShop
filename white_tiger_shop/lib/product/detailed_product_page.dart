@@ -29,8 +29,11 @@ class _DetailedProductPageState
   }
 
   @override
+  DetailedProductModel createModel() =>
+      DetailedProductModel(widget.product.productId);
+
+  @override
   void onInitCb() {
-    model = DetailedProductModel(widget.product.productId);
     model.update();
   }
 

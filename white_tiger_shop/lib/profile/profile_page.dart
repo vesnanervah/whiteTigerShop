@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/core/page/base_page.dart';
-import 'package:white_tiger_shop/profile/model/data/profile_reg_exps.dart';
+import 'package:white_tiger_shop/profile/model/entities/profile_reg_exps.dart';
 import 'package:white_tiger_shop/profile/model/profile_model.dart';
 import 'package:white_tiger_shop/profile/view/auth_form.dart';
 
@@ -17,16 +19,15 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   final ProfileRegularExpressions regs = ProfileRegularExpressions();
   final TextEditingController smsInputController = TextEditingController();
 
-  _ProfilePageState() {
-    model = ProfileModel();
-  }
+  @override
+  ProfileModel createModel() => context.read<AppState>().profile;
 
   @override
   void onInitCb() {}
 
   @override
   Widget builderCb(BuildContext context) {
-    return ProfileModel.isLogedIn!
+    return model.isLogedIn!
         ? const Center(
             child: Text('profile page'),
           )
@@ -41,7 +42,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                   left: 15,
                 ),
                 constraints: const BoxConstraints(maxWidth: 340),
-                child: ProfileModel.smsSend
+                child: model.smsSend
                     ? AuthForm(
                         _formKey,
                         'Введите код из смс',
@@ -65,8 +66,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                           },
                         ),
                         () {
-                          if (smsInputController.value.text ==
-                              ProfileModel.smsCode) {
+                          if (smsInputController.value.text == model.smsCode) {
                             model.sumbitAuth(smsInputController.value.text);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

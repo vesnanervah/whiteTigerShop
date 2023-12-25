@@ -4,10 +4,10 @@ import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class CartModel extends BaseModel<Map<int, Product>> {
-  static Map<int, Product> _products = {};
+  Map<int, Product> _products = {};
   @override
   Map<int, Product> get data => _products;
-  static Box? cartBox;
+  Box? cartBox;
 
   CartModel() {
     update();
