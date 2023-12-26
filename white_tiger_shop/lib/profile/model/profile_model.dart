@@ -36,8 +36,11 @@ class ProfileModel extends BaseModel {
   }
 
   Future<void> requestMail(String enteredEmail) async {
+    if (isLoading) return;
+    isLoading = true;
     mailSend = await api.initAuth(enteredEmail);
     email = enteredEmail;
+    isLoading = false;
     notifyListeners();
   }
 
@@ -47,7 +50,9 @@ class ProfileModel extends BaseModel {
     throw UnimplementedError();
   }
 
-  Future<bool> sumbitAuth(String code) async {
+  Future<bool?> sumbitAuth(String code) async {
+    if (isLoading) return null;
+    isLoading = true;
     final (loged, recievedToken) = await api.confirmCode(email!, code);
     if (loged && recievedToken != null) {
       token = recievedToken;
@@ -56,6 +61,7 @@ class ProfileModel extends BaseModel {
       saveCreditsToLocal();
     } else {}
     notifyListeners();
+    isLoading = false;
     return loged;
   }
 

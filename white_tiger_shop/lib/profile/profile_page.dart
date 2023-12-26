@@ -84,7 +84,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                           model
                               .sumbitAuth(smsInputController.value.text)
                               .then((value) {
-                            if (!value) {
+                            if (value != null && !value) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Не правильный код'),
