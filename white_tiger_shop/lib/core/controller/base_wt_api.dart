@@ -3,7 +3,7 @@ import 'package:white_tiger_shop/core/controller/entity/base_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
 
-class BaseApi {
+class BaseWTApi {
   final key =
       'phynMLgDkiG06cECKA3LJATNiUZ1ijs-eNhTf0IGq4mSpJF3bD42MjPUjWwj7sqLuPy4_nBCOyX3-fRiUl6rnoCjQ0vYyKb-LR03x9kYGq53IBQ5SrN8G1jSQjUDplXF';
   final host = 'ostest.whitetigersoft.ru';

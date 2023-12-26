@@ -16,8 +16,8 @@ class ProfilePage extends BasePage {
 
 class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  final ProfileRegularExpressions regs = ProfileRegularExpressions();
   final TextEditingController smsInputController = TextEditingController();
+  final TextEditingController emailInputController = TextEditingController();
 
   @override
   ProfileModel createModel() => context.read<AppState>().profile;
@@ -28,8 +28,22 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   @override
   Widget builderCb(BuildContext context) {
     return model.isLogedIn!
-        ? const Center(
-            child: Text('profile page'),
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Hello, ${model.email}'),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      model.logout();
+                    },
+                    child: const Text('logout',
+                        style: TextStyle(color: Colors.white70)))
+              ],
+            ),
           )
         : Center(
             child: Card(
@@ -42,11 +56,11 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                   left: 15,
                 ),
                 constraints: const BoxConstraints(maxWidth: 340),
-                child: model.smsSend
+                child: model.mailSend
                     ? AuthForm(
                         _formKey,
-                        'Введите код из смс',
-                        'Подтвердить смс',
+                        'Введите код из сообщения',
+                        'Подтвердить код',
                         TextFormField(
                           controller: smsInputController,
                           decoration: const InputDecoration(
@@ -59,22 +73,25 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                             if (value == null || value.isEmpty) {
                               return 'Обязательное поле';
                             }
-                            if (!regs.smsCode.hasMatch(value)) {
-                              return 'Код в формате 4 цифр';
+                            if (!ProfileRegularExpressions.emailCode
+                                .hasMatch(value)) {
+                              return 'Код в формате 3 цифр';
                             }
                             return null;
                           },
                         ),
                         () {
-                          if (smsInputController.value.text == model.smsCode) {
-                            model.sumbitAuth(smsInputController.value.text);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Не правильный код'),
-                              ),
-                            );
-                          }
+                          model
+                              .sumbitAuth(smsInputController.value.text)
+                              .then((value) {
+                            if (value != null && !value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Не правильный код'),
+                                ),
+                              );
+                            }
+                          });
                         },
                         () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -87,27 +104,29 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                       )
                     : AuthForm(
                         _formKey,
-                        'Введите номер телефона для входа',
-                        'Получить смс',
+                        'Введите емейл для входа',
+                        'Получить код',
                         TextFormField(
+                          controller: emailInputController,
                           decoration: const InputDecoration(
-                            labelText: 'Номер телефона',
+                            labelText: 'Электронная почта',
                             labelStyle: TextStyle(color: Colors.white60),
-                            icon: Icon(Icons.phone),
+                            icon: Icon(Icons.email),
                             iconColor: Colors.white60,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Обязательное поле';
                             }
-                            if (!regs.phone.hasMatch(value)) {
-                              return 'Начинается с +7 и 12 чисел всего.';
+                            if (!ProfileRegularExpressions.email
+                                .hasMatch(value)) {
+                              return 'В формате example@google.com';
                             }
                             return null;
                           },
                         ),
                         () {
-                          model.requestSms();
+                          model.requestMail(emailInputController.value.text);
                         },
                         () {
                           ScaffoldMessenger.of(context).showSnackBar(
