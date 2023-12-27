@@ -34,10 +34,9 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
         child: ListenableBuilder(
           listenable: model,
           builder: (BuildContext context, Widget? child) {
-            return model.data == null
+            return !model.isInitiallyUpdated
                 ? Center(
-                    child: model.lastFetchErrorMsg == null &&
-                            !model.isInitiallyUpdated
+                    child: model.lastFetchErrorMsg == null && model.isLoading
                         ? const CircularProgressIndicator(
                             color: MyColors.accentColor,
                           )

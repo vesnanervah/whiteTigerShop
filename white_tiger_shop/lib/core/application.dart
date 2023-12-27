@@ -24,7 +24,7 @@ class App extends StatelessWidget {
                 textTheme: const TextTheme(
                   labelLarge: TextStyle(color: Colors.white70),
                   labelMedium: TextStyle(color: Colors.white70),
-                  labelSmall: TextStyle(color: Colors.white70),
+                  labelSmall: TextStyle(color: Colors.white70, fontSize: 11),
                   bodySmall: TextStyle(color: Colors.white70),
                   bodyMedium: TextStyle(color: Colors.white70),
                   bodyLarge: TextStyle(color: Colors.white70),

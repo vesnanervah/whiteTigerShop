@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/profile/controller/profile_api.dart';
@@ -12,11 +11,8 @@ class ProfileModel extends BaseModel {
   Box? profileBox;
   final ProfileApi api = ProfileApi();
 
-  @override
-  bool? get data => isLogedIn;
-
   ProfileModel() {
-    checkSavedToken();
+    update();
   }
 
   Future<void> checkSavedToken() async {
@@ -45,9 +41,8 @@ class ProfileModel extends BaseModel {
   }
 
   @override
-  Future<void> fetch() {
-    // TODO: read access token from local and post to server
-    throw UnimplementedError();
+  Future<void> fetch() async {
+    await checkSavedToken();
   }
 
   Future<bool?> sumbitAuth(String code) async {

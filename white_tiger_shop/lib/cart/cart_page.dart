@@ -19,7 +19,7 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
 
   @override
   Widget builderCb(BuildContext context) {
-    final productsIds = model.data.keys.toList();
+    final productsIds = model.products.keys.toList();
     return productsIds.isNotEmpty
         ? Column(
             children: [
@@ -36,13 +36,13 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
                 child: ListView.separated(
                   itemBuilder: (_, index) {
                     return ProductsItemView(
-                      model.data[productsIds[index]]!,
+                      model.products[productsIds[index]]!,
                       () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (_) {
                             return DetailedProductPage(
-                              model.data[productsIds[index]]!,
+                              model.products[productsIds[index]]!,
                             );
                           }),
                         );
@@ -53,7 +53,7 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
                         tooltip: 'Убрать из корзины',
                         onPressed: () {
                           model.removeFromCart(
-                            model.data[productsIds[index]]!,
+                            model.products[productsIds[index]]!,
                           );
                         },
                       ),

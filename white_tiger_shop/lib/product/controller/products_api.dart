@@ -9,14 +9,14 @@ class ProductsApi extends BaseWTApi {
       'offset': offset.toString(),
       if (sortType != null) 'sortType': '$sortType',
     };
-    final resp = await makeApiCall('api/common/product/list', query);
+    final resp = await makeGetRequest('api/common/product/list', query);
     final products =
         (resp.data as List).map((prod) => Product.fromJson(prod)).toList();
     return products;
   }
 
   Future<Product> getDetailedProduct(int productId) async {
-    final resp = (await makeApiCall(
+    final resp = (await makeGetRequest(
       'api/common/product/details',
       {'productId': '$productId'},
     ))
