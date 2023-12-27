@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
 
-abstract class BaseModel<T> extends ChangeNotifier {
-  T? data;
+abstract class BaseModel extends ChangeNotifier {
   bool isInitiallyUpdated = false;
   String? lastFetchErrorMsg;
   bool isLoading = false;

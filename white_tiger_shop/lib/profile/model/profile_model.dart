@@ -11,11 +11,8 @@ class ProfileModel extends BaseModel {
   Box? profileBox;
   final ProfileApi api = ProfileApi();
 
-  @override
-  bool? get data => isLogedIn;
-
   ProfileModel() {
-    checkSavedToken();
+    update();
   }
 
   Future<void> checkSavedToken() async {
@@ -44,8 +41,8 @@ class ProfileModel extends BaseModel {
   }
 
   @override
-  Future<void> fetch() {
-    throw UnimplementedError();
+  Future<void> fetch() async {
+    await checkSavedToken();
   }
 
   Future<bool?> sumbitAuth(String code) async {

@@ -34,8 +34,8 @@ class _ProductsGridPageState
               label: const Text('Сортировать'),
               initialSelection: SortOptions.options[0],
               onSelected: (option) {
-                (model).selectedSortOption = option;
-                (model).reloadData();
+                model.selectedSortOption = option;
+                model.reloadData();
               },
               dropdownMenuEntries: SortOptions.options
                   .map(
@@ -49,9 +49,9 @@ class _ProductsGridPageState
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: model.data!.length + 1,
+              itemCount: model.products!.length + 1,
               itemBuilder: (_, index) {
-                if (index == model.data!.length) {
+                if (index == model.products!.length) {
                   // достигли конца списка и крайнего офсета
                   if ((model).isReachedEnd) {
                     return Container(
@@ -75,12 +75,12 @@ class _ProductsGridPageState
                 }
                 //конец списка не достигнут, рендерим продукты
                 return ProductsItemView(
-                  model.data![index],
+                  model.products![index],
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => DetailedProductPage(
-                        model.data![index],
+                        model.products![index],
                       ),
                     ),
                   ),

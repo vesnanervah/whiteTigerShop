@@ -17,32 +17,30 @@ class _CategoryGridPageState
   CategoriesModel createModel() => CategoriesModel();
 
   @override
-  Widget builderCb(BuildContext context) => model.data == null
-      ? const Center(child: CircularProgressIndicator())
-      : model.data!.isNotEmpty
-          ? GridView.builder(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              itemCount: model.data!.length,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisSpacing: 25,
-                crossAxisSpacing: 25,
-                maxCrossAxisExtent: 300,
+  Widget builderCb(BuildContext context) => model.categories!.isNotEmpty
+      ? GridView.builder(
+          padding: const EdgeInsets.only(top: 20, bottom: 20),
+          itemCount: model.categories!.length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            mainAxisSpacing: 25,
+            crossAxisSpacing: 25,
+            maxCrossAxisExtent: 380,
+          ),
+          itemBuilder: (
+            BuildContext context,
+            int count,
+          ) =>
+              CategoryItemView(
+            model.categories![count],
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductsListPage(model.categories![count]),
               ),
-              itemBuilder: (
-                BuildContext context,
-                int count,
-              ) =>
-                  CategoryItemView(
-                model.data![count],
-                () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ProductsListPage(model.data![count]),
-                  ),
-                ),
-              ),
-            )
-          : const Center(child: Text('Список категорий пуст.'));
+            ),
+          ),
+        )
+      : const Center(child: Text('Список категорий пуст.'));
 
   @override
   void onInitCb() {

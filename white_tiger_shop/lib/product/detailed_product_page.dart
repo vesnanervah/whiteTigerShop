@@ -62,11 +62,11 @@ class _DetailedProductPageState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Center(
-                          child:
-                              NetworkedImage(180, 180, model.data!.imageUrl)),
+                          child: NetworkedImage(
+                              180, 180, model.product!.imageUrl)),
                       const SizedBox(height: 15),
                       Text(
-                        model.data!.title,
+                        model.product!.title,
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 19,
@@ -75,15 +75,15 @@ class _DetailedProductPageState
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Цена: ${model.data!.price}',
+                        'Цена: ${model.product!.price}',
                         style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
                       Text(
-                        'Категория: ${model.data!.category ?? 'Не предоставлено'}',
+                        'Категория: ${model.product!.category ?? 'Не предоставлено'}',
                         style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
                       Text(
-                        'Описание: ${model.data!.productDescription != null && model.data!.productDescription!.isNotEmpty ? model.data!.productDescription! : 'Не предоставлено'}',
+                        'Описание: ${model.product!.productDescription != null && model.product!.productDescription!.isNotEmpty ? model.product!.productDescription! : 'Не предоставлено'}',
                         style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
                       const SizedBox(height: 10),
@@ -94,18 +94,18 @@ class _DetailedProductPageState
                             return ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateColor.resolveWith(
-                                    (_) => state.cart.inCart(model.data!)
+                                    (_) => state.cart.inCart(model.product!)
                                         ? MyColors.superAccentColor
                                         : MyColors.accentColor),
                               ),
                               onPressed: () {
-                                if (state.cart.inCart(model.data!)) {
-                                  state.cart.removeFromCart(model.data!);
+                                if (state.cart.inCart(model.product!)) {
+                                  state.cart.removeFromCart(model.product!);
                                 } else {
-                                  state.cart.addToCart(model.data!);
+                                  state.cart.addToCart(model.product!);
                                 }
                               },
-                              child: state.cart.inCart(model.data!)
+                              child: state.cart.inCart(model.product!)
                                   ? const Text(
                                       'В корзине',
                                       style: TextStyle(color: Colors.white70),
@@ -205,7 +205,11 @@ class _DetailedProductPageState
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
-                                  Text(model.reviews![index].content),
+                                  Text(
+                                    model.reviews![index].content,
+                                    style: const TextStyle(
+                                        fontStyle: FontStyle.italic),
+                                  ),
                                 ],
                               ),
                             ),
