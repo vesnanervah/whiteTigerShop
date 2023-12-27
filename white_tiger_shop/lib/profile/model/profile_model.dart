@@ -45,7 +45,6 @@ class ProfileModel extends BaseModel {
 
   @override
   Future<void> fetch() {
-    // TODO: read access token from local and post to server
     throw UnimplementedError();
   }
 

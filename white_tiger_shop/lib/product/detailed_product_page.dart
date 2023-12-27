@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
@@ -42,86 +43,122 @@ class _DetailedProductPageState
     final state = context.watch<AppState>();
     return Center(
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            Card(
-              color: MyColors.secondaryColor,
-              child: Container(
-                constraints:
-                    BoxConstraints(maxWidth: calculateCardWidth(context)),
-                padding: const EdgeInsets.only(
-                    top: 15, bottom: 20, left: 10, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Center(
-                        child: NetworkedImage(180, 180, model.data!.imageUrl)),
-                    const SizedBox(height: 15),
-                    Text(
-                      model.data!.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 19,
-                        height: 1,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: calculateCardWidth(context)),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 15,
+              ),
+              Card(
+                color: MyColors.secondaryColor,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      top: 15, bottom: 20, left: 10, right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Center(
+                          child:
+                              NetworkedImage(180, 180, model.data!.imageUrl)),
+                      const SizedBox(height: 15),
+                      Text(
+                        model.data!.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 19,
+                          height: 1,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Цена: ${model.data!.price}',
-                      style: const TextStyle(fontSize: 16, height: 1.5),
-                    ),
-                    Text(
-                      'Категория: ${model.data!.category ?? 'Не предоставлено'}',
-                      style: const TextStyle(fontSize: 16, height: 1.5),
-                    ),
-                    Text(
-                      'Описание: ${model.data!.productDescription != null && model.data!.productDescription!.isNotEmpty ? model.data!.productDescription! : 'Не предоставлено'}',
-                      style: const TextStyle(fontSize: 16, height: 1.5),
-                    ),
-                    const SizedBox(height: 10),
-                    Center(
-                      child: ListenableBuilder(
-                        listenable: state.cart,
-                        builder: (_, widget) {
-                          return ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith(
-                                  (_) => state.cart.inCart(model.data!)
-                                      ? MyColors.superAccentColor
-                                      : MyColors.accentColor),
-                            ),
-                            onPressed: () {
-                              if (state.cart.inCart(model.data!)) {
-                                state.cart.removeFromCart(model.data!);
-                              } else {
-                                state.cart.addToCart(model.data!);
-                              }
-                            },
-                            child: state.cart.inCart(model.data!)
-                                ? const Text(
-                                    'В корзине',
-                                    style: TextStyle(color: Colors.white70),
-                                  )
-                                : const Text(
-                                    'В корзину',
-                                    style: TextStyle(color: Colors.white70),
-                                  ),
-                          );
-                        },
+                      const SizedBox(height: 4),
+                      Text(
+                        'Цена: ${model.data!.price}',
+                        style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Категория: ${model.data!.category ?? 'Не предоставлено'}',
+                        style: const TextStyle(fontSize: 16, height: 1.5),
+                      ),
+                      Text(
+                        'Описание: ${model.data!.productDescription != null && model.data!.productDescription!.isNotEmpty ? model.data!.productDescription! : 'Не предоставлено'}',
+                        style: const TextStyle(fontSize: 16, height: 1.5),
+                      ),
+                      const SizedBox(height: 10),
+                      Center(
+                        child: ListenableBuilder(
+                          listenable: state.cart,
+                          builder: (_, widget) {
+                            return ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (_) => state.cart.inCart(model.data!)
+                                        ? MyColors.superAccentColor
+                                        : MyColors.accentColor),
+                              ),
+                              onPressed: () {
+                                if (state.cart.inCart(model.data!)) {
+                                  state.cart.removeFromCart(model.data!);
+                                } else {
+                                  state.cart.addToCart(model.data!);
+                                }
+                              },
+                              child: state.cart.inCart(model.data!)
+                                  ? const Text(
+                                      'В корзине',
+                                      style: TextStyle(color: Colors.white70),
+                                    )
+                                  : const Text(
+                                      'В корзину',
+                                      style: TextStyle(color: Colors.white70),
+                                    ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-          ],
+              const SizedBox(
+                height: 25,
+              ),
+              model.reviews!.isNotEmpty
+                  ? ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => Card(
+                            color: const Color.fromRGBO(29, 38, 125, 1),
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                                right: 15,
+                                bottom: 10,
+                                left: 15,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Отзыв:',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                  Text(model.reviews![index].content),
+                                ],
+                              ),
+                            ),
+                          ),
+                      separatorBuilder: (_, __) => const SizedBox(
+                            height: 10,
+                          ),
+                      itemCount: model.reviews!.length)
+                  : const Text('У этого товара пока что нет отзывов.'),
+              const SizedBox(
+                height: 15,
+              ),
+            ],
+          ),
         ),
       ),
     );

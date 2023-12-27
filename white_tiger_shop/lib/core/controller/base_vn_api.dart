@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:white_tiger_shop/core/controller/base_api.dart';
 import 'package:white_tiger_shop/core/controller/entity/base_response.dart';
-import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
 
 class BaseVNApi extends BaseApi {
   final String host = 'whitetigershopback.onrender.com';
