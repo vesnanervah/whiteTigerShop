@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
@@ -10,6 +9,7 @@ import 'package:white_tiger_shop/product/model/entity/product.dart';
 
 class DetailedProductPage extends BasePage {
   final Product product;
+  final reviewFormKey = GlobalKey<FormState>();
 
   DetailedProductPage(this.product, {super.key}) : super(product.title);
 
@@ -19,6 +19,8 @@ class DetailedProductPage extends BasePage {
 
 class _DetailedProductPageState
     extends BasePageState<DetailedProductModel, DetailedProductPage> {
+  final reviewFormController = TextEditingController();
+
   double calculateCardWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     if (width < 575) {
@@ -123,6 +125,65 @@ class _DetailedProductPageState
               const SizedBox(
                 height: 25,
               ),
+              Card(
+                color: MyColors.secondaryColor,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                    bottom: 10,
+                    left: 15,
+                  ),
+                  child: Form(
+                    key: widget.reviewFormKey,
+                    child: Column(
+                      children: [
+                        const Text('Оставить отзыв'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: reviewFormController,
+                          validator: (value) =>
+                              value != null && value.length > 2
+                                  ? null
+                                  : 'Отзыв должен быть не менее 3х символов',
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith(
+                                  (states) => MyColors.accentColor)),
+                          onPressed: () {
+                            if (widget.reviewFormKey.currentState!.validate()) {
+                              final content = reviewFormController.value.text;
+                              reviewFormController.clear();
+                              model.leaveReview(content).then(
+                                    (_) => ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Отзыв успешно дошёл до сервера!'),
+                                      ),
+                                    ),
+                                  );
+                            }
+                          },
+                          child: const Text(
+                            'Отправить',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
               model.reviews!.isNotEmpty
                   ? ListView.separated(
                       shrinkWrap: true,
@@ -155,7 +216,7 @@ class _DetailedProductPageState
                       itemCount: model.reviews!.length)
                   : const Text('У этого товара пока что нет отзывов.'),
               const SizedBox(
-                height: 15,
+                height: 25,
               ),
             ],
           ),

@@ -21,8 +21,14 @@ class DetailedProductModel extends BaseModel<Product> {
   Future<void> fetch() async {
     _product = await api.getDetailedProduct(productId);
     reviews = await reviewsApi.getReviews(productId);
-    for (var i = 0; i < reviews!.length; i++) {
-      log(reviews![i].content);
-    }
+  }
+
+  // TODO: create model
+  Future<void> leaveReview(String content) async {
+    if (isLoading) return;
+    isLoading = true;
+    reviews = await reviewsApi.sendReview(productId, content);
+    isLoading = false;
+    notifyListeners();
   }
 }

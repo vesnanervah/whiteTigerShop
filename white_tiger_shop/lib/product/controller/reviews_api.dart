@@ -6,4 +6,10 @@ class ReviewsApi extends BaseVNApi {
     final resp = await makeGetRequest('reviews', 'productID=$productID');
     return (resp.data as List).map((e) => Review.fromJson(e)).toList();
   }
+
+  Future<List<Review>> sendReview(int productID, String content) async {
+    final resp = await makePostRequest(
+        'review', {"productID": productID, "content": content});
+    return (resp.data as List).map((e) => Review.fromJson(e)).toList();
+  }
 }
