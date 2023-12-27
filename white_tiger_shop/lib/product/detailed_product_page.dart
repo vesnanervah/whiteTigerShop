@@ -21,7 +21,7 @@ class _DetailedProductPageState
     extends BasePageState<DetailedProductModel, DetailedProductPage> {
   final reviewFormController = TextEditingController();
 
-  double calculateCardWidth(BuildContext context) {
+  double calculateBodyWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     if (width < 575) {
       return width - 30;
@@ -46,7 +46,7 @@ class _DetailedProductPageState
     return Center(
       child: SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(maxWidth: calculateCardWidth(context)),
+          constraints: BoxConstraints(maxWidth: calculateBodyWidth(context)),
           child: Column(
             children: [
               const SizedBox(
@@ -214,9 +214,7 @@ class _DetailedProductPageState
                               ),
                             ),
                           ),
-                      separatorBuilder: (_, __) => const SizedBox(
-                            height: 10,
-                          ),
+                      separatorBuilder: (_, __) => const SizedBox(height: 10),
                       itemCount: model.reviews!.length)
                   : const Text('У этого товара пока что нет отзывов.'),
               const SizedBox(

@@ -3,8 +3,6 @@ import 'package:white_tiger_shop/core/controller/base_vn_api.dart';
 import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
 
 class ProfileApi extends BaseVNApi {
-  // В исходном бекенде все эндпоинты, связаные с авторизацией и юзером возвращают 404, поэтому написал свой сервак
-
   Future<bool> initAuth(String email) async {
     final resp = await makePostRequest(
       'init-email-confirm',
@@ -21,8 +19,7 @@ class ProfileApi extends BaseVNApi {
         {'email': email, 'code': code},
       );
       return (resp.meta.success, resp.data as String?);
-    } on MetaWithUnsuccesException catch (e) {
-      log(e.errorMsg);
+    } on MetaWithUnsuccesException catch (_) {
       return (false, null);
     }
   }
@@ -37,8 +34,7 @@ class ProfileApi extends BaseVNApi {
         },
       );
       return resp.meta.success;
-    } on MetaWithUnsuccesException catch (e) {
-      log(e.errorMsg);
+    } on MetaWithUnsuccesException catch (_) {
       return false;
     }
   }

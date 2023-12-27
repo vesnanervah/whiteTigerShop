@@ -7,10 +7,12 @@ class ProductsModel extends BaseModel {
   final api = ProductsApi();
   List<Product>? products;
   int _currentOffset = 0;
-  int? selectedCategory;
+  int selectedCategory;
   SortOption? selectedSortOption;
   bool _isReachedEnd = false;
   bool get isReachedEnd => _isReachedEnd;
+
+  ProductsModel(this.selectedCategory);
 
   @override
   Future<void> fetch() async {

@@ -18,7 +18,7 @@ class ProductsListPage extends BasePage {
 class _ProductsGridPageState
     extends BasePageState<ProductsModel, ProductsListPage> {
   @override
-  ProductsModel createModel() => ProductsModel();
+  ProductsModel createModel() => ProductsModel(widget.category.categoryId);
 
   @override
   Widget builderCb(BuildContext context) => Column(
@@ -93,7 +93,6 @@ class _ProductsGridPageState
 
   @override
   void onInitCb() {
-    model.selectedCategory = widget.category.categoryId;
     model.update();
   }
 }
