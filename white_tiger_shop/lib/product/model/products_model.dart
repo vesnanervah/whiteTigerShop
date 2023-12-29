@@ -16,7 +16,7 @@ class ProductsModel extends BaseModel {
 
   @override
   Future<void> fetch() async {
-    final resp = await api.getProducts(selectedCategory!, _currentOffset,
+    final resp = await api.getProducts(selectedCategory, _currentOffset,
         sortType: selectedSortOption?.apiIndex);
     if (_currentOffset > 0 && products != null) {
       products!.addAll(resp);
