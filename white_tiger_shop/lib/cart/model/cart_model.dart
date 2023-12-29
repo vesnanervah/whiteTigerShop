@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
-import 'package:white_tiger_shop/product/model/entity/product.dart';
+import 'package:white_tiger_shop/product/model/entities/product.dart';
 
 class CartModel extends BaseModel {
   Map<int, Product> products = {};

@@ -1,7 +1,7 @@
-import "package:white_tiger_shop/product/model/entity/sort_option.dart";
+import 'package:white_tiger_shop/product/model/entities/sort_option.dart';
 
 class SortOptions {
-  static List<SortOption> options = [
+  static final List<SortOption> options = [
     SortOption('Нет', null),
     SortOption('Сначала дешевле', 1),
     SortOption('Сначала дороже', 2),

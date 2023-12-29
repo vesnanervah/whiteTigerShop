@@ -1,5 +1,5 @@
 import 'package:white_tiger_shop/category/controller/categories_api.dart';
-import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/category/model/entities/category.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 
 class CategoriesModel extends BaseModel {

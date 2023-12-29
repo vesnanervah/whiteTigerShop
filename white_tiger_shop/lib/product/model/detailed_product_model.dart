@@ -1,12 +1,12 @@
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/product/controller/products_api.dart';
-import 'package:white_tiger_shop/product/controller/reviews_api.dart';
-import 'package:white_tiger_shop/product/model/entity/product.dart';
-import 'package:white_tiger_shop/product/model/entity/review.dart';
+import 'package:white_tiger_shop/product/model/entities/product.dart';
+import 'package:white_tiger_shop/product/model/entities/review.dart';
+import 'package:white_tiger_shop/product/model/reviews_model.dart';
 
 class DetailedProductModel extends BaseModel {
   final api = ProductsApi();
-  final reviewsApi = ReviewsApi();
+  late final reviewsModel = ReviewsModel(productId);
   int productId;
   Product? product;
   List<Review>? reviews;
@@ -16,14 +16,14 @@ class DetailedProductModel extends BaseModel {
   @override
   Future<void> fetch() async {
     product = await api.getDetailedProduct(productId);
-    reviews = await reviewsApi.getReviews(productId);
+    await reviewsModel.update();
+    reviews = reviewsModel.reviews;
   }
 
-  // TODO: create model
   Future<void> leaveReview(String content) async {
     if (isLoading) return;
     isLoading = true;
-    reviews = await reviewsApi.sendReview(productId, content);
+    reviews = await reviewsModel.leaveReview(content);
     isLoading = false;
     notifyListeners();
   }

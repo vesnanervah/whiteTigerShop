@@ -1,7 +1,7 @@
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/product/controller/products_api.dart';
-import 'package:white_tiger_shop/product/model/entity/product.dart';
-import 'package:white_tiger_shop/product/model/entity/sort_option.dart';
+import 'package:white_tiger_shop/product/model/entities/product.dart';
+import 'package:white_tiger_shop/product/model/entities/sort_option.dart';
 
 class ProductsModel extends BaseModel {
   final api = ProductsApi();
@@ -16,7 +16,7 @@ class ProductsModel extends BaseModel {
 
   @override
   Future<void> fetch() async {
-    final resp = await api.getProducts(selectedCategory!, _currentOffset,
+    final resp = await api.getProducts(selectedCategory, _currentOffset,
         sortType: selectedSortOption?.apiIndex);
     if (_currentOffset > 0 && products != null) {
       products!.addAll(resp);
