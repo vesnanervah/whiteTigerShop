@@ -5,7 +5,7 @@ import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/core/page/base_page.dart';
 import 'package:white_tiger_shop/core/view/networked_image.dart';
 import 'package:white_tiger_shop/product/model/detailed_product_model.dart';
-import 'package:white_tiger_shop/product/model/entity/product.dart';
+import 'package:white_tiger_shop/product/model/entities/product.dart';
 
 class DetailedProductPage extends BasePage {
   final Product product;

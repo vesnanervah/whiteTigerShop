@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/category/model/entities/category.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/core/view/networked_image.dart';
 

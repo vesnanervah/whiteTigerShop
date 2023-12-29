@@ -1,5 +1,5 @@
 import 'package:white_tiger_shop/core/controller/base_wt_api.dart';
-import 'package:white_tiger_shop/product/model/entity/product.dart';
+import 'package:white_tiger_shop/product/model/entities/product.dart';
 
 class ProductsApi extends BaseWTApi {
   Future<List<Product>> getProducts(int categoryId, int offset,

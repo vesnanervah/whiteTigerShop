@@ -1,4 +1,4 @@
-import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/category/model/entities/category.dart';
 import 'package:white_tiger_shop/core/controller/base_wt_api.dart';
 
 class CategoriesApi extends BaseWTApi {

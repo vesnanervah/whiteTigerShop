@@ -1,5 +1,5 @@
 import 'package:white_tiger_shop/core/controller/base_vn_api.dart';
-import 'package:white_tiger_shop/product/model/entity/review.dart';
+import 'package:white_tiger_shop/product/model/entities/review.dart';
 
 class ReviewsApi extends BaseVNApi {
   Future<List<Review>> getReviews(int productID) async {

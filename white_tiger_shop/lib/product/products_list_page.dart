@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:white_tiger_shop/category/model/entity/category.dart';
+import 'package:white_tiger_shop/category/model/entities/category.dart';
 import 'package:white_tiger_shop/core/page/base_page.dart';
-import 'package:white_tiger_shop/product/model/data/sort_options.dart';
+import 'package:white_tiger_shop/product/model/entities/sort_options.dart';
 import 'package:white_tiger_shop/product/model/products_model.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
