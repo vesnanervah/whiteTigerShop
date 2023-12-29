@@ -153,9 +153,7 @@ class _DetailedProductPageState
                           height: 15,
                         ),
                         ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith(
-                                  (states) => MyColors.accentColor)),
+                          style: Theme.of(context).elevatedButtonTheme.style,
                           onPressed: () {
                             if (widget.reviewFormKey.currentState!.validate()) {
                               final content = reviewFormController.value.text;

@@ -25,6 +25,7 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
             children: [
               const Padding(padding: EdgeInsets.all(5)),
               ElevatedButton(
+                style: Theme.of(context).elevatedButtonTheme.style,
                 onPressed: () => model.clearCart(),
                 child: const Text(
                   'Очистить корзину',
