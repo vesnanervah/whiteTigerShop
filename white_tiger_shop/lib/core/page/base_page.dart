@@ -15,6 +15,7 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
 
   M createModel();
 
+  // TODO: rename to buildBody
   Widget builderCb(BuildContext context);
   void onInitCb();
 

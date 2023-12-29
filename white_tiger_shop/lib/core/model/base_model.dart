@@ -12,6 +12,7 @@ abstract class BaseModel extends ChangeNotifier {
 
   Future<void> update() async {
     if (isLoading) return;
+    // TODO: notifyListeners()
     isLoading = true;
     try {
       lastFetchErrorMsg = null;
