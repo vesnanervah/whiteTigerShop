@@ -18,7 +18,7 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
   CartModel createModel() => context.read<AppState>().cart;
 
   @override
-  Widget builderCb(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     final productsIds = model.products.keys.toList();
     return productsIds.isNotEmpty
         ? Column(

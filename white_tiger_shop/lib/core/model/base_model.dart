@@ -12,11 +12,11 @@ abstract class BaseModel extends ChangeNotifier {
 
   Future<void> update() async {
     if (isLoading) return;
-    // TODO: notifyListeners()
     isLoading = true;
+    lastFetchErrorMsg = null;
     try {
-      lastFetchErrorMsg = null;
       await fetch();
+      if (!isInitiallyUpdated) isInitiallyUpdated = true;
     } on MetaWithUnsuccesException catch (e) {
       lastFetchErrorMsg = e.errorMsg;
       log(lastFetchErrorMsg!);
@@ -26,7 +26,6 @@ abstract class BaseModel extends ChangeNotifier {
     } on Exception catch (_) {
       lastFetchErrorMsg = 'I am a teapot';
     } finally {
-      if (!isInitiallyUpdated) isInitiallyUpdated = true;
       isLoading = false;
       notifyListeners();
     }

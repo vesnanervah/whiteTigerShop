@@ -21,7 +21,7 @@ class _ProductsGridPageState
   ProductsModel createModel() => ProductsModel(widget.category.categoryId);
 
   @override
-  Widget builderCb(BuildContext context) => Column(
+  Widget buildBody(BuildContext context) => Column(
         children: [
           Container(
             padding: const EdgeInsets.only(
@@ -53,7 +53,7 @@ class _ProductsGridPageState
               itemBuilder: (_, index) {
                 if (index == model.products!.length) {
                   // достигли конца списка и крайнего офсета
-                  if ((model).isReachedEnd) {
+                  if (model.isReachedEnd) {
                     return Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: const Center(
@@ -65,7 +65,7 @@ class _ProductsGridPageState
                     );
                   }
                   // достигли конца списка, но запас офсета с сервера ещё есть
-                  model.update();
+                  model.loadNextOffset();
                   return Container(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: const Center(

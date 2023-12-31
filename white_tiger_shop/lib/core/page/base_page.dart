@@ -15,8 +15,7 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
 
   M createModel();
 
-  // TODO: rename to buildBody
-  Widget builderCb(BuildContext context);
+  Widget buildBody(BuildContext context);
   void onInitCb();
 
   @override
@@ -43,7 +42,7 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
                           )
                         : Text(model.lastFetchErrorMsg!),
                   )
-                : builderCb(context);
+                : buildBody(context);
           },
         ),
       ),

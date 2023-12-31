@@ -16,20 +16,29 @@ class ProductsModel extends BaseModel {
 
   @override
   Future<void> fetch() async {
-    final resp = await api.getProducts(selectedCategory, _currentOffset,
+    final resp = await api.getProducts(selectedCategory, 0,
         sortType: selectedSortOption?.apiIndex);
-    if (_currentOffset > 0 && products != null) {
-      products!.addAll(resp);
-    } else {
-      products = resp;
-    }
+    products = resp;
     _isReachedEnd = resp.isEmpty ? true : false;
     _currentOffset = products!.length;
+  }
+
+  Future<void> loadNextOffset() async {
+    if (isLoading) return;
+    isLoading = true;
+    final resp = await api.getProducts(selectedCategory, _currentOffset,
+        sortType: selectedSortOption?.apiIndex);
+    products!.addAll(resp);
+    _isReachedEnd = resp.isEmpty ? true : false;
+    _currentOffset = products!.length;
+    isLoading = false;
+    notifyListeners();
   }
 
   void reloadData() {
     _currentOffset = 0;
     _isReachedEnd = false;
+    products = [];
     update();
   }
 }

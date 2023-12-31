@@ -41,7 +41,7 @@ class _DetailedProductPageState
   }
 
   @override
-  Widget builderCb(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     final state = context.watch<AppState>();
     return Center(
       child: SingleChildScrollView(

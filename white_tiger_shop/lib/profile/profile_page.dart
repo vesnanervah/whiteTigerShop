@@ -26,7 +26,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   void onInitCb() {}
 
   @override
-  Widget builderCb(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     return model.isLogedIn!
         ? Center(
             child: Column(

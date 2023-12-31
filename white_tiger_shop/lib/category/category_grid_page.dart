@@ -17,7 +17,7 @@ class _CategoryGridPageState
   CategoriesModel createModel() => CategoriesModel();
 
   @override
-  Widget builderCb(BuildContext context) => model.categories!.isNotEmpty
+  Widget buildBody(BuildContext context) => model.categories!.isNotEmpty
       ? GridView.builder(
           padding: const EdgeInsets.only(top: 20, bottom: 20),
           itemCount: model.categories!.length,
