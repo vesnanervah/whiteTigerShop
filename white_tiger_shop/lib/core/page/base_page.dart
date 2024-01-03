@@ -16,6 +16,7 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
   M createModel();
 
   Widget buildBody(BuildContext context);
+
   void onInitCb();
 
   @override
@@ -36,11 +37,12 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
           builder: (BuildContext context, Widget? child) {
             return !model.isInitiallyUpdated
                 ? Center(
-                    child: model.lastFetchErrorMsg == null && model.isLoading
+                    child: model.isLoading
                         ? const CircularProgressIndicator(
                             color: MyColors.accentColor,
                           )
-                        : Text(model.lastFetchErrorMsg!),
+                        : Text(
+                            model.lastFetchErrorMsg ?? 'Что-то пошло не так'),
                   )
                 : buildBody(context);
           },

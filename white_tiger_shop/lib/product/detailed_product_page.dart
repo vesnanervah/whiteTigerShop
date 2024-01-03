@@ -86,7 +86,7 @@ class _DetailedProductPageState
                         'Описание: ${model.product!.productDescription != null && model.product!.productDescription!.isNotEmpty ? model.product!.productDescription! : 'Не предоставлено'}',
                         style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20),
                       Center(
                         child: ListenableBuilder(
                           listenable: state.cart,
@@ -150,7 +150,7 @@ class _DetailedProductPageState
                                   : 'Отзыв должен быть не менее 3х символов',
                         ),
                         const SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         ElevatedButton(
                           style: Theme.of(context).elevatedButtonTheme.style,

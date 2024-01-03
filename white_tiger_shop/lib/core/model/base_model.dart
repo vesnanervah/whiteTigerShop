@@ -14,6 +14,7 @@ abstract class BaseModel extends ChangeNotifier {
     if (isLoading) return;
     isLoading = true;
     lastFetchErrorMsg = null;
+    notifyListeners();
     try {
       await fetch();
       if (!isInitiallyUpdated) isInitiallyUpdated = true;
