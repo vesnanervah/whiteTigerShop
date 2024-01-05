@@ -1,16 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/cart_page.dart';
+import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/profile/profile_page.dart';
 
 class WtShopAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final String header;
+  final String title;
 
-  const WtShopAppBar(this.header, {super.key});
+  const WtShopAppBar(this.title, {super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(50.0);
@@ -22,6 +21,15 @@ class WtShopAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _WtShopAppBarState extends State<WtShopAppBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  late final CartModel cart;
+
+  void animationStart() {
+    if (ModalRoute.of(context) != null &&
+        ModalRoute.of(context)!.isCurrent &&
+        cart.getLen() > 0) {
+      _controller.forward();
+    }
+  }
 
   @override
   void initState() {
@@ -36,13 +44,22 @@ class _WtShopAppBarState extends State<WtShopAppBar>
         _controller.reverse();
       }
     });
+    cart = context.read<AppState>().cart;
+    cart.addListener(animationStart);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    cart.removeListener(animationStart);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     return AppBar(
-      title: Text(widget.header),
+      title: Text(widget.title),
       titleTextStyle: const TextStyle(
         color: Colors.white70,
         fontSize: 19,
@@ -75,11 +92,6 @@ class _WtShopAppBarState extends State<WtShopAppBar>
             ListenableBuilder(
               listenable: state.cart,
               builder: (_, widget) {
-                if (state.cart.getLen() > 0 &&
-                    !state.cart.isLoading &&
-                    state.cart.isInitiallyUpdated) {
-                  _controller.forward();
-                }
                 return AnimatedBuilder(
                     animation: _controller,
                     builder: (context, child) => Transform.scale(
