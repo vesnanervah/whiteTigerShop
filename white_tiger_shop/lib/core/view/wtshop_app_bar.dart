@@ -25,6 +25,8 @@ class _WtShopAppBarState extends State<WtShopAppBar>
 
   void animationStart() {
     if (ModalRoute.of(context) != null &&
+        //Страницы ниже по стеку все ещё не disposed, поэтому на них продолжают лететь уведомления
+        //Здесь проверяю, видно ли страницу, чтобы избежать этого.
         ModalRoute.of(context)!.isCurrent &&
         cart.getLen() > 0) {
       _controller.forward();
@@ -93,28 +95,29 @@ class _WtShopAppBarState extends State<WtShopAppBar>
               listenable: state.cart,
               builder: (_, widget) {
                 return AnimatedBuilder(
-                    animation: _controller,
-                    builder: (context, child) => Transform.scale(
-                          scale: 1 + _controller.value,
-                          child: child,
-                        ),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: MyColors.accentColor,
-                        shape: BoxShape.circle,
+                  animation: _controller,
+                  builder: (context, child) => Transform.scale(
+                    scale: 1 + _controller.value,
+                    child: child,
+                  ),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: MyColors.accentColor,
+                      shape: BoxShape.circle,
+                    ),
+                    width: 16,
+                    height: 16,
+                    child: Center(
+                      child: Text(
+                        '${state.cart.getLen()}',
+                        style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
                       ),
-                      width: 16,
-                      height: 16,
-                      child: Center(
-                        child: Text(
-                          '${state.cart.getLen()}',
-                          style: const TextStyle(
-                              fontSize: 11,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ));
+                    ),
+                  ),
+                );
               },
             ),
           ],
