@@ -1,20 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/cart_page.dart';
+import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/profile/profile_page.dart';
 
-class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String header;
+class WtShopAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final String title;
 
-  const WtShopAppBar(this.header, {super.key});
+  const WtShopAppBar(this.title, {super.key});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(50.0);
+
+  @override
+  State<WtShopAppBar> createState() => _WtShopAppBarState();
+}
+
+class _WtShopAppBarState extends State<WtShopAppBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late final CartModel cart;
+
+  void animationStart() {
+    if (ModalRoute.of(context) != null &&
+        //Страницы ниже по стеку все ещё не disposed, поэтому на них продолжают лететь уведомления
+        //Здесь проверяю, видно ли страницу, чтобы избежать этого.
+        ModalRoute.of(context)!.isCurrent &&
+        cart.getLen() > 0) {
+      _controller.forward();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this, // the SingleTickerProviderStateMixin
+      duration: const Duration(milliseconds: 260),
+      reverseDuration: const Duration(milliseconds: 200),
+    );
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed && _controller.value == 1) {
+        _controller.reverse();
+      }
+    });
+    cart = context.read<AppState>().cart;
+    cart.addListener(animationStart);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    cart.removeListener(animationStart);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     return AppBar(
-      title: Text(header),
+      title: Text(widget.title),
       titleTextStyle: const TextStyle(
         color: Colors.white70,
         fontSize: 19,
@@ -47,20 +94,27 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
             ListenableBuilder(
               listenable: state.cart,
               builder: (_, widget) {
-                return Container(
-                  decoration: const BoxDecoration(
-                    color: MyColors.accentColor,
-                    shape: BoxShape.circle,
+                return AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) => Transform.scale(
+                    scale: 1 + _controller.value,
+                    child: child,
                   ),
-                  width: 16,
-                  height: 16,
-                  child: Center(
-                    child: Text(
-                      '${state.cart.getLen()}',
-                      style: const TextStyle(
-                          fontSize: 11,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: MyColors.accentColor,
+                      shape: BoxShape.circle,
+                    ),
+                    width: 16,
+                    height: 16,
+                    child: Center(
+                      child: Text(
+                        '${state.cart.getLen()}',
+                        style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ),
                 );
@@ -74,7 +128,4 @@ class WtShopAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(50.0);
 }
