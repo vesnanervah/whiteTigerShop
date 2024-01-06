@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/core/page/base_page.dart';
@@ -20,6 +21,8 @@ class DetailedProductPage extends BasePage {
 class _DetailedProductPageState
     extends BasePageState<DetailedProductModel, DetailedProductPage> {
   final reviewFormController = TextEditingController();
+  late final CartModel cart;
+  //var inCart = false;
 
   double calculateBodyWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -38,6 +41,7 @@ class _DetailedProductPageState
   @override
   void onInitCb() {
     model.update();
+    //cart = context.read<AppState>().cart;
   }
 
   @override
@@ -91,29 +95,38 @@ class _DetailedProductPageState
                         child: ListenableBuilder(
                           listenable: state.cart,
                           builder: (_, widget) {
-                            return ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateColor.resolveWith(
-                                    (_) => state.cart.inCart(model.product!)
-                                        ? MyColors.superAccentColor
-                                        : MyColors.accentColor),
-                              ),
-                              onPressed: () {
+                            return GestureDetector(
+                              onTap: () {
                                 if (state.cart.inCart(model.product!)) {
                                   state.cart.removeFromCart(model.product!);
                                 } else {
                                   state.cart.addToCart(model.product!);
                                 }
                               },
-                              child: state.cart.inCart(model.product!)
-                                  ? const Text(
-                                      'В корзине',
-                                      style: TextStyle(color: Colors.white70),
-                                    )
-                                  : const Text(
-                                      'В корзину',
-                                      style: TextStyle(color: Colors.white70),
-                                    ),
+                              child: AnimatedContainer(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 6,
+                                  horizontal: 26,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(20),
+                                  ),
+                                  color: state.cart.inCart(model.product!)
+                                      ? MyColors.superAccentColor
+                                      : MyColors.accentColor,
+                                ),
+                                duration: const Duration(milliseconds: 200),
+                                child: state.cart.inCart(model.product!)
+                                    ? const Text(
+                                        'В корзине',
+                                        style: TextStyle(color: Colors.white70),
+                                      )
+                                    : const Text(
+                                        'В корзину',
+                                        style: TextStyle(color: Colors.white70),
+                                      ),
+                              ),
                             );
                           },
                         ),

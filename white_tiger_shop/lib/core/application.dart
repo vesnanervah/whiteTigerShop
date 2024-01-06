@@ -37,6 +37,13 @@ class App extends StatelessWidget {
                 ),
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ButtonStyle(
+                    padding: MaterialStateProperty.resolveWith(
+                      (states) => const EdgeInsets.symmetric(
+                        vertical: 6,
+                        horizontal: 26,
+                      ),
+                    ),
+                    elevation: MaterialStateProperty.resolveWith((states) => 0),
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => MyColors.accentColor),
                   ),

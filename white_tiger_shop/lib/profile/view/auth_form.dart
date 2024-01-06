@@ -27,6 +27,7 @@ class AuthForm extends StatelessWidget {
           field,
           const SizedBox(height: 20),
           ElevatedButton(
+            style: Theme.of(context).elevatedButtonTheme.style,
             onPressed: () => formKey.currentState!.validate()
                 ? onValialidSubmitClick()
                 : onInvalidSubmitClick(),

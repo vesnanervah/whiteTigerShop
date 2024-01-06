@@ -37,6 +37,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                   height: 10,
                 ),
                 ElevatedButton(
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     onPressed: () {
                       model.logout();
                     },
