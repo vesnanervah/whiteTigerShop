@@ -23,13 +23,14 @@ class ProductAdapter extends TypeAdapter<Product> {
       imageUrl: fields[3] as String?,
       productDescription: fields[4] as String?,
       category: fields[5] as String?,
+      images: (fields[6] as List?)?.cast<String?>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.productId)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class ProductAdapter extends TypeAdapter<Product> {
       ..writeByte(4)
       ..write(obj.productDescription)
       ..writeByte(5)
-      ..write(obj.category);
+      ..write(obj.category)
+      ..writeByte(6)
+      ..write(obj.images);
   }
 
   @override
@@ -66,6 +69,8 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       imageUrl: json['imageUrl'] as String?,
       productDescription: json['productDescription'] as String?,
       category: json['category'] as String?,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String?).toList(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -75,4 +80,5 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'productDescription': instance.productDescription,
       'category': instance.category,
+      'images': instance.images,
     };
