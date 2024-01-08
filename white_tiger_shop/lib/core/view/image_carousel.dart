@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/core/view/networked_image.dart';
@@ -13,6 +15,7 @@ class ImageCarousel extends StatefulWidget {
 
 class _ImageCarouselState extends State<ImageCarousel> {
   var selectedIndex = 0;
+  var swipeStart = 0.0;
 
   void selectImage(int index) {
     if (index == selectedIndex) return;
@@ -23,11 +26,28 @@ class _ImageCarouselState extends State<ImageCarousel> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IndexedStack(
-          index: selectedIndex,
-          children: widget.urls.isNotEmpty
-              ? widget.urls.map((url) => NetworkedImage(200, 200, url)).toList()
-              : [const NetworkedImage(200, 200, null)],
+        GestureDetector(
+          onLongPressStart: (details) {
+            swipeStart = details.localPosition.dx;
+          },
+          onLongPressEnd: (details) {
+            var swipeEnd = details.localPosition.dx;
+            var delta = swipeStart - swipeEnd;
+            if (delta > 50.0 && selectedIndex < widget.urls.length - 1) {
+              selectImage(selectedIndex + 1);
+            }
+            if (delta < -50.0 && selectedIndex > 0) {
+              selectImage(selectedIndex - 1);
+            }
+          },
+          child: IndexedStack(
+            index: selectedIndex,
+            children: widget.urls.isNotEmpty
+                ? widget.urls
+                    .map((url) => NetworkedImage(200, 200, url))
+                    .toList()
+                : [const NetworkedImage(200, 200, null)],
+          ),
         ),
         const SizedBox(
           height: 10,
