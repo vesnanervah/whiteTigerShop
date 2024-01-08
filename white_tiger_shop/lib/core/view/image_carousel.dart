@@ -26,6 +26,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // TODO: Wrap with transform and make animation on swipe start
         GestureDetector(
           onLongPressStart: (details) {
             swipeStart = details.localPosition.dx;
