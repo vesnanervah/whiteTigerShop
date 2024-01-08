@@ -18,9 +18,11 @@ class Product {
   String? productDescription;
   @HiveField(5)
   String? category;
+  @HiveField(6)
+  List<String?>? images;
 
   Product(this.productId, this.title, this.price,
-      {this.imageUrl, this.productDescription, this.category});
+      {this.imageUrl, this.productDescription, this.category, this.images});
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

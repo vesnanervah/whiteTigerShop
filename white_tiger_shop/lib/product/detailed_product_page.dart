@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/core/application.dart';
+import 'package:white_tiger_shop/core/view/image_carousel.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/core/page/base_page.dart';
-import 'package:white_tiger_shop/core/view/networked_image.dart';
 import 'package:white_tiger_shop/product/model/detailed_product_model.dart';
 import 'package:white_tiger_shop/product/model/entities/product.dart';
 
@@ -22,7 +22,6 @@ class _DetailedProductPageState
     extends BasePageState<DetailedProductModel, DetailedProductPage> {
   final reviewFormController = TextEditingController();
   late final CartModel cart;
-  //var inCart = false;
 
   double calculateBodyWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -41,7 +40,6 @@ class _DetailedProductPageState
   @override
   void onInitCb() {
     model.update();
-    //cart = context.read<AppState>().cart;
   }
 
   @override
@@ -60,14 +58,18 @@ class _DetailedProductPageState
                 color: MyColors.secondaryColor,
                 child: Container(
                   padding: const EdgeInsets.only(
-                      top: 15, bottom: 20, left: 10, right: 10),
+                    top: 15,
+                    bottom: 20,
+                    left: 10,
+                    right: 10,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Center(
-                          child: NetworkedImage(
-                              180, 180, model.product!.imageUrl)),
+                        child: ImageCarousel(model.product!.images ?? [null]),
+                      ),
                       const SizedBox(height: 15),
                       Text(
                         model.product!.title,
