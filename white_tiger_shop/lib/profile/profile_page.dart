@@ -18,6 +18,7 @@ class ProfilePage extends BasePage {
 class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   final _loginFormKey = GlobalKey<FormState>();
   final _nameFormKey = GlobalKey<FormState>();
+  final _adressFormKey = GlobalKey<FormState>();
   final TextEditingController smsInputController = TextEditingController();
   final TextEditingController emailInputController = TextEditingController();
   final TextEditingController nameInputController = TextEditingController();
@@ -99,7 +100,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                                         .showSnackBar(
                                       SnackBar(
                                         content: Text(value
-                                            ? 'Изменения успешно дошли до сервера'
+                                            ? 'Имя успешно обновлено'
                                             : 'Что-то пошло не так'),
                                       ),
                                     ),
@@ -119,10 +120,13 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                   ),
                 ),
                 Form(
+                  key: _adressFormKey,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextFormField(
+                        validator: (value) =>
+                            value!.isNotEmpty ? null : 'Не должно быть пустым',
                         enabled: isAdressEdit,
                         controller: adressInputController,
                         decoration: const InputDecoration(
@@ -142,7 +146,20 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                             isAdressEdit = true;
                           }),
                           () {
-                            // TODO: validate and send updated name to server
+                            if (model.isLoading) return;
+                            if (_adressFormKey.currentState!.validate()) {
+                              model
+                                  .changeUserAdress(adressInputController.text)
+                                  .then(
+                                    (value) => ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                      SnackBar(
+                                          content: Text(value
+                                              ? 'Адрес успешно обновлен'
+                                              : 'Что-то пошло не так')),
+                                    ),
+                                  );
+                            }
                           },
                           () {
                             setState(() {

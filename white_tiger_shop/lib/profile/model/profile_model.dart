@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/profile/controller/profile_api.dart';
@@ -27,6 +29,7 @@ class ProfileModel extends BaseModel {
         email = savedEmail;
         token = savedToken;
         user = resp.user;
+        log(user!.name!);
       }
     }
   }
@@ -77,6 +80,14 @@ class ProfileModel extends BaseModel {
     isLoading = true;
     final resp = await api.changeUserName(user!.email, token!, newName);
     if (resp) user!.name = newName;
+    isLoading = false;
+    return resp;
+  }
+
+  Future<bool> changeUserAdress(String newAdress) async {
+    isLoading = true;
+    final resp = await api.changeUserAdress(user!.email, token!, newAdress);
+    if (resp) user!.adress = newAdress;
     isLoading = false;
     return resp;
   }

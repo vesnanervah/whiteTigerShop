@@ -54,4 +54,21 @@ class ProfileApi extends BaseVNApi {
       return false;
     }
   }
+
+  Future<bool> changeUserAdress(
+      String email, String token, String newAdress) async {
+    try {
+      final resp = await makePostRequest(
+        'update-adress',
+        {
+          'email': email,
+          'token': token,
+          'adress': newAdress,
+        },
+      );
+      return resp.meta.success;
+    } on MetaWithUnsuccesException catch (_) {
+      return false;
+    }
+  }
 }
