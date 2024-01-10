@@ -37,4 +37,21 @@ class ProfileApi extends BaseVNApi {
       return null;
     }
   }
+
+  Future<bool> changeUserName(
+      String email, String token, String newName) async {
+    try {
+      final resp = await makePostRequest(
+        'update-name',
+        {
+          'email': email,
+          'token': token,
+          'name': newName,
+        },
+      );
+      return resp.meta.success;
+    } on MetaWithUnsuccesException catch (_) {
+      return false;
+    }
+  }
 }

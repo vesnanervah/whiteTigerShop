@@ -72,4 +72,12 @@ class ProfileModel extends BaseModel {
     user = null;
     notifyListeners();
   }
+
+  Future<bool> changeUserName(String newName) async {
+    isLoading = true;
+    final resp = await api.changeUserName(user!.email, token!, newName);
+    if (resp) user!.name = newName;
+    isLoading = false;
+    return resp;
+  }
 }

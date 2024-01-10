@@ -36,8 +36,8 @@ class _FlowTextFieldEditState extends State<FlowTextFieldEditWidget>
         GestureDetector(
           onTap: () {
             widget.onSaveClick();
-            animation.reverse();
-            setState(() => isOpened = false);
+            //animation.reverse();
+            //setState(() => isOpened = false);
           },
           child: Container(
             height: 36,

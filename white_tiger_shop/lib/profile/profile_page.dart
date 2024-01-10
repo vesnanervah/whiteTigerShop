@@ -16,7 +16,8 @@ class ProfilePage extends BasePage {
 }
 
 class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
-  final _formKey = GlobalKey<FormState>();
+  final _loginFormKey = GlobalKey<FormState>();
+  final _nameFormKey = GlobalKey<FormState>();
   final TextEditingController smsInputController = TextEditingController();
   final TextEditingController emailInputController = TextEditingController();
   final TextEditingController nameInputController = TextEditingController();
@@ -57,12 +58,21 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
                 Form(
+                  key: _nameFormKey,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextFormField(
                         enabled: isNameEdit,
                         controller: nameInputController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Не должно быть пустым';
+                          }
+                          return ProfileRegularExpressions.name.hasMatch(value)
+                              ? null
+                              : 'Только буквы латиницы и кириллицы';
+                        },
                         decoration: const InputDecoration(
                           label: Text('Имя'),
                           constraints: BoxConstraints(maxWidth: 340),
@@ -80,7 +90,21 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                             isNameEdit = true;
                           }),
                           () {
-                            // TODO: validate and send updated name to server
+                            if (_nameFormKey.currentState!.validate()) {
+                              if (model.isLoading) return;
+                              model
+                                  .changeUserName(nameInputController.text)
+                                  .then(
+                                    (value) => ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                      SnackBar(
+                                        content: Text(value
+                                            ? 'Изменения успешно дошли до сервера'
+                                            : 'Что-то пошло не так'),
+                                      ),
+                                    ),
+                                  );
+                            }
                           },
                           () {
                             nameInputController.text =
@@ -132,6 +156,9 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                     ],
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                     style: Theme.of(context).elevatedButtonTheme.style,
                     onPressed: () {
@@ -155,7 +182,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                 constraints: const BoxConstraints(maxWidth: 340),
                 child: model.mailSend
                     ? AuthForm(
-                        _formKey,
+                        _loginFormKey,
                         'Введите код из сообщения',
                         'Подтвердить код',
                         TextFormField(
@@ -200,7 +227,7 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                         },
                       )
                     : AuthForm(
-                        _formKey,
+                        _loginFormKey,
                         'Введите емейл для входа',
                         'Получить код',
                         TextFormField(
