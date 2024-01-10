@@ -1,11 +1,12 @@
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/profile/controller/profile_api.dart';
+import 'package:white_tiger_shop/profile/model/entities/user.dart';
 
 class ProfileModel extends BaseModel {
-  bool? isLogedIn;
   String? token;
   String? email;
+  User? user;
   bool mailSend = false;
   String? smsCode;
   Box? profileBox;
@@ -22,13 +23,11 @@ class ProfileModel extends BaseModel {
     String? savedEmail = profileBox!.get('email');
     if (savedToken != null && savedEmail != null) {
       final resp = await api.loginByToken(savedEmail, savedToken);
-      isLogedIn = resp != null;
-      if (isLogedIn!) {
+      if (resp != null) {
         email = savedEmail;
         token = savedToken;
+        user = resp.user;
       }
-    } else {
-      isLogedIn = false;
     }
   }
 
@@ -49,16 +48,16 @@ class ProfileModel extends BaseModel {
   Future<bool?> sumbitAuth(String code) async {
     if (isLoading) return null;
     isLoading = true;
-    final resp = await api.confirmCode(email!, code);
-    if (resp != null) {
-      token = resp.token;
-      isLogedIn = true;
+    final data = await api.confirmCode(email!, code);
+    if (data != null) {
+      token = data.token;
       mailSend = false;
+      user = data.user;
       saveCreditsToLocal();
     } else {}
     notifyListeners();
     isLoading = false;
-    return resp != null;
+    return data != null;
   }
 
   void saveCreditsToLocal() async {
@@ -70,7 +69,7 @@ class ProfileModel extends BaseModel {
     await profileBox!.clear();
     email = null;
     token = null;
-    isLogedIn = false;
+    user = null;
     notifyListeners();
   }
 }

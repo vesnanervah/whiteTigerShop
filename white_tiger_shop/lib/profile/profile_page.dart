@@ -6,6 +6,7 @@ import 'package:white_tiger_shop/core/page/base_page.dart';
 import 'package:white_tiger_shop/profile/model/entities/profile_reg_exps.dart';
 import 'package:white_tiger_shop/profile/model/profile_model.dart';
 import 'package:white_tiger_shop/profile/view/auth_form.dart';
+import 'package:white_tiger_shop/profile/view/flow_textfield_edit.dart';
 
 class ProfilePage extends BasePage {
   const ProfilePage({super.key}) : super('Аккаунт');
@@ -18,23 +19,118 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController smsInputController = TextEditingController();
   final TextEditingController emailInputController = TextEditingController();
+  final TextEditingController nameInputController = TextEditingController();
+  final TextEditingController adressInputController = TextEditingController();
+  var isNameEdit = false;
+  var isAdressEdit = false;
 
   @override
   ProfileModel createModel() => context.read<AppState>().profile;
 
   @override
-  void onInitCb() {}
+  void onInitCb() {
+    nameInputController.text = model.user?.name ?? 'Не указано';
+    adressInputController.text = model.user?.adress ?? 'Не указано';
+    model.addListener(() {
+      // TODO: unsub on dispose
+      if (model.user != null) {
+        nameInputController.text = model.user!.name ?? 'Не указано';
+        adressInputController.text = model.user!.adress ?? 'Не указано';
+      }
+    });
+  }
 
   @override
   Widget buildBody(BuildContext context) {
-    return model.isLogedIn!
+    return model.user != null
         ? Center(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Hello, ${model.email}'),
+                Text('Hello, ${model.user!.email}'),
                 const SizedBox(
                   height: 10,
+                ),
+                Text(
+                  'Ваши данные',
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+                Form(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        enabled: isNameEdit,
+                        controller: nameInputController,
+                        decoration: const InputDecoration(
+                          label: Text('Имя'),
+                          constraints: BoxConstraints(maxWidth: 340),
+                          labelStyle: TextStyle(color: Colors.white60),
+                          icon: Icon(Icons.person),
+                          iconColor: Colors.white60,
+                        ),
+                      ),
+                      Container(
+                        constraints:
+                            const BoxConstraints(maxHeight: 36, maxWidth: 77),
+                        child: FlowTextFieldEditWidget(
+                          () => setState(() {
+                            nameInputController.text = '';
+                            isNameEdit = true;
+                          }),
+                          () {
+                            // TODO: validate and send updated name to server
+                          },
+                          () {
+                            nameInputController.text =
+                                model.user!.name ?? 'Не указано';
+                            setState(() {
+                              isNameEdit = false;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Form(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        enabled: isAdressEdit,
+                        controller: adressInputController,
+                        decoration: const InputDecoration(
+                          label: Text('Адрес'),
+                          constraints: BoxConstraints(maxWidth: 340),
+                          labelStyle: TextStyle(color: Colors.white60),
+                          icon: Icon(Icons.location_city),
+                          iconColor: Colors.white60,
+                        ),
+                      ),
+                      Container(
+                        constraints:
+                            const BoxConstraints(maxHeight: 36, maxWidth: 77),
+                        child: FlowTextFieldEditWidget(
+                          () => setState(() {
+                            adressInputController.text = '';
+                            isAdressEdit = true;
+                          }),
+                          () {
+                            // TODO: validate and send updated name to server
+                          },
+                          () {
+                            setState(() {
+                              adressInputController.text =
+                                  model.user!.adress ?? 'Не указано';
+                              isAdressEdit = false;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 ElevatedButton(
                     style: Theme.of(context).elevatedButtonTheme.style,
