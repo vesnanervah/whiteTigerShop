@@ -21,7 +21,8 @@ class ProfileModel extends BaseModel {
     String? savedToken = profileBox!.get('token');
     String? savedEmail = profileBox!.get('email');
     if (savedToken != null && savedEmail != null) {
-      isLogedIn = await api.loginByToken(savedEmail, savedToken);
+      final resp = await api.loginByToken(savedEmail, savedToken);
+      isLogedIn = resp != null;
       if (isLogedIn!) {
         email = savedEmail;
         token = savedToken;
@@ -48,16 +49,16 @@ class ProfileModel extends BaseModel {
   Future<bool?> sumbitAuth(String code) async {
     if (isLoading) return null;
     isLoading = true;
-    final (loged, recievedToken) = await api.confirmCode(email!, code);
-    if (loged && recievedToken != null) {
-      token = recievedToken;
+    final resp = await api.confirmCode(email!, code);
+    if (resp != null) {
+      token = resp.token;
       isLogedIn = true;
       mailSend = false;
       saveCreditsToLocal();
     } else {}
     notifyListeners();
     isLoading = false;
-    return loged;
+    return resp != null;
   }
 
   void saveCreditsToLocal() async {

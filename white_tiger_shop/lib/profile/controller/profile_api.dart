@@ -1,5 +1,6 @@
 import 'package:white_tiger_shop/core/controller/base_vn_api.dart';
 import 'package:white_tiger_shop/core/controller/entity/meta_with_unsuccess_exception.dart';
+import 'package:white_tiger_shop/profile/controller/entities/success_login_data.dart';
 
 class ProfileApi extends BaseVNApi {
   Future<bool> initAuth(String email) async {
@@ -10,20 +11,19 @@ class ProfileApi extends BaseVNApi {
     return resp.meta.success;
   }
 
-  Future<(bool status, String? token)> confirmCode(
-      String email, String code) async {
+  Future<SuccessLoginData?> confirmCode(String email, String code) async {
     try {
       final resp = await makePostRequest(
         'confirm-email-by-code',
         {'email': email, 'code': code},
       );
-      return (resp.meta.success, resp.data as String?);
+      return SuccessLoginData.fromJson(resp.data);
     } on MetaWithUnsuccesException catch (_) {
-      return (false, null);
+      return null;
     }
   }
 
-  Future<bool> loginByToken(String email, String token) async {
+  Future<SuccessLoginData?> loginByToken(String email, String token) async {
     try {
       final resp = await makePostRequest(
         'login-by-token',
@@ -32,9 +32,9 @@ class ProfileApi extends BaseVNApi {
           'token': token,
         },
       );
-      return resp.meta.success;
+      return SuccessLoginData.fromJson(resp.data);
     } on MetaWithUnsuccesException catch (_) {
-      return false;
+      return null;
     }
   }
 }
