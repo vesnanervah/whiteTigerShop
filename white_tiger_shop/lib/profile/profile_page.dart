@@ -80,45 +80,39 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                         },
                         decoration: const InputDecoration(
                           label: Text('Имя'),
-                          constraints: BoxConstraints(maxWidth: 340),
+                          constraints: BoxConstraints(maxWidth: 280),
                           labelStyle: TextStyle(color: Colors.white60),
                           icon: Icon(Icons.person),
                           iconColor: Colors.white60,
                         ),
                       ),
-                      Container(
-                        constraints:
-                            const BoxConstraints(maxHeight: 36, maxWidth: 77),
-                        child: FlowTextFieldEditWidget(
-                          () => setState(() {
-                            nameInputController.text = '';
-                            isNameEdit = true;
-                          }),
-                          () {
-                            if (_nameFormKey.currentState!.validate()) {
-                              if (model.isLoading) return;
-                              model
-                                  .changeUserName(nameInputController.text)
-                                  .then(
-                                    (value) => ScaffoldMessenger.of(context)
-                                        .showSnackBar(
-                                      SnackBar(
-                                        content: Text(value
-                                            ? 'Имя успешно обновлено'
-                                            : 'Что-то пошло не так'),
-                                      ),
+                      FlowTextFieldEditWidget(
+                        () => setState(() {
+                          nameInputController.text = '';
+                          isNameEdit = true;
+                        }),
+                        () {
+                          if (_nameFormKey.currentState!.validate()) {
+                            if (model.isLoading) return;
+                            model.changeUserName(nameInputController.text).then(
+                                  (value) => ScaffoldMessenger.of(context)
+                                      .showSnackBar(
+                                    SnackBar(
+                                      content: Text(value
+                                          ? 'Имя успешно обновлено'
+                                          : 'Что-то пошло не так'),
                                     ),
-                                  );
-                            }
-                          },
-                          () {
-                            nameInputController.text =
-                                model.user!.name ?? 'Не указано';
-                            setState(() {
-                              isNameEdit = false;
-                            });
-                          },
-                        ),
+                                  ),
+                                );
+                          }
+                        },
+                        () {
+                          nameInputController.text =
+                              model.user!.name ?? 'Не указано';
+                          setState(() {
+                            isNameEdit = false;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -135,44 +129,40 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
                         controller: adressInputController,
                         decoration: const InputDecoration(
                           label: Text('Адрес'),
-                          constraints: BoxConstraints(maxWidth: 340),
+                          constraints: BoxConstraints(maxWidth: 280),
                           labelStyle: TextStyle(color: Colors.white60),
                           icon: Icon(Icons.location_city),
                           iconColor: Colors.white60,
                         ),
                       ),
-                      Container(
-                        constraints:
-                            const BoxConstraints(maxHeight: 36, maxWidth: 77),
-                        child: FlowTextFieldEditWidget(
-                          () => setState(() {
-                            adressInputController.text = '';
-                            isAdressEdit = true;
-                          }),
-                          () {
-                            if (model.isLoading) return;
-                            if (_adressFormKey.currentState!.validate()) {
-                              model
-                                  .changeUserAdress(adressInputController.text)
-                                  .then(
-                                    (value) => ScaffoldMessenger.of(context)
-                                        .showSnackBar(
-                                      SnackBar(
-                                          content: Text(value
-                                              ? 'Адрес успешно обновлен'
-                                              : 'Что-то пошло не так')),
-                                    ),
-                                  );
-                            }
-                          },
-                          () {
-                            setState(() {
-                              adressInputController.text =
-                                  model.user!.adress ?? 'Не указано';
-                              isAdressEdit = false;
-                            });
-                          },
-                        ),
+                      FlowTextFieldEditWidget(
+                        () => setState(() {
+                          adressInputController.text = '';
+                          isAdressEdit = true;
+                        }),
+                        () {
+                          if (model.isLoading) return;
+                          if (_adressFormKey.currentState!.validate()) {
+                            model
+                                .changeUserAdress(adressInputController.text)
+                                .then(
+                                  (value) => ScaffoldMessenger.of(context)
+                                      .showSnackBar(
+                                    SnackBar(
+                                        content: Text(value
+                                            ? 'Адрес успешно обновлен'
+                                            : 'Что-то пошло не так')),
+                                  ),
+                                );
+                          }
+                        },
+                        () {
+                          setState(() {
+                            adressInputController.text =
+                                model.user!.adress ?? 'Не указано';
+                            isAdressEdit = false;
+                          });
+                        },
                       ),
                     ],
                   ),

@@ -30,51 +30,55 @@ class _FlowTextFieldEditState extends State<FlowTextFieldEditWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Flow(
-      delegate: FlowEditMenuDelegate(animation: animation),
-      children: [
-        GestureDetector(
-          onTap: () {
-            widget.onSaveClick();
-            //animation.reverse();
-            //setState(() => isOpened = false);
-          },
-          child: Container(
-            height: 36,
-            width: 36,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: MyColors.accentColor),
-            child: const Icon(
-              Icons.save,
-              color: Colors.white70,
+    // без constrained при использовании в некоторых виджетах начинает ругаться на бесконечную высоту
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 32, maxWidth: 69),
+      child: Flow(
+        delegate: FlowEditMenuDelegate(animation: animation),
+        children: [
+          GestureDetector(
+            onTap: () {
+              widget.onSaveClick();
+              //animation.reverse();
+              //setState(() => isOpened = false);
+            },
+            child: Container(
+              height: 32,
+              width: 32,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: MyColors.accentColor),
+              child: const Icon(
+                Icons.save,
+                color: Colors.white70,
+              ),
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            if (isOpened) {
-              animation.reverse();
-              widget.onCancelClick();
-            } else {
-              animation.forward();
-              widget.onEditClick();
-            }
-            setState(() => isOpened = !isOpened);
-          },
-          child: Container(
-            height: 36,
-            width: 36,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: MyColors.superAccentColor),
-            child: Icon(
-              isOpened ? Icons.undo : Icons.settings,
-              color: Colors.white70,
+          GestureDetector(
+            onTap: () {
+              if (isOpened) {
+                animation.reverse();
+                widget.onCancelClick();
+              } else {
+                animation.forward();
+                widget.onEditClick();
+              }
+              setState(() => isOpened = !isOpened);
+            },
+            child: Container(
+              height: 32,
+              width: 32,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: MyColors.superAccentColor),
+              child: Icon(
+                isOpened ? Icons.undo : Icons.settings,
+                color: Colors.white70,
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
