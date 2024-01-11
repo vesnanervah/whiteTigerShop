@@ -30,6 +30,7 @@ class ProfileModel extends BaseModel {
         user = resp.user;
       }
     }
+    notifyListeners();
   }
 
   Future<void> requestMail(String enteredEmail) async {
@@ -57,8 +58,8 @@ class ProfileModel extends BaseModel {
       user = data.user;
       saveCreditsToLocal();
     } else {}
-    notifyListeners();
     isLoading = false;
+    notifyListeners();
     return data != null;
   }
 
@@ -80,6 +81,7 @@ class ProfileModel extends BaseModel {
     final resp = await api.changeUserName(user!.email, token!, newName);
     if (resp) user!.name = newName;
     isLoading = false;
+    notifyListeners();
     return resp;
   }
 
@@ -88,6 +90,7 @@ class ProfileModel extends BaseModel {
     final resp = await api.changeUserAdress(user!.email, token!, newAdress);
     if (resp) user!.adress = newAdress;
     isLoading = false;
+    notifyListeners();
     return resp;
   }
 }

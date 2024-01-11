@@ -26,20 +26,24 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   var isNameEdit = false;
   var isAdressEdit = false;
 
+  void listenUserDataUpdate() {
+    nameInputController.text = model.user?.name ?? 'Не указано';
+    adressInputController.text = model.user?.adress ?? 'Не указано';
+  }
+
   @override
   ProfileModel createModel() => context.read<AppState>().profile;
 
   @override
   void onInitCb() {
-    nameInputController.text = model.user?.name ?? 'Не указано';
-    adressInputController.text = model.user?.adress ?? 'Не указано';
-    model.addListener(() {
-      // TODO: unsub on dispose
-      if (model.user != null) {
-        nameInputController.text = model.user!.name ?? 'Не указано';
-        adressInputController.text = model.user!.adress ?? 'Не указано';
-      }
-    });
+    listenUserDataUpdate();
+    model.addListener(() => listenUserDataUpdate);
+  }
+
+  @override
+  void dispose() {
+    model.removeListener(() => listenUserDataUpdate);
+    super.dispose();
   }
 
   @override
