@@ -1,11 +1,13 @@
+import 'dart:developer';
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/profile/controller/profile_api.dart';
+import 'package:white_tiger_shop/profile/model/entities/user.dart';
 
 class ProfileModel extends BaseModel {
-  bool? isLogedIn;
   String? token;
   String? email;
+  User? user;
   bool mailSend = false;
   String? smsCode;
   Box? profileBox;
@@ -21,14 +23,14 @@ class ProfileModel extends BaseModel {
     String? savedToken = profileBox!.get('token');
     String? savedEmail = profileBox!.get('email');
     if (savedToken != null && savedEmail != null) {
-      isLogedIn = await api.loginByToken(savedEmail, savedToken);
-      if (isLogedIn!) {
+      final resp = await api.loginByToken(savedEmail, savedToken);
+      if (resp != null) {
         email = savedEmail;
         token = savedToken;
+        user = resp.user;
       }
-    } else {
-      isLogedIn = false;
     }
+    notifyListeners();
   }
 
   Future<void> requestMail(String enteredEmail) async {
@@ -48,16 +50,17 @@ class ProfileModel extends BaseModel {
   Future<bool?> sumbitAuth(String code) async {
     if (isLoading) return null;
     isLoading = true;
-    final (loged, recievedToken) = await api.confirmCode(email!, code);
-    if (loged && recievedToken != null) {
-      token = recievedToken;
-      isLogedIn = true;
+    final data = await api.confirmCode(email!, code);
+    if (data != null) {
+      log(data.user.name ?? 'Имя не установлено');
+      token = data.token;
       mailSend = false;
+      user = data.user;
       saveCreditsToLocal();
     } else {}
-    notifyListeners();
     isLoading = false;
-    return loged;
+    notifyListeners();
+    return data != null;
   }
 
   void saveCreditsToLocal() async {
@@ -69,7 +72,25 @@ class ProfileModel extends BaseModel {
     await profileBox!.clear();
     email = null;
     token = null;
-    isLogedIn = false;
+    user = null;
     notifyListeners();
+  }
+
+  Future<bool> changeUserName(String newName) async {
+    isLoading = true;
+    final resp = await api.changeUserName(user!.email, token!, newName);
+    if (resp) user!.name = newName;
+    isLoading = false;
+    notifyListeners();
+    return resp;
+  }
+
+  Future<bool> changeUserAdress(String newAdress) async {
+    isLoading = true;
+    final resp = await api.changeUserAdress(user!.email, token!, newAdress);
+    if (resp) user!.adress = newAdress;
+    isLoading = false;
+    notifyListeners();
+    return resp;
   }
 }

@@ -197,7 +197,7 @@ class _DetailedProductPageState
               const SizedBox(
                 height: 25,
               ),
-              model.reviews!.isNotEmpty
+              model.reviews != null && model.reviews!.isNotEmpty
                   ? ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, index) => Card(
