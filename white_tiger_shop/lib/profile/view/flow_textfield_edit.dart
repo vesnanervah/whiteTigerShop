@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:white_tiger_shop/core/view/my_colors.dart';
 
 class FlowTextFieldEditWidget extends StatefulWidget {
-  FlowTextFieldEditWidget(
+  const FlowTextFieldEditWidget(
       this.onEditClick, this.onSaveClick, this.onCancelClick,
       {super.key});
 
-  VoidCallback onEditClick;
-  VoidCallback onSaveClick;
-  VoidCallback onCancelClick;
+  final VoidCallback onEditClick;
+  final VoidCallback onSaveClick;
+  final VoidCallback onCancelClick;
 
   @override
   State<FlowTextFieldEditWidget> createState() => _FlowTextFieldEditState();

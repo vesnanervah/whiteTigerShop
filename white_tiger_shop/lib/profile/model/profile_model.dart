@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:hive_flutter/adapters.dart';
 import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/profile/controller/profile_api.dart';
@@ -29,7 +28,6 @@ class ProfileModel extends BaseModel {
         email = savedEmail;
         token = savedToken;
         user = resp.user;
-        log(user!.name!);
       }
     }
   }
@@ -53,6 +51,7 @@ class ProfileModel extends BaseModel {
     isLoading = true;
     final data = await api.confirmCode(email!, code);
     if (data != null) {
+      log(data.user.name ?? 'Имя не установлено');
       token = data.token;
       mailSend = false;
       user = data.user;

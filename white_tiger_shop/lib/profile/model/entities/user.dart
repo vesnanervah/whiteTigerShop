@@ -9,7 +9,7 @@ class User {
   String? adress;
   String? name;
 
-  User(this.email, this.balance, {adress, name});
+  User(this.email, this.balance, this.adress, this.name);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
