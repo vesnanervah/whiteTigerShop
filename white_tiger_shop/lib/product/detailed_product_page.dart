@@ -23,7 +23,7 @@ class _DetailedProductPageState
   final reviewFormController = TextEditingController();
   late final CartModel cart;
 
-  double calculateBodyWidth(BuildContext context) {
+  double calculateMainContentWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     if (width < 575) {
       return width - 30;
@@ -48,7 +48,8 @@ class _DetailedProductPageState
     return Center(
       child: SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(maxWidth: calculateBodyWidth(context)),
+          constraints:
+              BoxConstraints(maxWidth: calculateMainContentWidth(context)),
           child: Column(
             children: [
               const SizedBox(

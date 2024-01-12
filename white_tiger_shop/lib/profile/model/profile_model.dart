@@ -5,28 +5,28 @@ import 'package:white_tiger_shop/profile/controller/profile_api.dart';
 import 'package:white_tiger_shop/profile/model/entities/user.dart';
 
 class ProfileModel extends BaseModel {
-  String? token;
+  String? _token;
   String? email;
   User? user;
   bool mailSend = false;
   String? smsCode;
-  Box? profileBox;
-  final ProfileApi api = ProfileApi();
+  Box? _profileBox;
+  final ProfileApi _api = ProfileApi();
 
   ProfileModel() {
     update();
   }
 
   Future<void> checkSavedToken() async {
-    if (profileBox != null) return;
-    profileBox = await Hive.openBox('profile');
-    String? savedToken = profileBox!.get('token');
-    String? savedEmail = profileBox!.get('email');
+    if (_profileBox != null) return;
+    _profileBox = await Hive.openBox('profile');
+    String? savedToken = _profileBox!.get('token');
+    String? savedEmail = _profileBox!.get('email');
     if (savedToken != null && savedEmail != null) {
-      final resp = await api.loginByToken(savedEmail, savedToken);
+      final resp = await _api.loginByToken(savedEmail, savedToken);
       if (resp != null) {
         email = savedEmail;
-        token = savedToken;
+        _token = savedToken;
         user = resp.user;
       }
     }
@@ -36,7 +36,7 @@ class ProfileModel extends BaseModel {
   Future<void> requestMail(String enteredEmail) async {
     if (isLoading) return;
     isLoading = true;
-    mailSend = await api.initAuth(enteredEmail);
+    mailSend = await _api.initAuth(enteredEmail);
     email = enteredEmail;
     isLoading = false;
     notifyListeners();
@@ -50,10 +50,10 @@ class ProfileModel extends BaseModel {
   Future<bool?> sumbitAuth(String code) async {
     if (isLoading) return null;
     isLoading = true;
-    final data = await api.confirmCode(email!, code);
+    final data = await _api.confirmCode(email!, code);
     if (data != null) {
       log(data.user.name ?? 'Имя не установлено');
-      token = data.token;
+      _token = data.token;
       mailSend = false;
       user = data.user;
       saveCreditsToLocal();
@@ -64,21 +64,21 @@ class ProfileModel extends BaseModel {
   }
 
   void saveCreditsToLocal() async {
-    await profileBox!.put('email', email);
-    await profileBox!.put('token', token);
+    await _profileBox!.put('email', email);
+    await _profileBox!.put('token', _token);
   }
 
   void logout() async {
-    await profileBox!.clear();
+    await _profileBox!.clear();
     email = null;
-    token = null;
+    _token = null;
     user = null;
     notifyListeners();
   }
 
   Future<bool> changeUserName(String newName) async {
     isLoading = true;
-    final resp = await api.changeUserName(user!.email, token!, newName);
+    final resp = await _api.changeUserName(user!.email, _token!, newName);
     if (resp) user!.name = newName;
     isLoading = false;
     notifyListeners();
@@ -87,7 +87,7 @@ class ProfileModel extends BaseModel {
 
   Future<bool> changeUserAdress(String newAdress) async {
     isLoading = true;
-    final resp = await api.changeUserAdress(user!.email, token!, newAdress);
+    final resp = await _api.changeUserAdress(user!.email, _token!, newAdress);
     if (resp) user!.adress = newAdress;
     isLoading = false;
     notifyListeners();

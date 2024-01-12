@@ -4,10 +4,10 @@ import 'package:white_tiger_shop/core/model/base_model.dart';
 
 class CategoriesModel extends BaseModel {
   List<Category>? categories;
-  final api = CategoriesApi();
+  final _api = CategoriesApi();
 
   @override
   Future<void> fetch() async {
-    categories = await api.getCategories();
+    categories = await _api.getCategories();
   }
 }

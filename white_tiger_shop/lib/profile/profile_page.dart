@@ -43,6 +43,10 @@ class _ProfilePageState extends BasePageState<ProfileModel, ProfilePage> {
   @override
   void dispose() {
     model.removeListener(() => listenUserDataUpdate);
+    smsInputController.dispose();
+    emailInputController.dispose();
+    nameInputController.dispose();
+    adressInputController.dispose();
     super.dispose();
   }
 

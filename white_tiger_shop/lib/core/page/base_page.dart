@@ -42,7 +42,8 @@ abstract class BasePageState<M extends BaseModel, S extends BasePage>
                             color: MyColors.accentColor,
                           )
                         : Text(
-                            model.lastFetchErrorMsg ?? 'Что-то пошло не так'),
+                            model.lastFetchErrorMsg ?? 'Что-то пошло не так',
+                          ),
                   )
                 : buildBody(context);
           },

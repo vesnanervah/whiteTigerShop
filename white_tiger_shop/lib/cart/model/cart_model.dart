@@ -4,58 +4,59 @@ import 'package:white_tiger_shop/core/model/base_model.dart';
 import 'package:white_tiger_shop/product/model/entities/product.dart';
 
 class CartModel extends BaseModel {
-  Map<int, Product> products = {};
+  Map<int, Product> _products = {};
+  Map<int, Product> get products => _products;
 
-  Box? cartBox;
+  Box? _cartBox;
 
   CartModel() {
     update();
   }
 
   void updateLocalCart() async {
-    await cartBox!.put('cart', products);
+    await _cartBox!.put('cart', _products);
   }
 
   Map<int, Product> addToCart(Product newProd) {
-    if (!products.keys.contains(newProd.productId)) {
-      products[newProd.productId] = newProd;
+    if (!_products.keys.contains(newProd.productId)) {
+      _products[newProd.productId] = newProd;
       updateLocalCart();
       notifyListeners();
     }
-    return products;
+    return _products;
   }
 
   bool inCart(Product prod) {
-    return products.keys.contains(prod.productId);
+    return _products.keys.contains(prod.productId);
   }
 
   int getLen() {
-    return products.length;
+    return _products.length;
   }
 
   void clearCart() {
-    products = {};
+    _products = {};
     updateLocalCart();
     notifyListeners();
   }
 
   Map<int, Product> removeFromCart(Product prod) {
-    if (products.keys.contains(prod.productId)) {
-      products.removeWhere((key, value) => key == prod.productId);
+    if (_products.keys.contains(prod.productId)) {
+      _products.removeWhere((key, value) => key == prod.productId);
       updateLocalCart();
       notifyListeners();
     }
-    return products;
+    return _products;
   }
 
   @override
   Future<void> fetch() async {
-    if (cartBox != null) return;
+    if (_cartBox != null) return;
     Hive.registerAdapter<Product>(ProductAdapter());
-    cartBox = await Hive.openBox('cartBox');
-    final saved = cartBox!.get('cart');
+    _cartBox = await Hive.openBox('cartBox');
+    final saved = _cartBox!.get('cart');
     if (saved != null) {
-      products = Map<int, Product>.from(saved);
+      _products = Map<int, Product>.from(saved);
     }
   }
 }
