@@ -28,6 +28,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // половину писанины ниже можно было сократить с помощью виджета dismissed, но хотелось написать свой жест
         GestureDetector(
           onLongPressStart: (details) {
             swipeStart = details.localPosition.dx;
