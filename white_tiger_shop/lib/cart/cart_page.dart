@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:white_tiger_shop/cart/model/cart_model.dart';
 import 'package:white_tiger_shop/core/application.dart';
 import 'package:white_tiger_shop/core/page/base_page.dart';
+import 'package:white_tiger_shop/core/view/my_colors.dart';
 import 'package:white_tiger_shop/product/detailed_product_page.dart';
 import 'package:white_tiger_shop/product/view/products_list_item.dart';
 
@@ -36,27 +37,35 @@ class _CartPageState extends BasePageState<CartModel, CartPage> {
               Expanded(
                 child: ListView.separated(
                   itemBuilder: (_, index) {
-                    return ProductsItemView(
-                      model.products[productsIds[index]]!,
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) {
-                            return DetailedProductPage(
-                              model.products[productsIds[index]]!,
-                            );
-                          }),
-                        );
-                      },
-                      trailing: IconButton(
-                        icon: const Icon(Icons.close),
-                        color: Colors.white60,
-                        tooltip: 'Убрать из корзины',
-                        onPressed: () {
-                          model.removeFromCart(
-                            model.products[productsIds[index]]!,
+                    return Dismissible(
+                      background: const DecoratedBox(
+                          decoration:
+                              BoxDecoration(color: MyColors.accentColor)),
+                      onDismissed: (dir) => model
+                          .removeFromCart(model.products[productsIds[index]]!),
+                      key: ValueKey<int>(productsIds[index]),
+                      child: ProductsItemView(
+                        model.products[productsIds[index]]!,
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) {
+                              return DetailedProductPage(
+                                model.products[productsIds[index]]!,
+                              );
+                            }),
                           );
                         },
+                        trailing: IconButton(
+                          icon: const Icon(Icons.close),
+                          color: Colors.white60,
+                          tooltip: 'Убрать из корзины',
+                          onPressed: () {
+                            model.removeFromCart(
+                              model.products[productsIds[index]]!,
+                            );
+                          },
+                        ),
                       ),
                     );
                   },
